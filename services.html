@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services | Sagar Dulal</title>
+  <style>
+    :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --neon-purple: #a855f7; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); border-bottom: 1px solid var(--border); }
+    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+    .logo span { color: var(--neon-blue); }
+    nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; font-weight: 500; }
+    nav a.active { color: var(--neon-blue); }
+    section { padding: 5rem 8%; max-width: 1100px; margin: 0 auto; }
+    h1 { font-size: 3rem; color: #fff; font-weight: 800; margin-bottom: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2.5rem; }
+    .service-card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); }
+    .service-card h3 { color: var(--neon-blue); font-size: 1.4rem; margin-bottom: 0.8rem; }
+    .service-card p { color: var(--text-muted); font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="services.html" class="active">Services</a>
+      <a href="projects.html">Portfolio</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section>
+    <h1>Services Offered</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">Professional services covering development, graphic identity, and instructional courses.</p>
+
+    <div class="grid">
+      <div class="service-card">
+        <h3>Web Design (Frontend & Backend)</h3>
+        <p>Custom responsive website designs integrated with real-time Firebase databases, clean URL slugs, and optimized frontend performance.</p>
+      </div>
+      <div class="service-card">
+        <h3>Graphic Design</h3>
+        <p>High-impact visual design, brand assets, social media banners, marketing collateral, and UI layout concepts.</p>
+      </div>
+      <div class="service-card">
+        <h3>Office Handling & Basic Computer</h3>
+        <p>Structured courses covering Microsoft Office Suite, document automation, typing, file management, and daily workplace computing skills.</p>
+      </div>
+      <div class="service-card">
+        <h3>C & C++ Programming Classes</h3>
+        <p>Beginner to intermediate level programming instruction covering algorithms, data structures, pointers, and memory management basics.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
