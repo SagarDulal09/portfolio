@@ -5,74 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | Sagar Dulal</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: #f3f4f6; color: #111827; min-height: 100vh; }
 
-    /* Login Modal Overlay */
     #login-overlay { position: fixed; inset: 0; background: #0b0f19; display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .login-box { background: #111827; padding: 2.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 400px; color: #fff; }
     .login-box h2 { color: #fff; margin-bottom: 0.5rem; font-size: 1.5rem; }
-    .login-box p { color: #9ca3af; font-size: 0.875rem; margin-bottom: 1.5rem; }
-    .login-box label { display: block; font-size: 0.85rem; color: #cbd5e1; margin-top: 1rem; margin-bottom: 0.3rem; }
-    .login-box input { width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #374151; background: #1f2937; color: #fff; }
+    .login-box input { width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #374151; background: #1f2937; color: #fff; margin-top: 0.3rem; }
     .login-btn { width: 100%; padding: 0.8rem; margin-top: 1.5rem; border-radius: 6px; border: none; background: #2563eb; color: #fff; font-weight: bold; cursor: pointer; }
-    #login-error { color: #ef4444; font-size: 0.85rem; margin-top: 1rem; font-weight: 600; }
+    #login-error { color: #ef4444; font-size: 0.85rem; margin-top: 1rem; }
 
-    /* App Container */
     #app-container { display: flex; min-height: 100vh; display: none; }
 
-    /* DIT Style Sidebar */
-    aside { width: 260px; background: #0b0f19; color: #d1d5db; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; border-right: 1px solid #1f2937; height: 100vh; position: sticky; top: 0; overflow-y: auto; }
+    /* DIT Sidebar */
+    aside { width: 260px; background: #0b0f19; color: #d1d5db; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; height: 100vh; position: sticky; top: 0; overflow-y: auto; }
     .sidebar-top { padding: 1.25rem 1rem; }
     .brand-header { font-size: 1.2rem; font-weight: 800; color: #fff; padding-bottom: 1.5rem; border-bottom: 1px solid #1f2937; margin-bottom: 1rem; }
     
-    /* Collapsible Navigation */
     .menu-category { margin-bottom: 0.2rem; }
-    .menu-btn { width: 100%; text-align: left; background: transparent; border: none; color: #d1d5db; padding: 0.7rem 0.8rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+    .menu-btn { width: 100%; text-align: left; background: transparent; border: none; color: #d1d5db; padding: 0.7rem 0.8rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .menu-btn:hover, .menu-btn.active-parent { background: #1f2937; color: #fff; }
     .submenu { display: none; padding-left: 0.8rem; margin-top: 0.2rem; margin-bottom: 0.4rem; }
     .submenu.open { display: block; }
-    .submenu-item { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #9ca3af; padding: 0.5rem 0.8rem; font-size: 0.8rem; cursor: pointer; border-radius: 4px; transition: color 0.2s; }
+    .submenu-item { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #9ca3af; padding: 0.5rem 0.8rem; font-size: 0.8rem; cursor: pointer; border-radius: 4px; }
     .submenu-item:hover, .submenu-item.active-sub { color: #60a5fa; background: rgba(255,255,255,0.03); }
 
     .sidebar-bottom { padding: 1rem; border-top: 1px solid #1f2937; }
-    .logout-btn { width: 100%; padding: 0.75rem; background: #dc2626; color: #fff; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.875rem; }
-    .logout-btn:hover { background: #b91c1c; }
+    .logout-btn { width: 100%; padding: 0.75rem; background: #dc2626; color: #fff; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; }
 
-    /* Main Content Area */
     main { flex: 1; padding: 2rem 2.5rem; overflow-y: auto; }
     .dashboard-header { font-size: 1.75rem; font-weight: 800; color: #111827; margin-bottom: 1.5rem; }
 
-    /* Metric Cards */
     .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
-    .metric-card { background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e5e7eb; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+    .metric-card { background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e5e7eb; }
     .metric-title { font-size: 0.8rem; font-weight: 600; color: #6b7280; text-transform: uppercase; margin-bottom: 0.5rem; }
     .metric-value { font-size: 1.875rem; font-weight: 800; color: #111827; }
-    .metric-value.green { color: #16a34a; }
 
-    /* Content Panels */
-    .panel { background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-    .panel-title { font-size: 1.125rem; font-weight: 700; color: #111827; margin-bottom: 1.25rem; }
-
-    /* Form Design */
-    form label { display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-top: 1rem; }
-    form input, form select, form textarea { width: 100%; padding: 0.65rem; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 0.35rem; font-size: 0.9rem; }
-    .btn-submit { background: #111827; color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 700; margin-top: 1.25rem; cursor: pointer; }
-    .btn-submit:hover { background: #1f2937; }
-
-    /* Data Table */
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    th { padding: 0.75rem 1rem; background: #f9fafb; color: #6b7280; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
-    td { padding: 1rem; border-bottom: 1px solid #f3f4f6; font-size: 0.875rem; color: #374151; }
+    .panel { background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; padding: 1.5rem; margin-bottom: 2rem; }
     
-    /* Badges */
-    .badge-status { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
-    .badge-active { background: #dcfce7; color: #166534; }
-    .badge-pending { background: #fef3c7; color: #92400e; }
-    .badge-draft { background: #fee2e2; color: #991b1b; }
+    /* Dedicated Blog Post Builder Form Styling (Matching Screenshot) */
+    .blog-form-card { background: #fff; border-radius: 16px; border: 1px solid #e5e7eb; overflow: hidden; max-width: 850px; }
+    .blog-form-header { background: linear-gradient(135deg, #7c3aed, #9333ea); color: #fff; padding: 2rem; }
+    .blog-form-header h2 { font-size: 1.6rem; font-weight: 800; }
+    .blog-form-header p { font-size: 0.9rem; opacity: 0.9; }
+    .blog-form-body { padding: 2rem; }
 
-    .action-btn { background: #ef4444; color: #fff; border: none; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
-    .action-btn:hover { background: #dc2626; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem; }
+    label { font-size: 0.8rem; font-weight: 700; color: #374151; display: block; margin-bottom: 0.3rem; }
+    input, select, textarea { width: 100%; padding: 0.7rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem; background: #fff; }
+
+    /* Drag & Drop Image Placeholder */
+    .upload-box { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem; text-align: center; color: #64748b; margin: 1rem 0; cursor: pointer; }
+
+    /* Rich Text Toolbar */
+    .editor-toolbar { display: flex; gap: 8px; padding: 0.6rem; background: #f8fafc; border: 1px solid #d1d5db; border-bottom: none; border-radius: 8px 8px 0 0; font-size: 0.85rem; }
+    .editor-btn { background: #fff; border: 1px solid #cbd5e1; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    .editor-textarea { border-radius: 0 0 8px 8px; }
+
+    .btn-purple { width: 100%; background: #6366f1; color: #fff; border: none; padding: 0.9rem; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 1.5rem; }
+    .btn-purple:hover { background: #4f46e5; }
+
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { padding: 0.75rem 1rem; background: #f9fafb; color: #6b7280; font-size: 0.8rem; border-bottom: 1px solid #e5e7eb; }
+    td { padding: 1rem; border-bottom: 1px solid #f3f4f6; font-size: 0.875rem; }
+    .action-btn { background: #ef4444; color: #fff; border: none; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+
     .tab-pane { display: none; }
     .tab-pane.active-pane { display: block; }
   </style>
@@ -98,7 +95,6 @@
     </div>
   </div>
 
-  <!-- Dashboard Interface -->
   <div id="app-container">
     <aside>
       <div class="sidebar-top">
@@ -114,40 +110,21 @@
         </div>
 
         <div class="menu-category">
-          <button class="menu-btn" onclick="toggleMenu('sub-proj', this)">
-            <span>Project Management</span> ▾
-          </button>
-          <div class="submenu" id="sub-proj">
-            <button class="submenu-item" onclick="switchPane('pane-project-list', this)">List Projects</button>
-            <button class="submenu-item" onclick="switchPane('pane-project-add', this)">Add Project</button>
-          </div>
-        </div>
-
-        <div class="menu-category">
-          <button class="menu-btn" onclick="toggleMenu('sub-course', this)">
-            <span>Course Management</span> ▾
-          </button>
-          <div class="submenu" id="sub-course">
-            <button class="submenu-item" onclick="switchPane('pane-courses', this)">List Courses</button>
-            <button class="submenu-item" onclick="switchPane('pane-courses', this)">Add Course</button>
-          </div>
-        </div>
-
-        <div class="menu-category">
           <button class="menu-btn" onclick="toggleMenu('sub-blog', this)">
             <span>Blog Management</span> ▾
           </button>
           <div class="submenu" id="sub-blog">
-            <button class="submenu-item" onclick="switchPane('pane-blogs', this)">Articles</button>
+            <button class="submenu-item" onclick="switchPane('pane-blog-add', this)">Add Blog Post</button>
+            <button class="submenu-item" onclick="switchPane('pane-blog-list', this)">List Blogs</button>
           </div>
         </div>
 
         <div class="menu-category">
-          <button class="menu-btn" onclick="toggleMenu('sub-contact', this)">
-            <span>Contact & Inquiries</span> ▾
+          <button class="menu-btn" onclick="toggleMenu('sub-proj', this)">
+            <span>Project Management</span> ▾
           </button>
-          <div class="submenu" id="sub-contact">
-            <button class="submenu-item" onclick="switchPane('pane-contact', this)">Messages Inbox</button>
+          <div class="submenu" id="sub-proj">
+            <button class="submenu-item" onclick="switchPane('pane-project-add', this)">Add Project</button>
           </div>
         </div>
       </div>
@@ -160,117 +137,132 @@
     <main>
       <div class="dashboard-header">Dashboard</div>
 
-      <!-- Top Metric Cards -->
       <div class="metrics-grid">
         <div class="metric-card">
           <div class="metric-title">Total Projects</div>
           <div class="metric-value" id="count-projects">0</div>
         </div>
         <div class="metric-card">
+          <div class="metric-title">Total Blogs</div>
+          <div class="metric-value" id="count-blogs">0</div>
+        </div>
+        <div class="metric-card">
           <div class="metric-title">Active Students</div>
           <div class="metric-value">2,342</div>
         </div>
-        <div class="metric-card">
-          <div class="metric-title">Services Revenue</div>
-          <div class="metric-value green">$12,450</div>
-        </div>
       </div>
 
-      <!-- Pane 1: Main Overview / Recent Table -->
+      <!-- Pane 1: Overview -->
       <div id="pane-overview" class="tab-pane active-pane">
         <div class="panel">
-          <div class="panel-title">Recent Portfolio Projects</div>
+          <h3>Published Blogs Overview</h3>
           <table>
             <thead>
               <tr>
-                <th>Project Title</th>
-                <th>URL Slug</th>
+                <th>Title</th>
+                <th>Author</th>
                 <th>Category</th>
-                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="overview-table-body">
-              <tr><td colspan="5">Loading Firestore records...</td></tr>
+            <tbody id="blog-table-body">
+              <tr><td colspan="4">Loading blog posts...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Pane 2: Add Project Form -->
+      <!-- Pane 2: Add Blog Post (Matching Screenshot UI) -->
+      <div id="pane-blog-add" class="tab-pane">
+        <div class="blog-form-card">
+          <div class="blog-form-header">
+            <h2>Create New Blog Post</h2>
+            <p>Craft your next amazing blog post</p>
+          </div>
+          <div class="blog-form-body">
+            <form id="add-blog-form">
+              <div class="form-grid-2">
+                <div>
+                  <label>SEO Title (for meta/title tag)</label>
+                  <input type="text" id="b-seo" placeholder="Enter SEO Title (optional)">
+                </div>
+                <div>
+                  <label>Title *</label>
+                  <input type="text" id="b-title" placeholder="Enter blog title" required>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 1rem;">
+                <label>Category *</label>
+                <select id="b-cat" required>
+                  <option value="">Select a category</option>
+                  <option value="Web Design">Web Design</option>
+                  <option value="Programming">Programming (C/C++)</option>
+                  <option value="Tutorial">Tutorial</option>
+                </select>
+              </div>
+
+              <div class="form-grid-2">
+                <div>
+                  <label>Author *</label>
+                  <input type="text" id="b-author" value="Sagar Dulal" required>
+                </div>
+                <div>
+                  <label>Tags (comma separated)</label>
+                  <input type="text" id="b-tags" placeholder="e.g. tech, react, javascript">
+                </div>
+              </div>
+
+              <div style="margin-bottom: 1rem;">
+                <label>Description *</label>
+                <textarea id="b-desc" rows="3" placeholder="Enter blog description" required></textarea>
+              </div>
+
+              <label>Cover Image</label>
+              <div class="upload-box">
+                📎 Click to upload or drag and drop<br>
+                <span style="font-size: 0.75rem;">PNG, JPG, GIF (MAX. 5MB)</span>
+              </div>
+
+              <label>Blog Content</label>
+              <div class="editor-toolbar">
+                <button type="button" class="editor-btn">B</button>
+                <button type="button" class="editor-btn">I</button>
+                <button type="button" class="editor-btn">U</button>
+                <button type="button" class="editor-btn">H1</button>
+                <button type="button" class="editor-btn">H2</button>
+              </div>
+              <textarea class="editor-textarea" id="b-content" rows="6" placeholder="Start writing your blog content here..."></textarea>
+
+              <button type="submit" class="btn-purple">Publish Blog Post</button>
+              <div id="blog-status" style="margin-top: 10px; font-weight: bold;"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane 3: Add Project -->
       <div id="pane-project-add" class="tab-pane">
         <div class="panel">
-          <div class="panel-title">Add New Project</div>
+          <h3>Add New Project</h3>
           <form id="add-project-form">
             <label>Project Title</label>
             <input type="text" id="p-title" placeholder="e.g. Next.js E-Commerce Portal" required>
 
-            <label>URL Slug (Database Record ID)</label>
+            <label>URL Slug</label>
             <input type="text" id="p-slug" placeholder="e.g. nextjs-ecommerce-portal" required>
 
             <label>Category</label>
             <select id="p-cat">
               <option value="Web Design">Web Design</option>
               <option value="Graphic Design">Graphic Design</option>
-              <option value="Software Development">Software Development (C/C++)</option>
-            </select>
-
-            <label>Status</label>
-            <select id="p-status">
-              <option value="Active">Active</option>
-              <option value="Pending">Pending</option>
-              <option value="Draft">Draft</option>
             </select>
 
             <label>Description</label>
             <textarea id="p-desc" rows="4" placeholder="Describe project details..." required></textarea>
 
-            <button type="submit" class="btn-submit">Publish Project</button>
-            <div id="status-msg" style="margin-top: 10px; font-weight: bold;"></div>
+            <button type="submit" class="btn-purple" style="background:#111827;">Publish Project</button>
           </form>
-        </div>
-      </div>
-
-      <!-- Pane 3: List Projects -->
-      <div id="pane-project-list" class="tab-pane">
-        <div class="panel">
-          <div class="panel-title">Project Management</div>
-          <table>
-            <thead>
-              <tr>
-                <th>Project Title</th>
-                <th>Slug</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="list-table-body">
-              <tr><td colspan="5">Loading records...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Placeholder Panes for Courses, Blogs, Contact -->
-      <div id="pane-courses" class="tab-pane">
-        <div class="panel">
-          <div class="panel-title">Course Management</div>
-          <p>Training modules for Office Handling, Web Page Design, Graphic Design, C, and C++.</p>
-        </div>
-      </div>
-
-      <div id="pane-blogs" class="tab-pane">
-        <div class="panel">
-          <div class="panel-title">Blog Articles</div>
-          <p>No blog posts published yet.</p>
-        </div>
-      </div>
-
-      <div id="pane-contact" class="tab-pane">
-        <div class="panel">
-          <div class="panel-title">Inquiries & Messages</div>
-          <p>Email: cotact.sagardulal@gmail.com | Phone: 9818178656</p>
         </div>
       </div>
 
@@ -296,144 +288,102 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Auth state check
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById('login-overlay').style.display = 'none';
         document.getElementById('app-container').style.display = 'flex';
-        loadTableData();
+        loadBlogTable();
       } else {
         document.getElementById('login-overlay').style.display = 'flex';
         document.getElementById('app-container').style.display = 'none';
       }
     });
 
-    // Login submit
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('login-email').value;
-      const pass = document.getElementById('login-pass').value;
-      const errorDiv = document.getElementById('login-error');
-
-      errorDiv.innerText = 'Signing in...';
       try {
-        await signInWithEmailAndPassword(auth, email, pass);
-        errorDiv.innerText = '';
+        await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value);
       } catch (err) {
-        errorDiv.innerText = 'Login Failed: ' + err.message;
+        document.getElementById('login-error').innerText = err.message;
       }
     });
 
-    // Logout submit
-    document.getElementById('logout-btn').addEventListener('click', () => {
-      signOut(auth);
-    });
+    document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
 
-    // Sidebar dropdown toggler
     window.toggleMenu = function(menuId, btnElement) {
-      const submenu = document.getElementById(menuId);
-      submenu.classList.toggle('open');
-      btnElement.classList.toggle('active-parent');
+      document.getElementById(menuId).classList.toggle('open');
     };
 
-    // Tab switcher
     window.switchPane = function(paneId, btnElement) {
       document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active-pane'));
-      document.querySelectorAll('.submenu-item').forEach(item => item.classList.remove('active-sub'));
-
       document.getElementById(paneId).classList.add('active-pane');
-      btnElement.classList.add('active-sub');
     };
 
-    // Auto Slug
-    document.getElementById('p-title').addEventListener('input', (e) => {
-      const slug = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-      document.getElementById('p-slug').value = slug;
-    });
-
-    // Load Records into Data Tables
-    async function loadTableData() {
-      const overviewBody = document.getElementById('overview-table-body');
-      const listBody = document.getElementById('list-table-body');
-      const countDisplay = document.getElementById('count-projects');
-
+    // Load Blogs in Admin
+    async function loadBlogTable() {
+      const blogTable = document.getElementById('blog-table-body');
       try {
-        const querySnapshot = await getDocs(collection(db, "projects"));
-        countDisplay.innerText = querySnapshot.size;
+        const querySnapshot = await getDocs(collection(db, "blogs"));
+        document.getElementById('count-blogs').innerText = querySnapshot.size;
 
         if (querySnapshot.empty) {
-          const emptyRow = '<tr><td colspan="5">No projects in database.</td></tr>';
-          overviewBody.innerHTML = emptyRow;
-          listBody.innerHTML = emptyRow;
+          blogTable.innerHTML = '<tr><td colspan="4">No blog posts found.</td></tr>';
           return;
         }
 
-        let htmlContent = '';
+        blogTable.innerHTML = '';
         querySnapshot.forEach((docSnap) => {
           const data = docSnap.data();
           const docId = docSnap.id;
-          const status = data.status || 'Active';
-          
-          let badgeClass = 'badge-active';
-          if (status === 'Pending') badgeClass = 'badge-pending';
-          if (status === 'Draft') badgeClass = 'badge-draft';
-
-          htmlContent += `
+          blogTable.innerHTML += `
             <tr>
               <td><strong>${data.title}</strong></td>
-              <td><code>${docId}</code></td>
-              <td>${data.category || 'Web Design'}</td>
-              <td><span class="badge-status ${badgeClass}">${status}</span></td>
-              <td>
-                <button class="action-btn" onclick="deleteProject('${docId}')">Delete</button>
-              </td>
+              <td>${data.author || 'Sagar Dulal'}</td>
+              <td>${data.category || 'General'}</td>
+              <td><button class="action-btn" onclick="deleteBlog('${docId}')">Delete</button></td>
             </tr>
           `;
         });
-
-        overviewBody.innerHTML = htmlContent;
-        listBody.innerHTML = htmlContent;
       } catch (err) {
-        overviewBody.innerHTML = '<tr><td colspan="5">Error loading database.</td></tr>';
+        blogTable.innerHTML = '<tr><td colspan="4">Error loading blogs.</td></tr>';
       }
     }
 
-    // Delete Record
-    window.deleteProject = async function(docId) {
-      if (confirm(`Delete project "${docId}" permanently?`)) {
-        try {
-          await deleteDoc(doc(db, "projects", docId));
-          loadTableData();
-        } catch (err) {
-          alert("Error: " + err.message);
-        }
+    window.deleteBlog = async function(docId) {
+      if (confirm(`Delete blog "${docId}"?`)) {
+        await deleteDoc(doc(db, "blogs", docId));
+        loadBlogTable();
       }
     };
 
-    // Add Record
-    document.getElementById('add-project-form').addEventListener('submit', async (e) => {
+    // Submit Blog Post
+    document.getElementById('add-blog-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const status = document.getElementById('status-msg');
-      const slugValue = document.getElementById('p-slug').value;
+      const status = document.getElementById('blog-status');
+      const title = document.getElementById('b-title').value;
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
-      status.style.color = '#2563eb';
-      status.innerText = 'Saving...';
+      status.style.color = 'blue';
+      status.innerText = 'Publishing blog post...';
 
       try {
-        await setDoc(doc(db, "projects", slugValue), {
-          title: document.getElementById('p-title').value,
-          slug: slugValue,
-          category: document.getElementById('p-cat').value,
-          status: document.getElementById('p-status').value,
-          description: document.getElementById('p-desc').value,
+        await setDoc(doc(db, "blogs", slug), {
+          title: title,
+          slug: slug,
+          seoTitle: document.getElementById('b-seo').value,
+          category: document.getElementById('b-cat').value,
+          author: document.getElementById('b-author').value,
+          tags: document.getElementById('b-tags').value,
+          description: document.getElementById('b-desc').value,
+          content: document.getElementById('b-content').value,
           createdAt: new Date()
         });
-        status.style.color = '#16a34a';
-        status.innerText = 'Saved successfully!';
-        document.getElementById('add-project-form').reset();
-        loadTableData();
+        status.style.color = 'green';
+        status.innerText = 'Blog post published live!';
+        document.getElementById('add-blog-form').reset();
+        loadBlogTable();
       } catch (err) {
-        status.style.color = '#ef4444';
+        status.style.color = 'red';
         status.innerText = 'Error: ' + err.message;
       }
     });
