@@ -3,22 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project View | Sagar Dulal</title>
+  <title>Project Details | Sagar Dulal</title>
   <style>
-    :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --neon-purple: #a855f7; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
+    :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
     body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
     header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); border-bottom: 1px solid var(--border); }
     .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
     .logo span { color: var(--neon-blue); }
     nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; font-weight: 500; }
-    section { padding: 5rem 8%; max-width: 850px; margin: 0 auto; }
+    section { padding: 5rem 8%; max-width: 800px; margin: 0 auto; }
     .back-btn { display: inline-block; margin-bottom: 2rem; color: var(--neon-blue); text-decoration: none; font-weight: 600; }
-    .cat-badge { display: inline-block; padding: 0.3rem 0.9rem; border-radius: 20px; background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.3); color: var(--neon-blue); font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; }
-    h1 { font-size: 3rem; color: #fff; font-weight: 800; margin-bottom: 1.5rem; line-height: 1.2; }
-    .content-card { background: var(--card-bg); border: 1px solid var(--border); padding: 2.5rem; border-radius: 24px; backdrop-filter: blur(12px); }
-    .content-card p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; white-space: pre-line; }
-    .meta-bar { display: flex; gap: 2rem; border-top: 1px solid var(--border); margin-top: 2rem; padding-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted); }
+    h1 { font-size: 2.8rem; color: #fff; font-weight: 800; margin-bottom: 1.5rem; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2.5rem; border-radius: 20px; backdrop-filter: blur(12px); }
+    .card p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; white-space: pre-line; }
   </style>
 </head>
 <body>
@@ -27,14 +25,13 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="projects.html">Portfolio</a>
-      <a href="contact.html">Contact</a>
     </nav>
   </header>
 
   <section>
-    <a href="projects.html" class="back-btn">← Back to Projects</a>
-    <div id="project-detail">
-      <div class="content-card"><p>Loading project details...</p></div>
+    <a href="projects.html" class="back-btn">← Back to Portfolio</a>
+    <div id="project-box">
+      <div class="card"><p>Loading details...</p></div>
     </div>
   </section>
 
@@ -55,42 +52,28 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const slug = urlParams.get('slug');
+    const slug = new URLSearchParams(window.location.search).get('slug');
 
     async function loadDetail() {
-      const detailContainer = document.getElementById('project-detail');
-      if (!slug) {
-        detailContainer.innerHTML = '<div class="content-card"><p>Invalid project slug specified.</p></div>';
-        return;
-      }
-
+      const box = document.getElementById('project-box');
+      if (!slug) { box.innerHTML = '<div class="card"><p>No slug specified.</p></div>'; return; }
       try {
-        const docRef = doc(db, "projects", slug);
-        const docSnap = await getDoc(docRef);
-
+        const docSnap = await getDoc(doc(db, "projects", slug));
         if (docSnap.exists()) {
           const data = docSnap.data();
-          document.title = `${data.title} | Sagar Dulal`;
-          detailContainer.innerHTML = `
-            <span class="cat-badge">${data.category || 'Development'}</span>
+          box.innerHTML = `
             <h1>${data.title}</h1>
-            <div class="content-card">
+            <div class="card">
               <p>${data.description}</p>
-              <div class="meta-bar">
-                <span><strong>URL Slug:</strong> /${data.slug}</span>
-                <span><strong>Author:</strong> Sagar Dulal</span>
-              </div>
             </div>
           `;
         } else {
-          detailContainer.innerHTML = '<div class="content-card"><p>Project not found in database.</p></div>';
+          box.innerHTML = '<div class="card"><p>Project record not found.</p></div>';
         }
       } catch (err) {
-        detailContainer.innerHTML = '<div class="content-card"><p>Error retrieving document details.</p></div>';
+        box.innerHTML = '<div class="card"><p>Error fetching record.</p></div>';
       }
     }
-
     loadDetail();
   </script>
 </body>
