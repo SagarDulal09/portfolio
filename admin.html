@@ -5,20 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | Sagar Dulal</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: #f3f4f6; color: #111827; min-height: 100vh; }
 
+    /* Login Guard */
     #login-overlay { position: fixed; inset: 0; background: #0b0f19; display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .login-box { background: #111827; padding: 2.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 400px; color: #fff; }
+    .login-box h2 { color: #fff; margin-bottom: 0.5rem; font-size: 1.5rem; }
     .login-box input { width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #374151; background: #1f2937; color: #fff; margin-top: 0.3rem; }
     .login-btn { width: 100%; padding: 0.8rem; margin-top: 1.5rem; border-radius: 6px; border: none; background: #2563eb; color: #fff; font-weight: bold; cursor: pointer; }
+    #login-error { color: #ef4444; font-size: 0.85rem; margin-top: 1rem; }
 
     #app-container { display: flex; min-height: 100vh; display: none; }
+
+    /* DIT Sidebar Styling */
     aside { width: 260px; background: #0b0f19; color: #d1d5db; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; height: 100vh; position: sticky; top: 0; overflow-y: auto; }
     .sidebar-top { padding: 1.25rem 1rem; }
     .brand-header { font-size: 1.2rem; font-weight: 800; color: #fff; padding-bottom: 1.5rem; border-bottom: 1px solid #1f2937; margin-bottom: 1rem; }
     
-    .menu-btn { width: 100%; text-align: left; background: transparent; border: none; color: #d1d5db; padding: 0.7rem 0.8rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem; }
+    .menu-category { margin-bottom: 0.2rem; }
+    .menu-btn { width: 100%; text-align: left; background: transparent; border: none; color: #d1d5db; padding: 0.7rem 0.8rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .menu-btn:hover, .menu-btn.active-parent { background: #1f2937; color: #fff; }
     .submenu { display: none; padding-left: 0.8rem; margin-top: 0.2rem; margin-bottom: 0.4rem; }
     .submenu.open { display: block; }
@@ -30,15 +36,35 @@
     main { flex: 1; padding: 2rem 2.5rem; overflow-y: auto; }
     .dashboard-header { font-size: 1.75rem; font-weight: 800; color: #111827; margin-bottom: 1.5rem; }
 
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+    .metric-card { background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e5e7eb; }
+    .metric-title { font-size: 0.8rem; font-weight: 600; color: #6b7280; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .metric-value { font-size: 1.875rem; font-weight: 800; color: #111827; }
+
     .panel { background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; padding: 1.5rem; margin-bottom: 2rem; }
-    label { font-size: 0.8rem; font-weight: 700; color: #374151; display: block; margin-top: 1rem; }
-    input, select, textarea { width: 100%; padding: 0.7rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem; margin-top: 0.3rem; }
-    .btn-submit { background: #111827; color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 700; margin-top: 1.25rem; cursor: pointer; }
+    
+    /* Blog Form matching Screenshot */
+    .blog-form-card { background: #fff; border-radius: 16px; border: 1px solid #e5e7eb; overflow: hidden; max-width: 850px; }
+    .blog-form-header { background: linear-gradient(135deg, #7c3aed, #9333ea); color: #fff; padding: 2rem; }
+    .blog-form-header h2 { font-size: 1.6rem; font-weight: 800; }
+    .blog-form-body { padding: 2rem; }
+
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem; }
+    label { font-size: 0.8rem; font-weight: 700; color: #374151; display: block; margin-bottom: 0.3rem; margin-top: 0.8rem; }
+    input, select, textarea { width: 100%; padding: 0.7rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem; background: #fff; }
+
+    .upload-box { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem; text-align: center; color: #64748b; margin: 1rem 0; cursor: pointer; }
+    .editor-toolbar { display: flex; gap: 8px; padding: 0.6rem; background: #f8fafc; border: 1px solid #d1d5db; border-bottom: none; border-radius: 8px 8px 0 0; }
+    .editor-btn { background: #fff; border: 1px solid #cbd5e1; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    .editor-textarea { border-radius: 0 0 8px 8px; }
+
+    .btn-purple { width: 100%; background: #6366f1; color: #fff; border: none; padding: 0.9rem; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 1.5rem; }
+    .btn-submit { background: #111827; color: #fff; border: none; padding: 0.8rem 1.4rem; border-radius: 8px; margin-top: 1.2rem; cursor: pointer; font-weight: 700; width: 100%; }
 
     table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 1rem; }
     th { padding: 0.75rem 1rem; background: #f9fafb; color: #6b7280; font-size: 0.8rem; border-bottom: 1px solid #e5e7eb; }
     td { padding: 1rem; border-bottom: 1px solid #f3f4f6; font-size: 0.875rem; }
-    .btn-delete { background: #ef4444; color: #fff; border: none; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+    .btn-delete { background: #ef4444; color: #fff; border: none; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: 600; }
 
     .tab-pane { display: none; }
     .tab-pane.active-pane { display: block; }
@@ -46,10 +72,12 @@
 </head>
 <body>
 
-  <!-- Login Shield -->
+  <!-- Protected Login Shield -->
   <div id="login-overlay">
     <div class="login-box">
       <h2>Admin Dashboard Login</h2>
+      <p style="color: #9ca3af; font-size: 0.85rem; margin-bottom: 1rem;">Enter your administrator credentials.</p>
+      
       <form id="login-form">
         <label>Email Address</label>
         <input type="email" id="login-email" placeholder="cotact.sagardulal@gmail.com" required>
@@ -57,7 +85,8 @@
         <label>Password</label>
         <input type="password" id="login-pass" placeholder="••••••••" required>
 
-        <button type="submit" class="login-btn">Sign In</button>
+        <button type="submit" class="login-btn">Sign In to Admin</button>
+        <div id="login-error"></div>
       </form>
     </div>
   </div>
@@ -67,19 +96,33 @@
       <div class="sidebar-top">
         <div class="brand-header">Admin Dashboard</div>
         
-        <button class="menu-btn active-parent" onclick="toggleMenu('sub-proj', this)">
-          <span>Project Management</span> ▾
-        </button>
-        <div class="submenu open" id="sub-proj">
-          <button class="submenu-item active-sub" onclick="switchPane('pane-project-list', this)">Manage / Delete Projects</button>
-          <button class="submenu-item" onclick="switchPane('pane-project-add', this)">Add New Project</button>
+        <div class="menu-category">
+          <button class="menu-btn active-parent" onclick="toggleMenu('sub-dash', this)">
+            <span>Dashboard Overview</span> ▾
+          </button>
+          <div class="submenu open" id="sub-dash">
+            <button class="submenu-item active-sub" onclick="switchPane('pane-overview', this)">Main Metrics</button>
+          </div>
         </div>
 
-        <button class="menu-btn" onclick="toggleMenu('sub-ai', this)">
-          <span>AI Bot & Auto-Reply</span> ▾
-        </button>
-        <div class="submenu" id="sub-ai">
-          <button class="submenu-item" onclick="switchPane('pane-ai-rules', this)">Configure Auto Rules</button>
+        <div class="menu-category">
+          <button class="menu-btn" onclick="toggleMenu('sub-proj', this)">
+            <span>Project Management</span> ▾
+          </button>
+          <div class="submenu" id="sub-proj">
+            <button class="submenu-item" onclick="switchPane('pane-project-list', this)">Manage / Delete Projects</button>
+            <button class="submenu-item" onclick="switchPane('pane-project-add', this)">Add New Project</button>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <button class="menu-btn" onclick="toggleMenu('sub-blog', this)">
+            <span>Blog Management</span> ▾
+          </button>
+          <div class="submenu" id="sub-blog">
+            <button class="submenu-item" onclick="switchPane('pane-blog-add', this)">Add Blog Post</button>
+            <button class="submenu-item" onclick="switchPane('pane-blog-list', this)">List Blogs</button>
+          </div>
         </div>
       </div>
 
@@ -91,8 +134,31 @@
     <main>
       <div class="dashboard-header">Dashboard Control</div>
 
-      <!-- Pane 1: Project Management (List + Delete) -->
-      <div id="pane-project-list" class="tab-pane active-pane">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-title">Total Projects</div>
+          <div class="metric-value" id="count-projects">0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Total Blogs</div>
+          <div class="metric-value" id="count-blogs">0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Active Students</div>
+          <div class="metric-value">2,342</div>
+        </div>
+      </div>
+
+      <!-- Pane 1: Overview -->
+      <div id="pane-overview" class="tab-pane active-pane">
+        <div class="panel">
+          <h3>Published Database Overview</h3>
+          <p style="color: #64748b; font-size: 0.9rem; margin-top: 0.5rem;">Use the left sidebar menus to manage projects or write blogs.</p>
+        </div>
+      </div>
+
+      <!-- Pane 2: Project Management Table (Delete Projects) -->
+      <div id="pane-project-list" class="tab-pane">
         <div class="panel">
           <h3>Live Database Projects</h3>
           <table>
@@ -105,16 +171,16 @@
               </tr>
             </thead>
             <tbody id="project-table-body">
-              <tr><td colspan="4">Loading records from Firebase...</td></tr>
+              <tr><td colspan="4">Loading records...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Pane 2: Add Project -->
+      <!-- Pane 3: Add New Project -->
       <div id="pane-project-add" class="tab-pane">
         <div class="panel">
-          <h3>Add New Portfolio Project</h3>
+          <h3>Add New Project</h3>
           <form id="add-project-form">
             <label>Project Title</label>
             <input type="text" id="p-title" required>
@@ -137,17 +203,92 @@
         </div>
       </div>
 
-      <!-- Pane 3: AI Auto-Reply Management -->
-      <div id="pane-ai-rules" class="tab-pane">
+      <!-- Pane 4: Add Blog Post -->
+      <div id="pane-blog-add" class="tab-pane">
+        <div class="blog-form-card">
+          <div class="blog-form-header">
+            <h2>Create New Blog Post</h2>
+            <p>Craft your next amazing blog post</p>
+          </div>
+          <div class="blog-form-body">
+            <form id="add-blog-form">
+              <div class="form-grid-2">
+                <div>
+                  <label>SEO Title (for meta/title tag)</label>
+                  <input type="text" id="b-seo" placeholder="Enter SEO Title (optional)">
+                </div>
+                <div>
+                  <label>Title *</label>
+                  <input type="text" id="b-title" placeholder="Enter blog title" required>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 1rem;">
+                <label>Category *</label>
+                <select id="b-cat" required>
+                  <option value="">Select a category</option>
+                  <option value="Web Design">Web Design</option>
+                  <option value="Programming">Programming (C/C++)</option>
+                  <option value="Tutorial">Tutorial</option>
+                </select>
+              </div>
+
+              <div class="form-grid-2">
+                <div>
+                  <label>Author *</label>
+                  <input type="text" id="b-author" value="Sagar Dulal" required>
+                </div>
+                <div>
+                  <label>Tags (comma separated)</label>
+                  <input type="text" id="b-tags" placeholder="e.g. tech, react, javascript">
+                </div>
+              </div>
+
+              <div style="margin-bottom: 1rem;">
+                <label>Description *</label>
+                <textarea id="b-desc" rows="3" placeholder="Enter blog description" required></textarea>
+              </div>
+
+              <label>Cover Image</label>
+              <div class="upload-box">
+                📎 Click to upload or drag and drop<br>
+                <span style="font-size: 0.75rem;">PNG, JPG, GIF (MAX. 5MB)</span>
+              </div>
+
+              <label>Blog Content</label>
+              <div class="editor-toolbar">
+                <button type="button" class="editor-btn">B</button>
+                <button type="button" class="editor-btn">I</button>
+                <button type="button" class="editor-btn">U</button>
+                <button type="button" class="editor-btn">H1</button>
+                <button type="button" class="editor-btn">H2</button>
+              </div>
+              <textarea class="editor-textarea" id="b-content" rows="6" placeholder="Start writing your blog content here..."></textarea>
+
+              <button type="submit" class="btn-purple">Publish Blog Post</button>
+              <div id="blog-status" style="margin-top: 10px; font-weight: bold;"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane 5: List Blogs -->
+      <div id="pane-blog-list" class="tab-pane">
         <div class="panel">
-          <h3>AI Chatbot Settings & Rules</h3>
-          <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">The bot automatically responds to queries containing keywords like "courses", "fees", or "qualifications". Below are your default responses.</p>
-
-          <label>Keyword Trigger: "course / dit / class"</label>
-          <input type="text" value="Teaches Office Handling, Basic Computer Skills, Web Page Designing, Graphic Designing, and C/C++ at DIT Solution." disabled>
-
-          <label>Keyword Trigger: "fee / price / hire"</label>
-          <input type="text" value="Directs users to click the WhatsApp button to chat about project rates." disabled>
+          <h3>Live Database Blogs</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="blog-table-body">
+              <tr><td colspan="4">Loading blogs...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -177,7 +318,8 @@
       if (user) {
         document.getElementById('login-overlay').style.display = 'none';
         document.getElementById('app-container').style.display = 'flex';
-        loadTableData();
+        loadProjectTable();
+        loadBlogTable();
       } else {
         document.getElementById('login-overlay').style.display = 'flex';
         document.getElementById('app-container').style.display = 'none';
@@ -189,7 +331,7 @@
       try {
         await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value);
       } catch (err) {
-        alert("Login failed: " + err.message);
+        document.getElementById('login-error').innerText = 'Login Failed: ' + err.message;
       }
     });
 
@@ -212,15 +354,12 @@
       document.getElementById('p-slug').value = slug;
     });
 
-    async function loadTableData() {
+    async function loadProjectTable() {
       const tableBody = document.getElementById('project-table-body');
       try {
         const querySnapshot = await getDocs(collection(db, "projects"));
-        if (querySnapshot.empty) {
-          tableBody.innerHTML = '<tr><td colspan="4">No project records found.</td></tr>';
-          return;
-        }
-
+        document.getElementById('count-projects').innerText = querySnapshot.size;
+        if (querySnapshot.empty) { tableBody.innerHTML = '<tr><td colspan="4">No projects in database.</td></tr>'; return; }
         tableBody.innerHTML = '';
         querySnapshot.forEach((docSnap) => {
           const data = docSnap.data();
@@ -230,21 +369,17 @@
               <td><strong>${data.title}</strong></td>
               <td><code>${docId}</code></td>
               <td>${data.category || 'Web Design'}</td>
-              <td>
-                <button class="btn-delete" onclick="deleteProject('${docId}')">Delete</button>
-              </td>
+              <td><button class="btn-delete" onclick="deleteProject('${docId}')">Delete</button></td>
             </tr>
           `;
         });
-      } catch (err) {
-        tableBody.innerHTML = '<tr><td colspan="4">Error loading records.</td></tr>';
-      }
+      } catch (err) { tableBody.innerHTML = '<tr><td colspan="4">Error loading records.</td></tr>'; }
     }
 
     window.deleteProject = async function(docId) {
-      if (confirm(`Are you sure you want to delete project "${docId}"?`)) {
+      if (confirm(`Delete project "${docId}"?`)) {
         await deleteDoc(doc(db, "projects", docId));
-        loadTableData();
+        loadProjectTable();
       }
     };
 
@@ -252,10 +387,7 @@
       e.preventDefault();
       const status = document.getElementById('status-msg');
       const slugValue = document.getElementById('p-slug').value;
-
-      status.style.color = '#2563eb';
-      status.innerText = 'Publishing...';
-
+      status.style.color = '#2563eb'; status.innerText = 'Publishing...';
       try {
         await setDoc(doc(db, "projects", slugValue), {
           title: document.getElementById('p-title').value,
@@ -264,14 +396,63 @@
           description: document.getElementById('p-desc').value,
           createdAt: new Date()
         });
-        status.style.color = '#10b981';
-        status.innerText = 'Project saved live!';
+        status.style.color = '#10b981'; status.innerText = 'Saved live!';
         document.getElementById('add-project-form').reset();
-        loadTableData();
-      } catch (err) {
-        status.style.color = '#ef4444';
-        status.innerText = 'Error: ' + err.message;
+        loadProjectTable();
+      } catch (err) { status.style.color = '#ef4444'; status.innerText = 'Error: ' + err.message; }
+    });
+
+    async function loadBlogTable() {
+      const blogTable = document.getElementById('blog-table-body');
+      try {
+        const querySnapshot = await getDocs(collection(db, "blogs"));
+        document.getElementById('count-blogs').innerText = querySnapshot.size;
+        if (querySnapshot.empty) { blogTable.innerHTML = '<tr><td colspan="4">No blog posts found.</td></tr>'; return; }
+        blogTable.innerHTML = '';
+        querySnapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const docId = docSnap.id;
+          blogTable.innerHTML += `
+            <tr>
+              <td><strong>${data.title}</strong></td>
+              <td>${data.author || 'Sagar Dulal'}</td>
+              <td>${data.category || 'General'}</td>
+              <td><button class="btn-delete" onclick="deleteBlog('${docId}')">Delete</button></td>
+            </tr>
+          `;
+        });
+      } catch (err) { blogTable.innerHTML = '<tr><td colspan="4">Error loading blogs.</td></tr>'; }
+    }
+
+    window.deleteBlog = async function(docId) {
+      if (confirm(`Delete blog "${docId}"?`)) {
+        await deleteDoc(doc(db, "blogs", docId));
+        loadBlogTable();
       }
+    };
+
+    document.getElementById('add-blog-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = document.getElementById('blog-status');
+      const title = document.getElementById('b-title').value;
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      status.style.color = '#2563eb'; status.innerText = 'Publishing blog...';
+      try {
+        await setDoc(doc(db, "blogs", slug), {
+          title: title,
+          slug: slug,
+          seoTitle: document.getElementById('b-seo').value,
+          category: document.getElementById('b-cat').value,
+          author: document.getElementById('b-author').value,
+          tags: document.getElementById('b-tags').value,
+          description: document.getElementById('b-desc').value,
+          content: document.getElementById('b-content').value,
+          createdAt: new Date()
+        });
+        status.style.color = '#10b981'; status.innerText = 'Blog post published!';
+        document.getElementById('add-blog-form').reset();
+        loadBlogTable();
+      } catch (err) { status.style.color = '#ef4444'; status.innerText = 'Error: ' + err.message; }
     });
   </script>
 </body>
