@@ -15,11 +15,11 @@
     nav a.active { color: var(--neon-blue); }
     section { padding: 5rem 8%; min-height: 80vh; }
     h1 { font-size: 3rem; color: #fff; font-weight: 800; margin-bottom: 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; margin-top: 2.5rem; }
-    .blog-card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; margin-top: 2rem; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; }
     .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(168,85,247,0.15); color: var(--neon-purple); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.8rem; }
-    .blog-card h3 { color: #fff; font-size: 1.3rem; margin-bottom: 0.6rem; }
-    .blog-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .card h3 { color: #fff; font-size: 1.3rem; margin-bottom: 0.6rem; }
+    .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
     .read-link { color: var(--neon-blue); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
   </style>
 </head>
@@ -36,11 +36,11 @@
   </header>
 
   <section>
-    <h1>Blog Posts & Articles</h1>
-    <p style="color: var(--text-muted); font-size: 1.1rem;">Tech tutorials, web design insights, and programming guides.</p>
+    <h1>Blog Posts & Guides</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">Tutorials and tech insights published live from the admin portal.</p>
 
     <div class="grid" id="blog-grid">
-      <div class="blog-card"><p>Loading blogs from Firebase...</p></div>
+      <div class="card"><p>Loading blogs from database...</p></div>
     </div>
   </section>
 
@@ -61,12 +61,12 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    async function fetchBlogs() {
+    async function loadBlogs() {
       const grid = document.getElementById('blog-grid');
       try {
         const querySnapshot = await getDocs(collection(db, "blogs"));
         if (querySnapshot.empty) {
-          grid.innerHTML = '<div class="blog-card"><p>No blog posts added yet. Create one from admin.html!</p></div>';
+          grid.innerHTML = '<div class="card"><p>No blog posts published yet.</p></div>';
           return;
         }
         grid.innerHTML = '';
@@ -74,21 +74,21 @@
           const data = doc.data();
           const slug = data.slug || doc.id;
           grid.innerHTML += `
-            <div class="blog-card">
+            <div class="card">
               <div>
                 <span class="tag">${data.category || 'Tutorial'}</span>
                 <h3>${data.title}</h3>
-                <p>${data.description || data.seoTitle || 'Read this post...'}</p>
+                <p>${data.description || 'Read complete article...'}</p>
               </div>
               <a href="blog-detail.html?slug=${slug}" class="read-link">Read Full Post →</a>
             </div>
           `;
         });
       } catch (err) {
-        grid.innerHTML = '<div class="blog-card"><p>Error connecting to database.</p></div>';
+        grid.innerHTML = '<div class="card"><p>Error fetching blogs.</p></div>';
       }
     }
-    fetchBlogs();
+    loadBlogs();
   </script>
 </body>
 </html>
