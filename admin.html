@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sagar Dulal - Portfolio Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: #f4f6f9; color: #1e293b; display: flex; min-height: 100vh; }
+    
+    /* Dark Left Sidebar */
+    aside { width: 250px; background: #111827; color: #9ca3af; padding: 1.5rem 1rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .brand { font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 2rem; display: flex; align-items: center; gap: 10px; }
+    .brand-avatar { width: 32px; height: 32px; background: #3b82f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; }
+    .menu-item { padding: 0.75rem 1rem; border-radius: 8px; cursor: pointer; margin-bottom: 0.3rem; display: flex; align-items: center; justify-content: space-between; font-weight: 500; }
+    .menu-item.active { background: #1f2937; color: #38bdf8; }
+    .active-badge { background: #065f46; color: #34d399; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; }
+
+    /* Main Content Area */
+    main { flex: 1; padding: 2rem; overflow-y: auto; }
+    
+    /* Top Bar */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .search-bar { background: #fff; border: 1px solid #e2e8f0; padding: 0.6rem 1rem; border-radius: 8px; width: 300px; }
+    .profile-pill { display: flex; align-items: center; gap: 10px; background: #fff; padding: 0.4rem 0.8rem; border-radius: 30px; border: 1px solid #e2e8f0; }
+    .avatar { width: 35px; height: 35px; border-radius: 50%; background: #3b82f6; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+    /* Welcome Header */
+    .welcome-title { font-size: 1.8rem; font-weight: 700; color: #0f172a; margin-bottom: 1.5rem; }
+
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+    .stat-card { background: #fff; padding: 1.2rem; border-radius: 12px; border: 1px solid #e2e8f0; }
+    .stat-card h4 { font-size: 0.85rem; color: #64748b; font-weight: 600; }
+    .stat-card .number { font-size: 2rem; font-weight: 800; color: #0f172a; margin: 0.4rem 0; }
+    .stat-card .subtext { font-size: 0.75rem; color: #10b981; }
+
+    /* Dashboard Layout Columns */
+    .dashboard-body { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+    .panel { background: #fff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; }
+    .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+
+    /* Form Styles */
+    label { font-size: 0.85rem; font-weight: 600; color: #475569; display: block; margin-top: 0.8rem; }
+    input, textarea, select { width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 8px; margin-top: 0.3rem; }
+    .btn-submit { background: #0f172a; color: #fff; border: none; padding: 0.7rem 1.2rem; border-radius: 8px; margin-top: 1rem; cursor: pointer; font-weight: 600; width: 100%; }
+    .btn-submit:hover { background: #1e293b; }
+  </style>
+</head>
+<body>
+
+  <!-- Dark Sidebar -->
+  <aside>
+    <div>
+      <div class="brand">
+        <div class="brand-avatar">SD</div>
+        Sagar Dulal | Admin
+      </div>
+      <div class="menu-item active">Dashboard <span class="active-badge">Active</span></div>
+      <div class="menu-item">Portfolio Projects</div>
+      <div class="menu-item">Services</div>
+      <div class="menu-item">Messages</div>
+      <div class="menu-item">Profile & Settings</div>
+    </div>
+    <div class="menu-item">Logout</div>
+  </aside>
+
+  <!-- Main Content -->
+  <main>
+    <div class="top-bar">
+      <input type="text" class="search-bar" placeholder="Search...">
+      <div class="profile-pill">
+        <div class="avatar">SD</div>
+        <div>
+          <div style="font-size: 0.85rem; font-weight: bold;">Sagar Dulal</div>
+          <div style="font-size: 0.7rem; color: #64748b;">Portfolio Owner</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="welcome-title">Welcome back, Sagar Dulal!</div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h4>Total Projects</h4>
+        <div class="number" id="stat-count">0</div>
+        <div class="subtext">+ Live in Database</div>
+      </div>
+      <div class="stat-card">
+        <h4>Client Inquiries</h4>
+        <div class="number">28</div>
+        <div class="subtext">Active</div>
+      </div>
+      <div class="stat-card">
+        <h4>Active Projects</h4>
+        <div class="number">8</div>
+        <div class="subtext">In Progress</div>
+      </div>
+      <div class="stat-card">
+        <h4>Profile Views</h4>
+        <div class="number">3.2K</div>
+        <div class="subtext">+15% vs last month</div>
+      </div>
+    </div>
+
+    <!-- Layout Grid -->
+    <div class="dashboard-body">
+      <div>
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Add New Portfolio Project</h3>
+          </div>
+          <form id="add-project-form">
+            <label>Project Title</label>
+            <input type="text" id="p-title" placeholder="e.g. E-Commerce Platform" required>
+
+            <label>URL Slug (Human readable URL name)</label>
+            <input type="text" id="p-slug" placeholder="e.g. ecommerce-platform" required>
+
+            <label>Category</label>
+            <select id="p-cat">
+              <option value="Web Design">Web Design</option>
+              <option value="Graphic Design">Graphic Design</option>
+              <option value="Software">Software (C/C++)</option>
+            </select>
+
+            <label>Description</label>
+            <textarea id="p-desc" rows="4" placeholder="Describe the project..." required></textarea>
+
+            <button type="submit" class="btn-submit">Publish Project Live</button>
+            <div id="status-msg" style="margin-top: 10px; font-weight: bold;"></div>
+          </form>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel">
+          <h3>Site Health</h3>
+          <p style="margin-top: 10px; font-size: 0.9rem;">Performance: <strong>95%</strong></p>
+          <p style="margin-top: 5px; font-size: 0.9rem;">SEO Score: <strong>100%</strong></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
+      authDomain: "sagar-portfolio-dabc5.firebaseapp.com",
+      projectId: "sagar-portfolio-dabc5",
+      storageBucket: "sagar-portfolio-dabc5.firebasestorage.app",
+      messagingSenderId: "900240657480",
+      appId: "1:900240657480:web:60456aa2d3dfc173f05c7d",
+      measurementId: "G-PNW0PFBGCR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Auto-generate URL Slug as you type title
+    document.getElementById('p-title').addEventListener('input', (e) => {
+      const slug = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      document.getElementById('p-slug').value = slug;
+    });
+
+    // Update count stat
+    async function updateStat() {
+      const snap = await getDocs(collection(db, "projects"));
+      document.getElementById('stat-count').innerText = snap.size;
+    }
+    updateStat();
+
+    // Submit project
+    document.getElementById('add-project-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = document.getElementById('status-msg');
+      status.style.color = 'blue';
+      status.innerText = 'Publishing to live database...';
+
+      try {
+        await addDoc(collection(db, "projects"), {
+          title: document.getElementById('p-title').value,
+          slug: document.getElementById('p-slug').value,
+          category: document.getElementById('p-cat').value,
+          description: document.getElementById('p-desc').value,
+          createdAt: new Date()
+        });
+        status.style.color = 'green';
+        status.innerText = 'Successfully published!';
+        document.getElementById('add-project-form').reset();
+        updateStat();
+      } catch (err) {
+        status.style.color = 'red';
+        status.innerText = 'Error saving project: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
