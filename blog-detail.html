@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Article Reader | Sagar Dulal</title>
+  <title>Blog Reader | Sagar Dulal</title>
   <style>
     :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
@@ -14,9 +14,9 @@
     nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; font-weight: 500; }
     section { padding: 5rem 8%; max-width: 800px; margin: 0 auto; }
     .back-btn { display: inline-block; margin-bottom: 2rem; color: var(--neon-blue); text-decoration: none; font-weight: 600; }
-    h1 { font-size: 2.8rem; color: #fff; margin-bottom: 1rem; line-height: 1.2; }
+    h1 { font-size: 2.8rem; color: #fff; margin-bottom: 1rem; }
     .article-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
-    .article-body { font-size: 1.1rem; color: #d1d5db; white-space: pre-line; }
+    .body-content { font-size: 1.1rem; color: #d1d5db; white-space: pre-line; }
   </style>
 </head>
 <body>
@@ -30,8 +30,8 @@
 
   <section>
     <a href="blog.html" class="back-btn">← Back to Blogs</a>
-    <div id="article-content">
-      <p>Loading article...</p>
+    <div id="article-box">
+      <p>Loading post content...</p>
     </div>
   </section>
 
@@ -52,36 +52,25 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const slug = urlParams.get('slug');
+    const slug = new URLSearchParams(window.location.search).get('slug');
 
     async function loadArticle() {
-      const container = document.getElementById('article-content');
-      if (!slug) {
-        container.innerHTML = '<p>No article slug specified.</p>';
-        return;
-      }
-
+      const box = document.getElementById('article-box');
+      if (!slug) { box.innerHTML = '<p>No article specified.</p>'; return; }
       try {
-        const docRef = doc(db, "blogs", slug);
-        const docSnap = await getDoc(docRef);
-
+        const docSnap = await getDoc(doc(db, "blogs", slug));
         if (docSnap.exists()) {
           const data = docSnap.data();
-          document.title = `${data.title} | Sagar Dulal Blog`;
-          container.innerHTML = `
+          box.innerHTML = `
             <h1>${data.title}</h1>
-            <div class="article-meta">
-              <span>Author: <strong>${data.author || 'Sagar Dulal'}</strong></span> | 
-              <span>Category: <strong>${data.category || 'General'}</strong></span>
-            </div>
-            <div class="article-body">${data.description || 'No content.'}</div>
+            <div class="article-meta">Author: <strong>${data.author || 'Sagar Dulal'}</strong> | Category: <strong>${data.category || 'General'}</strong></div>
+            <div class="body-content">${data.content || data.description}</div>
           `;
         } else {
-          container.innerHTML = '<p>Blog article not found in database.</p>';
+          box.innerHTML = '<p>Blog article not found.</p>';
         }
       } catch (err) {
-        container.innerHTML = '<p>Error retrieving article details.</p>';
+        box.innerHTML = '<p>Error loading article.</p>';
       }
     }
     loadArticle();
