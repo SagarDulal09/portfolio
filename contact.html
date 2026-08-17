@@ -3,53 +3,134 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact & Business | Sagar Dulal</title>
+  <title>Contact Us | Sagar Dulal</title>
   <style>
-    :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --neon-purple: #a855f7; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); border-bottom: 1px solid var(--border); }
-    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
-    .logo span { color: var(--neon-blue); }
-    nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; font-weight: 500; }
-    nav a.active { color: var(--neon-blue); }
-    section { padding: 5rem 8%; max-width: 900px; margin: 0 auto; }
-    h1 { font-size: 3rem; margin-bottom: 1rem; color: #fff; font-weight: 800; }
-    p.subtitle { color: var(--text-muted); font-size: 1.15rem; margin-bottom: 3rem; }
-    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-    .info-card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); }
-    .info-card h3 { color: var(--neon-blue); margin-bottom: 0.5rem; font-size: 1.2rem; }
-    .info-card p { font-size: 1.1rem; color: #fff; font-weight: 600; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: #f0f6ff; color: #1e293b; min-height: 100vh; }
+
+    /* Top Navbar */
+    header { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 8%; background: #fff; border-bottom: 1px solid #e2e8f0; }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #2563eb; text-decoration: none; }
+    nav a { color: #475569; text-decoration: none; margin-left: 1.8rem; font-weight: 600; font-size: 0.9rem; }
+    nav a.active { color: #2563eb; }
+
+    .main-container { padding: 3rem 8%; max-width: 1100px; margin: 0 auto; }
+    .page-header { text-align: center; font-size: 2.2rem; font-weight: 800; color: #1d4ed8; margin-bottom: 2.5rem; }
+
+    /* Main Contact Box (Matching DIT Screenshot) */
+    .contact-card { background: #fff; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08); display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 3rem; }
+    .contact-card h3 { font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.3rem; }
+    .contact-card p.sub { font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; }
+    
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    label { font-size: 0.8rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.3rem; }
+    input, textarea { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-size: 0.9rem; }
+    .btn-submit { background: #2563eb; color: #fff; border: none; width: 100%; padding: 0.8rem; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 1rem; }
+    
+    .illustration-side { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; border-radius: 12px; padding: 2rem; text-align: center; }
+
+    /* Support Cards Row */
+    .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+    .support-box { background: #fff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; }
+    .support-box h4 { font-size: 0.9rem; font-weight: 700; color: #475569; text-transform: capitalize; }
+    .support-box p.phone { color: #2563eb; font-weight: 700; margin: 0.3rem 0; }
+    .support-box p.email { font-size: 0.85rem; color: #64748b; }
+
+    /* Footer Banner */
+    .cta-banner { background: #fff; padding: 2rem 3rem; border-radius: 16px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .cta-banner h3 { font-size: 1.5rem; color: #0f172a; }
+    .cta-banner h3 span { color: #2563eb; }
+    .cta-phone { font-size: 1.8rem; font-weight: 800; color: #2563eb; }
   </style>
 </head>
 <body>
+
   <header>
-    <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
+    <a href="index.html" class="logo">Sagar Dulal</a>
     <nav>
       <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
       <a href="projects.html">Portfolio</a>
+      <a href="blog.html">Blog</a>
       <a href="contact.html" class="active">Contact</a>
     </nav>
   </header>
 
-  <section>
-    <h1>Let's Connect</h1>
-    <p class="subtitle">Have a project in mind or interested in professional computer training classes? Contact me directly.</p>
-    
-    <div class="contact-grid">
-      <div class="info-card">
-        <h3>Direct Phone</h3>
-        <p>+977 9818178656</p>
+  <div class="main-container">
+    <div class="page-header">Contact Us</div>
+
+    <div class="contact-card">
+      <div>
+        <h3>Get In Touch</h3>
+        <p class="sub">We are here for you. How can we help?</p>
+
+        <form action="https://formspree.io/f/mqkvgqbe" method="POST">
+          <div class="form-row">
+            <div>
+              <label>Full Name</label>
+              <input type="text" name="name" placeholder="Your name" required>
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="email" name="email" placeholder="you@example.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>Phone Number</label>
+              <input type="text" name="phone" placeholder="+977 9818178656">
+            </div>
+            <div>
+              <label>Subject (optional)</label>
+              <input type="text" name="subject" placeholder="How can we help?">
+            </div>
+          </div>
+
+          <label>Message</label>
+          <textarea name="message" rows="4" placeholder="Write your message here..." required></textarea>
+
+          <button type="submit" class="btn-submit">Submit</button>
+        </form>
       </div>
-      <div class="info-card">
-        <h3>Email Address</h3>
-        <p>cotact.sagardulal@gmail.com</p>
-      </div>
-      <div class="info-card">
-        <h3>Office / Institute</h3>
-        <p>Teacher at DIT Solution</p>
+
+      <div class="illustration-side">
+        <h4 style="color: #2563eb; font-size: 1.2rem; margin-bottom: 0.5rem;">Sagar Dulal</h4>
+        <p style="color: #64748b; font-size: 0.9rem;">Instructor at DIT Solution & Freelance Full-Stack Designer</p>
       </div>
     </div>
-  </section>
+
+    <!-- Support Cards -->
+    <div class="support-grid">
+      <div class="support-box">
+        <h4>Tech support</h4>
+        <p class="phone">9818178656</p>
+        <p class="email">cotact.sagardulal@gmail.com</p>
+      </div>
+      <div class="support-box">
+        <h4>Academic support</h4>
+        <p class="phone">9818178656</p>
+        <p class="email">cotact.sagardulal@gmail.com</p>
+      </div>
+      <div class="support-box">
+        <h4>Counsellor</h4>
+        <p class="phone">9818178656</p>
+        <p class="email">cotact.sagardulal@gmail.com</p>
+      </div>
+    </div>
+
+    <!-- Banner -->
+    <div class="cta-banner">
+      <div>
+        <h3>Let’s connect and <span>turn your vision into reality.</span></h3>
+        <p style="color: #64748b; font-size: 0.85rem; margin-top: 0.3rem;">Available 9:00 AM — 6:00 PM, Monday to Friday.</p>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: #64748b; text-align: right; text-transform: uppercase; font-weight: 700;">Reach Out Now!</div>
+        <div class="cta-phone">9818178656</div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
