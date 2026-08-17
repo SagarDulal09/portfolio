@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Reader | Sagar Dulal</title>
+  <style>
+    :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.7; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); border-bottom: 1px solid var(--border); }
+    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+    .logo span { color: var(--neon-blue); }
+    nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; font-weight: 500; }
+    section { padding: 5rem 8%; max-width: 800px; margin: 0 auto; }
+    .back-btn { display: inline-block; margin-bottom: 2rem; color: var(--neon-blue); text-decoration: none; font-weight: 600; }
+    h1 { font-size: 2.8rem; color: #fff; margin-bottom: 1rem; line-height: 1.2; }
+    .article-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+    .article-body { font-size: 1.1rem; color: #d1d5db; white-space: pre-line; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+    </nav>
+  </header>
+
+  <section>
+    <a href="blog.html" class="back-btn">← Back to Blogs</a>
+    <div id="article-content">
+      <p>Loading article...</p>
+    </div>
+  </section>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
+      authDomain: "sagar-portfolio-dabc5.firebaseapp.com",
+      projectId: "sagar-portfolio-dabc5",
+      storageBucket: "sagar-portfolio-dabc5.firebasestorage.app",
+      messagingSenderId: "900240657480",
+      appId: "1:900240657480:web:60456aa2d3dfc173f05c7d",
+      measurementId: "G-PNW0PFBGCR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+
+    async function loadArticle() {
+      const container = document.getElementById('article-content');
+      if (!slug) {
+        container.innerHTML = '<p>No article slug specified.</p>';
+        return;
+      }
+
+      try {
+        const docRef = doc(db, "blogs", slug);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          document.title = `${data.title} | Sagar Dulal Blog`;
+          container.innerHTML = `
+            <h1>${data.title}</h1>
+            <div class="article-meta">
+              <span>Author: <strong>${data.author || 'Sagar Dulal'}</strong></span> | 
+              <span>Category: <strong>${data.category || 'General'}</strong></span>
+            </div>
+            <div class="article-body">${data.description || 'No content.'}</div>
+          `;
+        } else {
+          container.innerHTML = '<p>Blog article not found in database.</p>';
+        }
+      } catch (err) {
+        container.innerHTML = '<p>Error retrieving article details.</p>';
+      }
+    }
+    loadArticle();
+  </script>
+</body>
+</html>
