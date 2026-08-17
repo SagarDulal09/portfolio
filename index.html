@@ -5,134 +5,130 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sagar Dulal | Web & Graphic Designer, Developer, Teacher</title>
   <meta name="description" content="Official portfolio of Sagar Dulal - Front & Backend Web Designer, Graphic Designer, and Computer Instructor based in Nepal.">
-  <meta name="keywords" content="Sagar Dulal, Web Designer Nepal, Graphic Designer, DIT Solution, Full Stack Developer">
   <style>
     :root {
       --bg: #07070d;
       --card-bg: rgba(255, 255, 255, 0.03);
-      --card-hover: rgba(255, 255, 255, 0.06);
       --neon-blue: #00f0ff;
       --neon-purple: #a855f7;
       --text: #f3f4f6;
       --text-muted: #9ca3af;
       --border: rgba(255, 255, 255, 0.08);
-      --glow-blue: rgba(0, 240, 255, 0.15);
-      --glow-purple: rgba(168, 85, 247, 0.15);
+      --footer-bg: #0b0f19;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
 
-    /* Ambient Ambient Lighting */
-    .glow-purple { position: fixed; top: -150px; left: -150px; width: 500px; height: 500px; background: radial-gradient(circle, var(--neon-purple), transparent 70%); opacity: 0.2; filter: blur(100px); z-index: -1; pointer-events: none; }
-    .glow-blue { position: fixed; bottom: -150px; right: -150px; width: 500px; height: 500px; background: radial-gradient(circle, var(--neon-blue), transparent 70%); opacity: 0.2; filter: blur(100px); z-index: -1; pointer-events: none; }
-
-    /* Header & Navigation */
     header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
-    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-    .logo span { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+    .logo span { color: var(--neon-blue); }
     nav { display: flex; gap: 2rem; align-items: center; }
-    nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.3s; }
-    nav a:hover, nav a.active { color: var(--neon-blue); text-shadow: 0 0 8px var(--glow-blue); }
-    .nav-btn { padding: 0.5rem 1.2rem; border-radius: 30px; border: 1px solid var(--neon-purple); color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
-    .nav-btn:hover { background: var(--neon-purple); box-shadow: 0 0 15px var(--glow-purple); }
+    nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+    nav a:hover, nav a.active { color: var(--neon-blue); }
+    .nav-btn { padding: 0.5rem 1.2rem; border-radius: 30px; border: 1px solid var(--neon-purple); color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
 
-    /* Hero Section */
     .hero { padding: 8rem 8% 4rem; max-width: 1000px; }
-    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 0.4rem 1rem; border-radius: 30px; background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.2); color: var(--neon-blue); font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem; }
-    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); }
-    .hero h1 { font-size: 4rem; margin-bottom: 1.2rem; font-weight: 800; line-height: 1.1; letter-spacing: -1px; }
+    .hero h1 { font-size: 3.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
     .hero h1 span { background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2.5rem; max-width: 750px; font-weight: 400; }
+    .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 750px; }
+    
+    .btn-primary { display: inline-block; padding: 0.9rem 2.2rem; border-radius: 50px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); color: #fff; text-decoration: none; font-weight: 700; box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); }
 
-    .btn-group { display: flex; gap: 1.2rem; align-items: center; }
-    .btn-primary { padding: 0.9rem 2.2rem; border-radius: 50px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); color: #fff; text-decoration: none; font-weight: 700; box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 35px rgba(0, 240, 255, 0.5); }
-    .btn-secondary { padding: 0.9rem 2.2rem; border-radius: 50px; background: rgba(255,255,255,0.05); color: #fff; text-decoration: none; font-weight: 600; border: 1px solid var(--border); transition: 0.3s; }
-    .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--neon-blue); }
-
-    /* Cards Grid */
     section { padding: 5rem 8%; }
-    .section-title { font-size: 2.2rem; margin-bottom: 2.5rem; font-weight: 800; display: flex; align-items: center; gap: 15px; }
-    .section-title::before { content: ''; width: 5px; height: 30px; background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple)); border-radius: 4px; }
-
+    .section-title { font-size: 2.2rem; margin-bottom: 2.5rem; font-weight: 800; border-left: 5px solid var(--neon-blue); padding-left: 15px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-    .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); transition: all 0.3s ease; position: relative; overflow: hidden; }
-    .card:hover { transform: translateY(-5px); border-color: rgba(0, 240, 255, 0.3); background: var(--card-hover); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
-    .card h3 { color: #fff; margin-bottom: 0.8rem; font-size: 1.3rem; font-weight: 700; }
-    .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
-    .card .stat-tag { font-size: 1.8rem; font-weight: 800; color: var(--neon-blue); margin-bottom: 0.3rem; }
-    .skills-flex { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
-    .skill-pill { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; color: var(--neon-blue); font-weight: 500; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); }
+    .card h3 { color: #fff; margin-bottom: 0.8rem; font-size: 1.3rem; }
+    .card p { color: var(--text-muted); font-size: 0.95rem; }
 
-    footer { text-align: center; padding: 3rem 8%; border-top: 1px solid var(--border); color: var(--text-muted); margin-top: 4rem; font-size: 0.9rem; }
+    /* Footer matching DIT Solution UI */
+    footer { background: var(--footer-bg); padding: 4rem 8% 2rem; border-top: 1px solid var(--border); color: #9ca3af; font-size: 0.9rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand h4 { color: #fff; font-size: 1.2rem; margin-bottom: 1rem; font-weight: 700; }
+    .footer-brand p { margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .footer-col h5 { color: #fff; font-size: 1rem; margin-bottom: 1rem; font-weight: 600; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a { color: #9ca3af; text-decoration: none; transition: 0.2s; }
+    .footer-col ul li a:hover { color: var(--neon-blue); }
+    .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; color: #6b7280; font-size: 0.85rem; }
   </style>
 </head>
 <body>
-  <div class="glow-purple"></div>
-  <div class="glow-blue"></div>
 
   <header>
     <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
     <nav>
       <a href="index.html" class="active">Home</a>
+      <a href="services.html">Services</a>
       <a href="projects.html">Portfolio</a>
+      <a href="blog.html">Blog</a>
       <a href="contact.html">Contact</a>
       <a href="admin.html" class="nav-btn">Admin Portal</a>
     </nav>
   </header>
 
   <div class="hero">
-    <div class="badge"><div class="badge-dot"></div> Available for Freelance & Teaching</div>
-    <h1>Designing Digital Experiences <span>& Full-Stack Code.</span></h1>
-    <p>Web Designer (Front + Backend), Graphic Designer, and Computer Instructor based in Nepal. Dedicated to crafting pixel-perfect web interfaces and sharing technical knowledge.</p>
-    <div class="btn-group">
-      <a href="projects.html" class="btn-primary">Explore Portfolio</a>
-      <a href="contact.html" class="btn-secondary">Get In Touch</a>
-    </div>
+    <h1>Designing Digital Solutions <span>& Teaching Code.</span></h1>
+    <p>Web Designer (Front & Backend), Graphic Designer, and Instructor at DIT Solution. SEE score: 97.75% | +2 score: 80.50% (Computer & Maths).</p>
+    <a href="projects.html" class="btn-primary">View Portfolio</a>
   </div>
 
   <section>
-    <h2 class="section-title">Academic Achievements</h2>
+    <h2 class="section-title">Academic & Expertise</h2>
     <div class="grid">
       <div class="card">
-        <div class="stat-tag">97.75%</div>
-        <h3>SEE Examination</h3>
-        <p>Graduated with high distinction academic standing (3.91 GPA equivalent score).</p>
+        <h3>SEE Completed</h3>
+        <p><strong>Percentage Score:</strong> 97.75% (3.91 GPA Equivalent)</p>
       </div>
       <div class="card">
-        <div class="stat-tag">80.50%</div>
-        <h3>+2 High School Degree</h3>
-        <p>Completed higher secondary education majoring in Computer Science & Mathematics (3.22 GPA equivalent).</p>
+        <h3>+2 High School</h3>
+        <p><strong>Percentage Score:</strong> 80.50% (3.22 GPA Equivalent)</p>
+        <p>Majors in Computer Science & Mathematics</p>
       </div>
       <div class="card">
-        <h3>Core Competencies</h3>
-        <p>Comprehensive knowledge across full-stack design and core software principles.</p>
-        <div class="skills-flex">
-          <span class="skill-pill">Frontend Design</span>
-          <span class="skill-pill">Backend Dev</span>
-          <span class="skill-pill">Graphic Design</span>
-          <span class="skill-pill">C / C++</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="section-title">Professional Experience</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Instructor at DIT Solution</h3>
-        <p>Conducting professional training courses in Office Handling, Basic Computer Operations, Web Page Designing, Graphic Designing, and C/C++ Programming.</p>
-      </div>
-      <div class="card">
-        <h3>Full-Stack & Graphic Freelancer</h3>
-        <p>Providing custom responsive web applications, database architectures, and high-impact visual graphic branding for diverse clients.</p>
+        <h3>Teacher at DIT Solution</h3>
+        <p>Instructing Office Handling, Basic Computer Skills, Web Design, Graphic Design, C, and C++.</p>
       </div>
     </div>
   </section>
 
   <footer>
-    <p>© 2026 Sagar Dulal. All rights reserved. Built with dynamic Firebase cloud backend.</p>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4>Academic & Tech Platform</h4>
+        <p>📞 9818178656</p>
+        <p>✉️ cotact.sagardulal@gmail.com</p>
+        <p>📍 Kathmandu, Nepal</p>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="index.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="blog.html">Blogs</a></li>
+          <li><a href="projects.html">Projects</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Tools & Tech</h5>
+        <ul>
+          <li>Frontend & Backend Web Design</li>
+          <li>Graphic Design</li>
+          <li>C / C++ Basics</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Sagar Dulal. All rights reserved.
+    </div>
   </footer>
+
 </body>
 </html>
