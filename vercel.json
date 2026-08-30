@@ -1,7 +1,10 @@
 {
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/project/:slug", "destination": "/project-detail.html" },
-    { "source": "/blog/:slug", "destination": "/blog-detail.html" }
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/services", "dest": "/services.html" },
+    { "src": "/portfolio", "dest": "/portfolio.html" },
+    { "src": "/contact", "dest": "/contact.html" }
   ]
 }
