@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact & Inquiries | Sagar Dulal</title>
+  <title>Contact | Sagar Dulal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/shared.css">
   <style>
-    .contact-container { padding: 9rem 8% 6rem; max-width: 800px; margin: 0 auto; }
-    .contact-card { background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 16px; padding: 3rem; }
+    .contact-box { max-width: 700px; margin: 9rem auto 4rem; padding: 3rem; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 16px; }
     input, textarea { width: 100%; padding: 1rem; background: #000; border: 1px solid var(--border-line); color: #fff; border-radius: 8px; margin-top: 0.5rem; margin-bottom: 1.5rem; }
     .btn-send { background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)); border: none; padding: 1rem 2rem; color: #fff; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; text-transform: uppercase; }
   </style>
@@ -18,49 +17,46 @@
     <a href="/" class="logo">Sagar <span>Dulal</span></a>
     <div class="nav-links">
       <a href="/">Home</a>
-      <a href="/services">Services</a>
-      <a href="/projects">Portfolio</a>
-      <a href="/blog">Blog</a>
-      <a href="/contact" class="active">Contact</a>
+      <a href="/services.html">Services</a>
+      <a href="/portfolio.html">Portfolio</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/contact.html" class="active">Contact</a>
     </div>
   </nav>
 
-  <div class="contact-container">
-    <div class="contact-card">
-      <h1 style="font-size:2.2rem; margin-bottom:0.5rem;">Get In <span>Touch</span></h1>
-      <p style="color:var(--text-muted); margin-bottom:2rem;">Have a project in mind or want to join technical training sessions? Drop a message.</p>
-      <form onsubmit="alert('Message sent successfully!'); return false;">
-        <label style="color:var(--accent-cyan); font-weight:bold; font-size:0.85rem;">YOUR NAME</label>
-        <input type="text" required>
-        <label style="color:var(--accent-cyan); font-weight:bold; font-size:0.85rem;">EMAIL ADDRESS</label>
-        <input type="email" required>
-        <label style="color:var(--accent-cyan); font-weight:bold; font-size:0.85rem;">MESSAGE</label>
-        <textarea rows="5" required></textarea>
-        <button type="submit" class="btn-send">Send Message</button>
-      </form>
-    </div>
+  <div class="contact-box">
+    <h2>Get In <span>Touch</span></h2>
+    <p style="color:var(--text-muted); margin-bottom:2rem;">Send direct inquiries or support requests.</p>
+    <form onsubmit="alert('Message sent successfully!'); return false;">
+      <label style="font-size:0.8rem; font-weight:bold; color:var(--accent-cyan);">NAME</label>
+      <input type="text" required>
+      <label style="font-size:0.8rem; font-weight:bold; color:var(--accent-cyan);">EMAIL</label>
+      <input type="email" required>
+      <label style="font-size:0.8rem; font-weight:bold; color:var(--accent-cyan);">MESSAGE</label>
+      <textarea rows="4" required></textarea>
+      <button type="submit" class="btn-send">Send Message</button>
+    </form>
   </div>
 
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
         <h3>Sagar <span>Dulal</span></h3>
-        <p>Full-Stack Web Architect & Tech Instructor</p>
+        <p>Full-Stack Web Architect & Technical Trainer</p>
       </div>
       <div class="footer-col">
         <h4>Navigation</h4>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/projects">Portfolio</a></li>
-          <li><a href="/blog">Blog</a></li>
+          <li><a href="/services.html">Services</a></li>
+          <li><a href="/portfolio.html">Portfolio</a></li>
+          <li><a href="/contact.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
           <li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li>
-          <li><a href="https://wa.me/9779818178656">WhatsApp Support</a></li>
         </ul>
       </div>
     </div>
