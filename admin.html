@@ -3,184 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Workspace Control Center | Sagar Dulal</title>
+  <title>Admin Dashboard | Sagar Dulal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg-dark: #06070d;
-      --card-bg: rgba(15, 17, 26, 0.85);
-      --neon-cyan: #00f0ff;
-      --neon-purple: #9d4edd;
-      --border-line: rgba(157, 78, 221, 0.25);
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
+      --sidebar-width: 260px;
+      --bg-dark: #080911;
+      --panel-bg: #10121e;
+      --card-bg: #161928;
+      --accent-cyan: #00f0ff;
+      --accent-purple: #8b5cf6;
+      --text-main: #f1f5f9;
+      --text-muted: #64748b;
+      --border-color: rgba(255, 255, 255, 0.08);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; }
+    body { background: var(--bg-dark); color: var(--text-main); display: flex; min-height: 100vh; }
 
-    #login-overlay { position: fixed; inset: 0; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .auth-card { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 16px; padding: 2.5rem; width: 380px; backdrop-filter: blur(15px); }
-    .auth-card input { width: 100%; padding: 0.8rem; background: #000; border: 1px solid var(--border-line); color: #fff; border-radius: 8px; margin-top: 0.8rem; }
-    
-    #admin-app { display: none; width: 100vw; min-height: 100vh; flex-direction: row; }
-    aside { width: 280px; background: #0a0b12; border-right: 1px solid var(--border-line); padding: 2rem 1.2rem; display: flex; flex-direction: column; justify-content: space-between; shrink: 0; }
-    .nav-btn { width: 100%; text-align: left; padding: 0.9rem 1rem; background: transparent; border: 1px solid transparent; color: var(--text-sub); border-radius: 10px; font-weight: 700; cursor: pointer; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 12px; transition: 0.3s; }
-    .nav-btn:hover, .nav-btn.active { background: rgba(0, 240, 255, 0.08); border-color: var(--neon-cyan); color: var(--neon-cyan); }
+    /* Login Screen */
+    #login-overlay { position: fixed; inset: 0; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; z-index: 999; }
+    .auth-box { background: var(--panel-bg); padding: 3rem; border-radius: 16px; border: 1px solid var(--border-color); width: 360px; text-align: center; }
 
-    main { flex: 1; padding: 3rem; overflow-y: auto; background: radial-gradient(circle at 90% 10%, rgba(157, 78, 221, 0.08), transparent 40%); }
-    .section-pane { display: none; }
-    .section-pane.active { display: block; }
+    /* Dashboard Layout */
+    #admin-app { display: none; width: 100%; min-height: 100vh; }
+    aside { width: var(--sidebar-width); background: var(--panel-bg); border-right: 1px solid var(--border-color); padding: 2rem 1rem; display: flex; flex-direction: column; shrink: 0; }
+    .admin-brand { font-size: 1.3rem; font-weight: 800; padding: 0 0.8rem 2rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1.5rem; color: #fff; }
+    .admin-brand span { color: var(--accent-cyan); }
     
-    .card { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
+    .nav-group { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+    .nav-btn { display: flex; align-items: center; gap: 12px; padding: 0.9rem 1rem; border-radius: 10px; color: var(--text-muted); background: transparent; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; width: 100%; text-align: left; }
+    .nav-btn:hover, .nav-btn.active { background: rgba(0, 240, 255, 0.1); color: var(--accent-cyan); }
+
+    main { flex: 1; padding: 3rem; overflow-y: auto; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+    .pane-header { margin-bottom: 2rem; }
+    .pane-header h1 { font-size: 2rem; font-weight: 800; }
+    .pane-header p { color: var(--text-muted); }
+
+    /* UI Cards & Forms */
+    .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 2rem; margin-bottom: 2rem; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
     .full-width { grid-column: span 2; }
-    label { font-size: 0.85rem; color: var(--neon-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-    input, select, textarea { width: 100%; padding: 0.85rem; background: #000; border: 1px solid var(--border-line); color: #fff; border-radius: 8px; margin-top: 0.4rem; font-size: 0.95rem; }
-    
-    .dropzone { border: 2px dashed var(--neon-purple); border-radius: 10px; padding: 1.5rem; text-align: center; cursor: pointer; position: relative; margin-top: 0.4rem; }
-    .dropzone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-    .dropzone-preview { max-height: 100px; border-radius: 6px; margin-top: 10px; display: none; }
+    label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    input, textarea, select { width: 100%; padding: 0.85rem; background: #0a0b14; border: 1px solid var(--border-color); color: #fff; border-radius: 8px; margin-top: 0.4rem; outline: none; }
+    input:focus, textarea:focus { border-color: var(--accent-cyan); }
 
-    .btn-submit { background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; padding: 1rem; width: 100%; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 1.5rem; }
+    .btn-action { background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)); border: none; padding: 0.9rem 2rem; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer; text-transform: uppercase; margin-top: 1rem; width: 100%; }
 
+    /* Tables */
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th { text-align: left; padding: 1rem; background: #000; color: var(--neon-cyan); border-bottom: 1px solid var(--border-line); }
-    td { padding: 1rem; border-bottom: 1px solid var(--border-line); font-size: 0.9rem; }
-    .btn-del { background: #e63946; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 700; }
+    th { text-align: left; padding: 1rem; background: #0a0b14; color: var(--accent-cyan); font-size: 0.85rem; border-bottom: 1px solid var(--border-color); }
+    td { padding: 1rem; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+    .btn-del { background: #ef4444; border: none; padding: 0.4rem 0.8rem; color: #fff; border-radius: 6px; cursor: pointer; font-weight: 700; }
   </style>
 </head>
 <body>
 
   <div id="login-overlay">
-    <div class="auth-card">
-      <h2 style="text-align:center;">Workspace <span>Login</span></h2>
-      <form id="auth-form">
-        <input type="email" id="auth-email" value="cotact.sagardulal@gmail.com" required>
-        <input type="password" id="auth-pass" placeholder="Password" required>
-        <button type="submit" class="btn-submit">Authenticate</button>
-      </form>
+    <div class="auth-box">
+      <h2>Sagar <span>Admin</span></h2>
+      <p style="color:var(--text-muted); margin-bottom:1.5rem;">Workspace Authentication</p>
+      <input type="email" id="auth-email" value="cotact.sagardulal@gmail.com">
+      <input type="password" id="auth-pass" placeholder="Password" style="margin-top:0.8rem;">
+      <button class="btn-action" onclick="loginAdmin()">Sign In</button>
     </div>
   </div>
 
   <div id="admin-app">
     <aside>
-      <div>
-        <h2 style="font-size: 1.4rem; margin-bottom: 2.5rem;">Sagar <span>Control</span></h2>
-        <button class="nav-btn active" onclick="showTab('projects', this)"><i class="fa-solid fa-folder-plus"></i> Projects Engine</button>
-        <button class="nav-btn" onclick="showTab('blogs', this)"><i class="fa-solid fa-newspaper"></i> Blog Publishing</button>
-        <button class="nav-btn" onclick="showTab('services', this)"><i class="fa-solid fa-screwdriver-wrench"></i> Services</button>
-        <button class="nav-btn" onclick="showTab('faqs', this)"><i class="fa-solid fa-circle-question"></i> FAQ Manager</button>
+      <div class="admin-brand">Sagar <span>Workspace</span></div>
+      <div class="nav-group">
+        <button class="nav-btn active" onclick="switchTab('projects', this)"><i class="fa-solid fa-layer-group"></i> Projects</button>
+        <button class="nav-btn" onclick="switchTab('services', this)"><i class="fa-solid fa-screwdriver-wrench"></i> Services</button>
+        <button class="nav-btn" onclick="switchTab('blogs', this)"><i class="fa-solid fa-pen-nib"></i> Blog Posts</button>
+        <button class="nav-btn" onclick="switchTab('faqs', this)"><i class="fa-solid fa-circle-question"></i> FAQ Manager</button>
       </div>
-      <button id="logout-btn" class="btn-del" style="width: 100%;">Sign Out</button>
+      <button class="btn-del" onclick="signOutAdmin()" style="width:100%; padding:0.8rem;">Log Out</button>
     </aside>
 
     <main>
-      <!-- Projects Tab -->
-      <div id="pane-projects" class="section-pane active">
-        <h1 class="pane-title">Publish Portfolio Project</h1>
+      <div id="pane-projects" class="tab-pane active">
+        <div class="pane-header">
+          <h1>Portfolio Projects</h1>
+          <p>Add and maintain live projects shown on the public site.</p>
+        </div>
         <div class="card">
           <form id="form-project">
             <div class="form-grid">
               <div>
                 <label>Project Title</label>
-                <input type="text" id="p-title" required oninput="generateSlug('p-title', 'p-slug')">
+                <input type="text" id="p-title" required oninput="makeSlug(this.value, 'p-slug')">
               </div>
               <div>
                 <label>Category</label>
                 <input type="text" id="p-cat" placeholder="Web Development" required>
               </div>
               <div>
-                <label>URL SEO Slug / Permalink</label>
+                <label>SEO Slug / Permalink</label>
                 <input type="text" id="p-slug" required>
               </div>
               <div>
                 <label>Cover Image</label>
-                <div class="dropzone">
-                  <p id="p-file-name">Click or Drag & Drop Image</p>
-                  <input type="file" id="p-file" accept="image/*" onchange="previewFile(this, 'p-img-prev', 'p-file-name')">
-                </div>
-                <img id="p-img-prev" class="dropzone-preview">
+                <input type="file" id="p-file" accept="image/*" required>
               </div>
               <div class="full-width">
-                <label>SEO Meta Description</label>
+                <label>SEO Description</label>
                 <textarea id="p-meta" rows="2" required></textarea>
               </div>
               <div class="full-width">
-                <label>Full Content / Overview</label>
+                <label>Full Details</label>
                 <textarea id="p-desc" rows="4" required></textarea>
               </div>
             </div>
-            <button type="submit" id="btn-p-sub" class="btn-submit">Publish Project</button>
+            <button type="submit" class="btn-action">Publish Project</button>
           </form>
         </div>
         <div class="card">
           <h3>Active Projects</h3>
           <table>
-            <thead><tr><th>Title</th><th>Permalink</th><th>Category</th><th>Action</th></tr></thead>
+            <thead><tr><th>Title</th><th>Slug</th><th>Action</th></tr></thead>
             <tbody id="tbl-projects"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- Blogs Tab -->
-      <div id="pane-blogs" class="section-pane">
-        <h1 class="pane-title">Publish Blog Article</h1>
-        <div class="card">
-          <form id="form-blog">
-            <div class="form-grid">
-              <div>
-                <label>Article Title</label>
-                <input type="text" id="b-title" required oninput="generateSlug('b-title', 'b-slug')">
-              </div>
-              <div>
-                <label>Category</label>
-                <input type="text" id="b-cat" placeholder="Technology" required>
-              </div>
-              <div>
-                <label>URL SEO Slug / Permalink</label>
-                <input type="text" id="b-slug" required>
-              </div>
-              <div>
-                <label>Featured Image</label>
-                <div class="dropzone">
-                  <p id="b-file-name">Click or Drag & Drop Image</p>
-                  <input type="file" id="b-file" accept="image/*" onchange="previewFile(this, 'b-img-prev', 'b-file-name')">
-                </div>
-                <img id="b-img-prev" class="dropzone-preview">
-              </div>
-              <div class="full-width">
-                <label>SEO Meta Description</label>
-                <textarea id="b-meta" rows="2" required></textarea>
-              </div>
-              <div class="full-width">
-                <label>Article Body Content</label>
-                <textarea id="b-content" rows="6" required></textarea>
-              </div>
-            </div>
-            <button type="submit" id="btn-b-sub" class="btn-submit">Publish Article</button>
-          </form>
+      <div id="pane-services" class="tab-pane">
+        <div class="pane-header">
+          <h1>Services Offered</h1>
+          <p>Manage your public service catalog.</p>
         </div>
-        <div class="card">
-          <h3>Published Blog Posts</h3>
-          <table>
-            <thead><tr><th>Title</th><th>Permalink</th><th>Category</th><th>Action</th></tr></thead>
-            <tbody id="tbl-blogs"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Services Tab -->
-      <div id="pane-services" class="section-pane">
-        <h1 class="pane-title">Service Offerings</h1>
         <div class="card">
           <form id="form-service">
             <div class="form-grid">
               <div>
                 <label>Service Name</label>
-                <input type="text" id="s-title" required oninput="generateSlug('s-title', 's-slug')">
+                <input type="text" id="s-title" required oninput="makeSlug(this.value, 's-slug')">
               </div>
               <div>
-                <label>URL SEO Slug</label>
+                <label>SEO Slug</label>
                 <input type="text" id="s-slug" required>
               </div>
               <div class="full-width">
@@ -188,11 +149,11 @@
                 <textarea id="s-desc" rows="3" required></textarea>
               </div>
             </div>
-            <button type="submit" class="btn-submit">Save Service</button>
+            <button type="submit" class="btn-action">Save Service</button>
           </form>
         </div>
         <div class="card">
-          <h3>Active Services</h3>
+          <h3>Published Services</h3>
           <table>
             <thead><tr><th>Title</th><th>Slug</th><th>Action</th></tr></thead>
             <tbody id="tbl-services"></tbody>
@@ -200,9 +161,52 @@
         </div>
       </div>
 
-      <!-- FAQ Tab -->
-      <div id="pane-faqs" class="section-pane">
-        <h1 class="pane-title">FAQ Manager</h1>
+      <div id="pane-blogs" class="tab-pane">
+        <div class="pane-header">
+          <h1>Blog Publishing</h1>
+          <p>Create technical articles and tutorials.</p>
+        </div>
+        <div class="card">
+          <form id="form-blog">
+            <div class="form-grid">
+              <div>
+                <label>Article Title</label>
+                <input type="text" id="b-title" required oninput="makeSlug(this.value, 'b-slug')">
+              </div>
+              <div>
+                <label>Category</label>
+                <input type="text" id="b-cat" placeholder="Tutorial" required>
+              </div>
+              <div>
+                <label>SEO Slug</label>
+                <input type="text" id="b-slug" required>
+              </div>
+              <div>
+                <label>Featured Image</label>
+                <input type="file" id="b-file" accept="image/*" required>
+              </div>
+              <div class="full-width">
+                <label>Article Body</label>
+                <textarea id="b-content" rows="6" required></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn-action">Publish Article</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Published Articles</h3>
+          <table>
+            <thead><tr><th>Title</th><th>Slug</th><th>Action</th></tr></thead>
+            <tbody id="tbl-blogs"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="pane-faqs" class="tab-pane">
+        <div class="pane-header">
+          <h1>FAQ Management</h1>
+          <p>Maintain frequently asked questions displayed on the public page.</p>
+        </div>
         <div class="card">
           <form id="form-faq">
             <div class="form-grid">
@@ -215,11 +219,11 @@
                 <textarea id="f-a" rows="3" required></textarea>
               </div>
             </div>
-            <button type="submit" class="btn-submit">Save FAQ Item</button>
+            <button type="submit" class="btn-action">Publish FAQ Item</button>
           </form>
         </div>
         <div class="card">
-          <h3>Existing FAQs</h3>
+          <h3>Active FAQs</h3>
           <table>
             <thead><tr><th>Question</th><th>Action</th></tr></thead>
             <tbody id="tbl-faqs"></tbody>
@@ -247,119 +251,106 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    window.generateSlug = (srcId, targetId) => {
-      const val = document.getElementById(srcId).value;
-      document.getElementById(targetId).value = val.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
+    window.makeSlug = (text, targetId) => {
+      document.getElementById(targetId).value = text.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
     };
 
-    window.previewFile = (input, imgId, labelId) => {
-      const file = input.files[0];
-      if (file) {
-        document.getElementById(labelId).innerText = file.name;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = document.getElementById(imgId);
-          img.src = e.target.result;
-          img.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-
-    onAuthStateChanged(auth, user => {
-      document.getElementById('login-overlay').style.display = user ? 'none' : 'flex';
-      document.getElementById('admin-app').style.display = user ? 'flex' : 'none';
-      if(user) bindTables();
-    });
-
-    document.getElementById('auth-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      await signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value);
-    });
-    document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
-
-    window.showTab = (name, btn) => {
-      document.querySelectorAll('.section-pane').forEach(p => p.classList.remove('active'));
+    window.switchTab = (name, btn) => {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
       document.getElementById(`pane-${name}`).classList.add('active');
       btn.classList.add('active');
     };
 
-    // Helper to read file as Base64 inline string reliably without storage lockouts
-    const getBase64 = file => new Promise((res, rej) => {
-      if(!file) return res('');
+    window.loginAdmin = () => {
+      signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value);
+    };
+
+    window.signOutAdmin = () => signOut(auth);
+
+    onAuthStateChanged(auth, user => {
+      document.getElementById('login-overlay').style.display = user ? 'none' : 'flex';
+      document.getElementById('admin-app').style.display = user ? 'flex' : 'none';
+      if(user) listenData();
+    });
+
+    // Helper: Convert file to Base64 to bypass CORS issues on Storage
+    const toBase64 = file => new Promise((resolve, reject) => {
+      if(!file) return resolve('');
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => res(reader.result);
-      reader.onerror = error => rej(error);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
     });
 
     // Submissions
     document.getElementById('form-project').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const btn = document.getElementById('btn-p-sub');
-      btn.innerText = "Processing...";
-      btn.disabled = true;
-      try {
-        const file = document.getElementById('p-file').files[0];
-        const imgData = await getBase64(file);
-        const slug = document.getElementById('p-slug').value;
-        await setDoc(doc(db, "projects", slug), {
-          title: document.getElementById('p-title').value,
-          slug,
-          category: document.getElementById('p-cat').value,
-          metaDescription: document.getElementById('p-meta').value,
-          description: document.getElementById('p-desc').value,
-          imageUrl: imgData,
-          createdAt: Date.now()
-        });
-        document.getElementById('form-project').reset();
-        document.getElementById('p-img-prev').style.display = 'none';
-      } catch(err) { alert(err.message); }
-      btn.innerText = "Publish Project";
-      btn.disabled = false;
+      const slug = document.getElementById('p-slug').value;
+      const file = document.getElementById('p-file').files[0];
+      const imgData = await toBase64(file);
+      await setDoc(doc(db, "projects", slug), {
+        title: document.getElementById('p-title').value,
+        slug,
+        category: document.getElementById('p-cat').value,
+        metaDescription: document.getElementById('p-meta').value,
+        description: document.getElementById('p-desc').value,
+        imageUrl: imgData,
+        timestamp: Date.now()
+      });
+      document.getElementById('form-project').reset();
+    });
+
+    document.getElementById('form-service').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const slug = document.getElementById('s-slug').value;
+      await setDoc(doc(db, "services", slug), {
+        title: document.getElementById('s-title').value,
+        slug,
+        description: document.getElementById('s-desc').value
+      });
+      document.getElementById('form-service').reset();
     });
 
     document.getElementById('form-blog').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const btn = document.getElementById('btn-b-sub');
-      btn.innerText = "Processing...";
-      btn.disabled = true;
-      try {
-        const file = document.getElementById('b-file').files[0];
-        const imgData = await getBase64(file);
-        const slug = document.getElementById('b-slug').value;
-        await setDoc(doc(db, "blogs", slug), {
-          title: document.getElementById('b-title').value,
-          slug,
-          category: document.getElementById('b-cat').value,
-          metaDescription: document.getElementById('b-meta').value,
-          content: document.getElementById('b-content').value,
-          imageUrl: imgData,
-          createdAt: Date.now()
-        });
-        document.getElementById('form-blog').reset();
-        document.getElementById('b-img-prev').style.display = 'none';
-      } catch(err) { alert(err.message); }
-      btn.innerText = "Publish Article";
-      btn.disabled = false;
+      const slug = document.getElementById('b-slug').value;
+      const file = document.getElementById('b-file').files[0];
+      const imgData = await toBase64(file);
+      await setDoc(doc(db, "blogs", slug), {
+        title: document.getElementById('b-title').value,
+        slug,
+        category: document.getElementById('b-cat').value,
+        content: document.getElementById('b-content').value,
+        imageUrl: imgData,
+        timestamp: Date.now()
+      });
+      document.getElementById('form-blog').reset();
     });
 
     document.getElementById('form-faq').addEventListener('submit', async (e) => {
       e.preventDefault();
       const q = document.getElementById('f-q').value;
-      const slug = q.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      await setDoc(doc(db, "faqs", slug), { question: q, answer: document.getElementById('f-a').value });
+      const id = q.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      await setDoc(doc(db, "faqs", id), { question: q, answer: document.getElementById('f-a').value });
       document.getElementById('form-faq').reset();
     });
 
-    function bindTables() {
+    function listenData() {
       onSnapshot(collection(db, "projects"), snap => {
         const t = document.getElementById('tbl-projects');
         t.innerHTML = '';
         snap.forEach(d => {
           const item = d.data();
-          t.innerHTML += `<tr><td><b>${item.title}</b></td><td>/${item.slug}</td><td>${item.category}</td><td><button class="btn-del" onclick="delItem('projects','${d.id}')">Delete</button></td></tr>`;
+          t.innerHTML += `<tr><td><b>${item.title}</b></td><td>/${item.slug}</td><td><button class="btn-del" onclick="delItem('projects','${d.id}')">Delete</button></td></tr>`;
+        });
+      });
+      onSnapshot(collection(db, "services"), snap => {
+        const t = document.getElementById('tbl-services');
+        t.innerHTML = '';
+        snap.forEach(d => {
+          const item = d.data();
+          t.innerHTML += `<tr><td><b>${item.title}</b></td><td>/${item.slug}</td><td><button class="btn-del" onclick="delItem('services','${d.id}')">Delete</button></td></tr>`;
         });
       });
       onSnapshot(collection(db, "blogs"), snap => {
@@ -367,7 +358,7 @@
         t.innerHTML = '';
         snap.forEach(d => {
           const item = d.data();
-          t.innerHTML += `<tr><td><b>${item.title}</b></td><td>/${item.slug}</td><td>${item.category}</td><td><button class="btn-del" onclick="delItem('blogs','${d.id}')">Delete</button></td></tr>`;
+          t.innerHTML += `<tr><td><b>${item.title}</b></td><td>/${item.slug}</td><td><button class="btn-del" onclick="delItem('blogs','${d.id}')">Delete</button></td></tr>`;
         });
       });
       onSnapshot(collection(db, "faqs"), snap => {
@@ -381,7 +372,7 @@
     }
 
     window.delItem = async (col, id) => {
-      if(confirm("Delete item permanently?")) await deleteDoc(doc(db, col, id));
+      if(confirm("Permanently delete item?")) await deleteDoc(doc(db, col, id));
     };
   </script>
 </body>
