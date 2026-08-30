@@ -2,93 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog Articles | Sagar Dulal</title>
+  <title>Insights & Blog | Sagar Dulal</title>
   <style>
-    :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --neon-purple: #a855f7; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); border-bottom: 1px solid var(--border); }
-    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
-    .logo span { color: var(--neon-blue); }
-    nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; font-weight: 500; }
-    nav a.active { color: var(--neon-blue); }
-    section { padding: 5rem 8%; min-height: 80vh; }
-    h1 { font-size: 3rem; color: #fff; font-weight: 800; margin-bottom: 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; margin-top: 2rem; }
-    .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; }
-    .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(168,85,247,0.15); color: var(--neon-purple); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.8rem; }
-    .card h3 { color: #fff; font-size: 1.3rem; margin-bottom: 0.6rem; }
-    .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
-    .read-link { color: var(--neon-blue); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+    :root { --bg: #05050b; --neon-cyan: #00f0ff; --border: rgba(157, 78, 221, 0.2); --text-sub: #94a3b8; }
+    body { background: var(--bg); color: #fff; font-family: system-ui, sans-serif; padding: 4rem 8%; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+    .card { background: rgba(13, 14, 24, 0.85); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="projects.html">Portfolio</a>
-      <a href="blog.html" class="active">Blog</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
-
-  <section>
-    <h1>Blog Posts & Guides</h1>
-    <p style="color: var(--text-muted); font-size: 1.1rem;">Tutorials and tech insights published live from the admin portal.</p>
-
-    <div class="grid" id="blog-grid">
-      <div class="card"><p>Loading blogs from database...</p></div>
-    </div>
-  </section>
+  <a href="/" style="color:var(--neon-cyan); text-decoration:none;">&larr; Home</a>
+  <h1>Published <span>Articles</span></h1>
+  <div class="grid" id="blog-grid"></div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
-      authDomain: "sagar-portfolio-dabc5.firebaseapp.com",
-      projectId: "sagar-portfolio-dabc5",
-      storageBucket: "sagar-portfolio-dabc5.firebasestorage.app",
-      messagingSenderId: "900240657480",
-      appId: "1:900240657480:web:60456aa2d3dfc173f05c7d",
-      measurementId: "G-PNW0PFBGCR"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function loadBlogs() {
-      const grid = document.getElementById('blog-grid');
-      try {
-        const querySnapshot = await getDocs(collection(db, "blogs"));
-        if (querySnapshot.empty) {
-          grid.innerHTML = '<div class="card"><p>No blog posts published yet.</p></div>';
-          return;
-        }
-        grid.innerHTML = '';
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const slug = data.slug || doc.id;
-          grid.innerHTML += `
-            <div class="card">
-              <div>
-                <span class="tag">${data.category || 'Tutorial'}</span>
-                <h3>${data.title}</h3>
-                <p>${data.description || 'Read complete article...'}</p>
-              </div>
-              <a href="blog-detail.html?slug=${slug}" class="read-link">Read Full Post →</a>
-            </div>
-          `;
-        });
-      } catch (err) {
-        grid.innerHTML = '<div class="card"><p>Error fetching blogs.</p></div>';
-      }
-    }
-    loadBlogs();
+    onSnapshot(collection(db, "blogs"), snap => {
+      const g = document.getElementById('blog-grid');
+      g.innerHTML = '';
+      snap.forEach(d => {
+        const item = d.data();
+        g.innerHTML += `
+          <div class="card">
+            <h3>${item.title}</h3>
+            <p style="color:var(--text-sub); margin:0.5rem 0;">${item.metaDescription || ''}</p>
+            <a href="/blog/${item.slug}" style="color:var(--neon-cyan); font-weight:bold; text-decoration:none;">Read Article &rarr;</a>
+          </div>
+        `;
+      });
+    });
   </script>
 </body>
 </html>
