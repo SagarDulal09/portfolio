@@ -2,79 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Details | Sagar Dulal</title>
+  <title id="page-title">Project Case Study | Sagar Dulal</title>
+  <meta name="description" id="page-meta" content="Detailed project showcase by Sagar Dulal.">
   <style>
-    :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); border-bottom: 1px solid var(--border); }
-    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
-    .logo span { color: var(--neon-blue); }
-    nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; font-weight: 500; }
-    section { padding: 5rem 8%; max-width: 800px; margin: 0 auto; }
-    .back-btn { display: inline-block; margin-bottom: 2rem; color: var(--neon-blue); text-decoration: none; font-weight: 600; }
-    h1 { font-size: 2.8rem; color: #fff; font-weight: 800; margin-bottom: 1.5rem; }
-    .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2.5rem; border-radius: 20px; backdrop-filter: blur(12px); }
-    .card p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; white-space: pre-line; }
+    :root { --bg: #05050b; --neon-cyan: #00f0ff; --text-sub: #94a3b8; }
+    body { background: var(--bg); color: #fff; font-family: system-ui, sans-serif; padding: 4rem 8%; max-width: 900px; margin: 0 auto; line-height: 1.7; }
+    img { width: 100%; max-height: 450px; object-fit: cover; border-radius: 16px; margin: 2rem 0; }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="projects.html">Portfolio</a>
-    </nav>
-  </header>
-
-  <section>
-    <a href="projects.html" class="back-btn">← Back to Portfolio</a>
-    <div id="project-box">
-      <div class="card"><p>Loading details...</p></div>
-    </div>
-  </section>
+  <a href="/projects" style="color:var(--neon-cyan); text-decoration:none;">&larr; Back to Projects</a>
+  <h1 id="p-title" style="font-size:2.5rem; margin-top:1rem;">Loading...</h1>
+  <p id="p-cat" style="color:var(--neon-cyan); font-weight:bold;"></p>
+  <img id="p-img" style="display:none;">
+  <div id="p-body" style="color:var(--text-sub); font-size:1.1rem;"></div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
-      authDomain: "sagar-portfolio-dabc5.firebaseapp.com",
-      projectId: "sagar-portfolio-dabc5",
-      storageBucket: "sagar-portfolio-dabc5.firebasestorage.app",
-      messagingSenderId: "900240657480",
-      appId: "1:900240657480:web:60456aa2d3dfc173f05c7d",
-      measurementId: "G-PNW0PFBGCR"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const slug = new URLSearchParams(window.location.search).get('slug');
-
-    async function loadDetail() {
-      const box = document.getElementById('project-box');
-      if (!slug) { box.innerHTML = '<div class="card"><p>No slug specified.</p></div>'; return; }
-      try {
-        const docSnap = await getDoc(doc(db, "projects", slug));
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          box.innerHTML = `
-            <h1>${data.title}</h1>
-            <div class="card">
-              <p>${data.description}</p>
-            </div>
-          `;
-        } else {
-          box.innerHTML = '<div class="card"><p>Project record not found.</p></div>';
+    const slug = window.location.pathname.split('/').pop();
+    if(slug) {
+      getDoc(doc(db, "projects", slug)).then(snap => {
+        if(snap.exists()) {
+          const item = snap.data();
+          document.getElementById('page-title').innerText = `${item.title} | Sagar Dulal`;
+          document.getElementById('page-meta').content = item.metaDescription || '';
+          document.getElementById('p-title').innerText = item.title;
+          document.getElementById('p-cat').innerText = item.category;
+          document.getElementById('p-body').innerText = item.description;
+          if(item.imageUrl) {
+            const img = document.getElementById('p-img');
+            img.src = item.imageUrl;
+            img.style.display = 'block';
+          }
         }
-      } catch (err) {
-        box.innerHTML = '<div class="card"><p>Error fetching record.</p></div>';
-      }
+      });
     }
-    loadDetail();
   </script>
 </body>
 </html>
