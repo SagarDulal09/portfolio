@@ -3,50 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us | Sagar Dulal</title>
+  <title>Contact | Sagar Dulal</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: #f0f6ff; color: #1e293b; min-height: 100vh; }
+    :root {
+      --bg: #07070d;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --neon-blue: #00f0ff;
+      --neon-purple: #a855f7;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
 
-    /* Top Navbar */
-    header { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 8%; background: #fff; border-bottom: 1px solid #e2e8f0; }
-    .logo { font-size: 1.4rem; font-weight: 800; color: #2563eb; text-decoration: none; }
-    nav a { color: #475569; text-decoration: none; margin-left: 1.8rem; font-weight: 600; font-size: 0.9rem; }
-    nav a.active { color: #2563eb; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
+    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+    .logo span { color: var(--neon-blue); }
+    nav { display: flex; gap: 2rem; align-items: center; }
+    nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; }
+    nav a.active { color: var(--neon-blue); }
 
-    .main-container { padding: 3rem 8%; max-width: 1100px; margin: 0 auto; }
-    .page-header { text-align: center; font-size: 2.2rem; font-weight: 800; color: #1d4ed8; margin-bottom: 2.5rem; }
+    section { padding: 4rem 8%; max-width: 1000px; margin: 0 auto; }
+    h1 { font-size: 3rem; margin-bottom: 1rem; color: #fff; }
 
-    /* Main Contact Box (Matching DIT Screenshot) */
-    .contact-card { background: #fff; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08); display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 3rem; }
-    .contact-card h3 { font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 0.3rem; }
-    .contact-card p.sub { font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; }
-    
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-    label { font-size: 0.8rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.3rem; }
-    input, textarea { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-size: 0.9rem; }
-    .btn-submit { background: #2563eb; color: #fff; border: none; width: 100%; padding: 0.8rem; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 1rem; }
-    
-    .illustration-side { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; border-radius: 12px; padding: 2rem; text-align: center; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
+    .contact-card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 18px; text-align: center; }
+    .contact-card h3 { color: var(--neon-blue); margin-bottom: 0.5rem; }
+    .contact-card a { color: #fff; text-decoration: none; font-weight: 600; display: inline-block; margin-top: 0.5rem; }
 
-    /* Support Cards Row */
-    .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-    .support-box { background: #fff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; }
-    .support-box h4 { font-size: 0.9rem; font-weight: 700; color: #475569; text-transform: capitalize; }
-    .support-box p.phone { color: #2563eb; font-weight: 700; margin: 0.3rem 0; }
-    .support-box p.email { font-size: 0.85rem; color: #64748b; }
+    .btn-chat { display: inline-block; padding: 0.8rem 1.5rem; border-radius: 30px; font-weight: bold; text-decoration: none; color: #fff; margin-top: 1rem; width: 100%; }
+    .btn-wa { background: #25d366; }
+    .btn-viber { background: #7360f2; }
 
-    /* Footer Banner */
-    .cta-banner { background: #fff; padding: 2rem 3rem; border-radius: 16px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
-    .cta-banner h3 { font-size: 1.5rem; color: #0f172a; }
-    .cta-banner h3 span { color: #2563eb; }
-    .cta-phone { font-size: 1.8rem; font-weight: 800; color: #2563eb; }
+    /* FAQ Accordion */
+    .faq-title { font-size: 1.8rem; margin: 3rem 0 1.5rem; font-weight: 800; border-left: 5px solid var(--neon-purple); padding-left: 15px; }
+    .faq-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; }
+    .faq-question { padding: 1.2rem 1.5rem; font-weight: 700; color: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-answer { padding: 0 1.5rem 1.2rem; color: var(--text-muted); display: none; font-size: 0.95rem; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-question { color: var(--neon-blue); }
+
+    /* Floating AI Bot Component */
+    .bot-trigger { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); border: none; color: #fff; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 20px rgba(0,240,255,0.4); z-index: 999; display: flex; align-items: center; justify-content: center; }
+    .bot-popup { position: fixed; bottom: 95px; right: 25px; width: 340px; background: #111827; border: 1px solid var(--border); border-radius: 16px; padding: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 999; display: none; flex-direction: column; gap: 1rem; }
+    .bot-popup.open { display: flex; }
+    .bot-header { font-weight: 800; color: #fff; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; }
+    .ai-chat-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem; height: 180px; overflow-y: auto; font-size: 0.85rem; }
+    .ai-input-group { display: flex; gap: 6px; }
+    .ai-input-group input { flex: 1; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border); background: #07070d; color: #fff; }
+    .ai-input-group button { padding: 0.5rem 0.8rem; border-radius: 6px; border: none; background: var(--neon-blue); color: #000; font-weight: bold; cursor: pointer; }
+
+    footer { text-align: center; padding: 3rem 8%; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; margin-top: 4rem; }
   </style>
 </head>
 <body>
 
   <header>
-    <a href="index.html" class="logo">Sagar Dulal</a>
+    <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
     <nav>
       <a href="index.html">Home</a>
       <a href="services.html">Services</a>
@@ -56,81 +70,93 @@
     </nav>
   </header>
 
-  <div class="main-container">
-    <div class="page-header">Contact Us</div>
+  <section>
+    <h1>Get in Touch</h1>
+    <p style="color: var(--text-muted);">Reach out directly via Instant Messaging, Email, or the AI Assistant below.</p>
 
-    <div class="contact-card">
-      <div>
-        <h3>Get In Touch</h3>
-        <p class="sub">We are here for you. How can we help?</p>
-
-        <form action="https://formspree.io/f/mqkvgqbe" method="POST">
-          <div class="form-row">
-            <div>
-              <label>Full Name</label>
-              <input type="text" name="name" placeholder="Your name" required>
-            </div>
-            <div>
-              <label>Email</label>
-              <input type="email" name="email" placeholder="you@example.com" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div>
-              <label>Phone Number</label>
-              <input type="text" name="phone" placeholder="+977 9818178656">
-            </div>
-            <div>
-              <label>Subject (optional)</label>
-              <input type="text" name="subject" placeholder="How can we help?">
-            </div>
-          </div>
-
-          <label>Message</label>
-          <textarea name="message" rows="4" placeholder="Write your message here..." required></textarea>
-
-          <button type="submit" class="btn-submit">Submit</button>
-        </form>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>WhatsApp Chat</h3>
+        <p>Direct priority messaging</p>
+        <a href="https://wa.me/9779818178656" target="_blank" class="btn-chat btn-wa">Open WhatsApp</a>
       </div>
 
-      <div class="illustration-side">
-        <h4 style="color: #2563eb; font-size: 1.2rem; margin-bottom: 0.5rem;">Sagar Dulal</h4>
-        <p style="color: #64748b; font-size: 0.9rem;">Instructor at DIT Solution & Freelance Full-Stack Designer</p>
+      <div class="contact-card">
+        <h3>Viber Chat</h3>
+        <p>Connect on Viber</p>
+        <a href="viber://chat?number=%2B9779818178656" target="_blank" class="btn-chat btn-viber">Open Viber</a>
+      </div>
+
+      <div class="contact-card">
+        <h3>Email Address</h3>
+        <p>Official correspondence</p>
+        <a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a>
       </div>
     </div>
 
-    <!-- Support Cards -->
-    <div class="support-grid">
-      <div class="support-box">
-        <h4>Tech support</h4>
-        <p class="phone">9818178656</p>
-        <p class="email">cotact.sagardulal@gmail.com</p>
-      </div>
-      <div class="support-box">
-        <h4>Academic support</h4>
-        <p class="phone">9818178656</p>
-        <p class="email">cotact.sagardulal@gmail.com</p>
-      </div>
-      <div class="support-box">
-        <h4>Counsellor</h4>
-        <p class="phone">9818178656</p>
-        <p class="email">cotact.sagardulal@gmail.com</p>
-      </div>
+    <div class="faq-title">Frequently Asked Questions</div>
+    
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question"><span>What courses does Sagar Dulal teach?</span> <span>+</span></div>
+      <div class="faq-answer">Sagar conducts training for Office Handling, Basic Computer Operations, Web Page Design (Frontend & Backend), Graphic Design, and C/C++ Programming.</div>
     </div>
 
-    <!-- Banner -->
-    <div class="cta-banner">
-      <div>
-        <h3>Let’s connect and <span>turn your vision into reality.</span></h3>
-        <p style="color: #64748b; font-size: 0.85rem; margin-top: 0.3rem;">Available 9:00 AM — 6:00 PM, Monday to Friday.</p>
-      </div>
-      <div>
-        <div style="font-size: 0.75rem; color: #64748b; text-align: right; text-transform: uppercase; font-weight: 700;">Reach Out Now!</div>
-        <div class="cta-phone">9818178656</div>
-      </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question"><span>How quickly do you respond on WhatsApp/Viber?</span> <span>+</span></div>
+      <div class="faq-answer">Direct messages sent via WhatsApp or Viber are typically replied to within 1–2 hours during standard business hours.</div>
+    </div>
+  </section>
+
+  <!-- Floating AI Support Chatbot Widget -->
+  <button class="bot-trigger" onclick="toggleBot()">💬</button>
+
+  <div class="bot-popup" id="bot-popup">
+    <div class="bot-header">
+      <span>AI Assistant Support</span>
+      <span style="cursor:pointer;" onclick="toggleBot()">✕</span>
+    </div>
+
+    <div class="ai-chat-box" id="ai-chat-box">
+      <div style="color: var(--neon-blue); margin-bottom: 5px;"><strong>AI Support:</strong> Hello! Ask me any questions regarding Sagar's courses, services, or credentials.</div>
+    </div>
+
+    <div class="ai-input-group">
+      <input type="text" id="ai-input" placeholder="Type a message...">
+      <button onclick="sendAIMessage()">Send</button>
     </div>
   </div>
 
+  <footer>
+    <p>© 2026 Sagar Dulal. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleFaq(el) { el.classList.toggle('open'); }
+    function toggleBot() { document.getElementById('bot-popup').classList.toggle('open'); }
+
+    function sendAIMessage() {
+      const input = document.getElementById('ai-input');
+      const box = document.getElementById('ai-chat-box');
+      const text = input.value.trim();
+      if (!text) return;
+
+      box.innerHTML += `<div style="margin-top: 5px;"><strong>You:</strong> ${text}</div>`;
+      input.value = '';
+
+      let reply = "Thanks for your query! You can reach Sagar directly on WhatsApp/Viber at +977 9818178656.";
+      const q = text.toLowerCase();
+
+      if (q.includes('course') || q.includes('class') || q.includes('dit') || q.includes('lok sewa')) {
+        reply = "Sagar teaches Office Handling, Basic Computer Skills, Web Design, Graphic Design, C/C++, and Lok Sewa computer operator prep classes.";
+      } else if (q.includes('qualification') || q.includes('score') || q.includes('see') || q.includes('+2')) {
+        reply = "Sagar completed SEE with 97.75% and +2 (Computer & Mathematics) with 80.50%.";
+      }
+
+      setTimeout(() => {
+        box.innerHTML += `<div style="color: var(--neon-blue); margin-top: 5px;"><strong>AI Support:</strong> ${reply}</div>`;
+        box.scrollTop = box.scrollHeight;
+      }, 350);
+    }
+  </script>
 </body>
 </html>
