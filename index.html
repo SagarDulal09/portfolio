@@ -3,122 +3,206 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sagar Dulal | IT Educator & Developer</title>
+  <title>Sagar Dulal | Workspace Admin</title>
   <style>
     :root {
-      --bg: #07070d;
-      --card-bg: rgba(255, 255, 255, 0.03);
-      --card-hover: rgba(255, 255, 255, 0.06);
-      --neon-blue: #00f0ff;
-      --neon-purple: #a855f7;
-      --text: #f3f4f6;
-      --text-muted: #9ca3af;
-      --border: rgba(255, 255, 255, 0.08);
+      --bg-dark: #05050b;
+      --card-bg: #0d0d1a;
+      --neon-cyan: #00f0ff;
+      --neon-purple: #b026ff;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border: rgba(176, 38, 255, 0.25);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    body { background: var(--bg-dark); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
 
-    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
-    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
-    .logo span { color: var(--neon-blue); }
-    nav { display: flex; gap: 2rem; align-items: center; }
-    nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: 0.2s; }
-    nav a:hover, nav a.active { color: var(--neon-blue); }
+    /* Auth Modal */
+    #login-overlay { position: fixed; inset: 0; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
+    .auth-box { background: var(--card-bg); padding: 2.5rem; border-radius: 16px; border: 1px solid var(--neon-purple); width: 100%; max-width: 400px; box-shadow: 0 0 30px rgba(176, 38, 255, 0.2); text-align: center; }
+    .auth-box h2 { font-size: 1.8rem; margin-bottom: 0.2rem; }
+    .auth-box h2 span { color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); }
+    .auth-box p { color: var(--text-sub); font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .auth-box input { width: 100%; padding: 0.75rem; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-top: 0.8rem; }
+    .auth-btn { width: 100%; padding: 0.8rem; margin-top: 1.2rem; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
 
-    /* Animated Quote Hero Banner */
-    .quote-banner { margin: 3rem 8% 0; padding: 2.5rem; border-radius: 20px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(0, 240, 255, 0.12)); border: 1px solid var(--border); text-align: center; position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(0, 240, 255, 0.05); }
-    .quote-title { font-size: 1.8rem; font-weight: 800; color: var(--neon-blue); margin-bottom: 0.5rem; }
-    .quote-subtitle { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
-    .quote-text { font-size: 1.05rem; color: var(--text-muted); max-width: 850px; margin: 0 auto; line-height: 1.6; animation: fadeInText 2.5s ease-in-out infinite alternate; }
+    /* Layout */
+    #admin-app { display: none; min-height: 100vh; flex-direction: column; }
+    @media (min-width: 768px) { #admin-app { flex-direction: row; } }
 
-    @keyframes fadeInText {
-      0% { opacity: 0.7; transform: translateY(0px); }
-      100% { opacity: 1; transform: translateY(-3px); }
-    }
+    sidebar { width: 100%; max-width: 260px; background: var(--card-bg); border-right: 1px solid var(--border); padding: 2rem 1rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .brand-logo { font-size: 1.4rem; font-weight: 900; margin-bottom: 2rem; }
+    .brand-logo span { color: var(--neon-cyan); }
+    .nav-btn { width: 100%; text-align: left; padding: 0.8rem 1rem; background: transparent; border: 1px solid transparent; color: var(--text-sub); border-radius: 8px; font-weight: 700; cursor: pointer; margin-bottom: 0.5rem; transition: 0.2s; }
+    .nav-btn:hover, .nav-btn.active { background: rgba(0, 240, 255, 0.1); border-color: var(--neon-cyan); color: var(--neon-cyan); }
 
-    .hero { padding: 4rem 8% 2rem; max-width: 1000px; }
-    .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.15; margin-bottom: 1rem; }
-    .hero h1 span { background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 2rem; }
+    main { flex: 1; padding: 2rem; overflow-y: auto; }
+    .section-pane { display: none; }
+    .section-pane.active { display: block; }
+    .pane-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem; color: #fff; }
 
-    section { padding: 4rem 8%; }
-    .section-title { font-size: 2rem; margin-bottom: 2rem; font-weight: 800; border-left: 5px solid var(--neon-blue); padding-left: 15px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-    .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); transition: 0.3s; overflow: hidden; }
-    .card:hover { border-color: var(--neon-blue); transform: translateY(-4px); }
-    .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 1rem; }
-    .card h3 { color: #fff; margin-bottom: 0.8rem; font-size: 1.3rem; }
-    .card p { color: var(--text-muted); font-size: 0.95rem; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+    .card h3 { color: var(--neon-cyan); margin-bottom: 1rem; }
+    label { font-size: 0.8rem; color: var(--text-sub); display: block; margin-top: 1rem; font-weight: 700; }
+    input, select, textarea { width: 100%; padding: 0.75rem; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-top: 0.3rem; }
 
-    /* Accordion FAQ */
-    .faq-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: 0.2s; }
-    .faq-question { padding: 1.2rem 1.5rem; font-weight: 700; color: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-    .faq-answer { padding: 0 1.5rem 1.2rem; color: var(--text-muted); display: none; font-size: 0.95rem; }
-    .faq-item.open .faq-answer { display: block; }
-    .faq-item.open .faq-question { color: var(--neon-blue); }
+    /* Drag and Drop Image Dropzone */
+    .dropzone { border: 2px dashed var(--neon-purple); border-radius: 10px; padding: 1.5rem; text-align: center; background: rgba(176,38,255,0.03); cursor: pointer; margin-top: 0.5rem; transition: 0.2s; position: relative; }
+    .dropzone:hover { border-color: var(--neon-cyan); background: rgba(0,240,255,0.05); }
+    .dropzone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .dropzone p { font-size: 0.85rem; color: var(--text-sub); pointer-events: none; }
+    .dropzone p span { color: var(--neon-cyan); font-weight: bold; }
 
-    footer { text-align: center; padding: 3rem 8%; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; margin-top: 4rem; }
-    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
-    footer a:hover { color: var(--neon-blue); }
+    .btn-submit { background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; border: none; padding: 0.85rem; width: 100%; border-radius: 8px; font-weight: 800; margin-top: 1.5rem; cursor: pointer; text-transform: uppercase; }
+
+    /* Data Display Table */
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th { text-align: left; padding: 0.75rem; background: #000; color: var(--neon-cyan); font-size: 0.8rem; border-bottom: 1px solid var(--border); }
+    td { padding: 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+    .thumb { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid var(--neon-purple); }
+    .btn-del { background: #ef4444; color: #fff; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.75rem; }
   </style>
 </head>
 <body>
 
-  <header>
-    <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
-    <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="services.html">Services</a>
-      <a href="projects.html">Portfolio</a>
-      <a href="blog.html">Blog</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
-
-  <div class="quote-banner">
-    <div class="quote-title">Skill Up with DIT</div>
-    <div class="quote-subtitle">Empowering IT Education & Civil Service Preparation</div>
-    <div class="quote-text">"Advance your future with practical, career-focused IT training and Lok Sewa preparation trusted by learners across Nepal."</div>
+  <!-- Auth Screen -->
+  <div id="login-overlay">
+    <div class="auth-box">
+      <h2>Sagar <span>Dulal</span></h2>
+      <p>Personal Workspace Login</p>
+      <form id="auth-form">
+        <input type="email" id="auth-email" value="cotact.sagardulal@gmail.com" required>
+        <input type="password" id="auth-pass" placeholder="Password" required>
+        <button type="submit" class="auth-btn">Sign In</button>
+        <button type="button" id="auth-reg" class="auth-btn" style="background:transparent; border:1px solid var(--neon-cyan); margin-top:0.5rem; color:var(--neon-cyan);">Register Account</button>
+      </form>
+      <p id="auth-msg" style="color:#ef4444; margin-top: 1rem; font-weight: bold;"></p>
+    </div>
   </div>
 
-  <div class="hero">
-    <h1>Web Design, Development <span>& Computer Instruction</span></h1>
-    <p>Official digital portfolio of Sagar Dulal — Instructor specializing in Full-Stack Web Development, Visual Graphic Design, C/C++ Programming, and Office Handling.</p>
+  <!-- Dashboard Workspace -->
+  <div id="admin-app">
+    <sidebar>
+      <div>
+        <div class="brand-logo">Sagar <span>Dulal</span></div>
+        <button class="nav-btn active" onclick="showTab('projects', this)">Portfolio Projects</button>
+        <button class="nav-btn" onclick="showTab('services', this)">Services</button>
+        <button class="nav-btn" onclick="showTab('blogs', this)">Blog Posts</button>
+      </div>
+      <button id="logout-btn" class="btn-del" style="width:100%; padding:0.75rem;">Logout</button>
+    </sidebar>
+
+    <main>
+      <!-- Projects Tab -->
+      <div id="pane-projects" class="section-pane active">
+        <div class="pane-title">Manage Projects</div>
+        <div class="card">
+          <h3>Add Project</h3>
+          <form id="form-project">
+            <label>Project Name</label>
+            <input type="text" id="p-name" required>
+
+            <label>Category</label>
+            <select id="p-cat">
+              <option value="Web Development">Web Development</option>
+              <option value="UI/UX Design">UI/UX Design</option>
+              <option value="Graphic Design">Graphic Design</option>
+            </select>
+
+            <label>Project Image (Drag & Drop or Click)</label>
+            <div class="dropzone">
+              <p id="p-file-label">Drag & drop project cover here, or <span>browse</span></p>
+              <input type="file" id="p-file" accept="image/*">
+            </div>
+
+            <label>Description</label>
+            <textarea id="p-desc" rows="3" required></textarea>
+
+            <button type="submit" class="btn-submit">Publish Project</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Active Projects</h3>
+          <table>
+            <thead><tr><th>Preview</th><th>Title</th><th>Category</th><th>Action</th></tr></thead>
+            <tbody id="tbl-projects"><tr><td colspan="4">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Services Tab -->
+      <div id="pane-services" class="section-pane">
+        <div class="pane-title">Manage Services</div>
+        <div class="card">
+          <h3>Add Service</h3>
+          <form id="form-service">
+            <label>Service Title</label>
+            <input type="text" id="s-title" required>
+
+            <label>Service Icon / Graphic (Optional Upload)</label>
+            <div class="dropzone">
+              <p id="s-file-label">Drag & drop service icon here, or <span>browse</span></p>
+              <input type="file" id="s-file" accept="image/*">
+            </div>
+
+            <label>Description</label>
+            <textarea id="s-desc" rows="3" required></textarea>
+
+            <button type="submit" class="btn-submit">Save Service</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Active Services</h3>
+          <table>
+            <thead><tr><th>Title</th><th>Description</th><th>Action</th></tr></thead>
+            <tbody id="tbl-services"><tr><td colspan="3">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Blogs Tab -->
+      <div id="pane-blogs" class="section-pane">
+        <div class="pane-title">Manage Blogs</div>
+        <div class="card">
+          <h3>Create Post</h3>
+          <form id="form-blog">
+            <label>Blog Title</label>
+            <input type="text" id="b-title" required>
+
+            <label>Category</label>
+            <input type="text" id="b-cat" placeholder="e.g. Design Trends" required>
+
+            <label>Blog Image (Drag & Drop or Click)</label>
+            <div class="dropzone">
+              <p id="b-file-label">Drag & drop blog banner here, or <span>browse</span></p>
+              <input type="file" id="b-file" accept="image/*">
+            </div>
+
+            <label>Article Content</label>
+            <textarea id="b-content" rows="5" required></textarea>
+
+            <button type="submit" class="btn-submit">Publish Blog</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Published Posts</h3>
+          <table>
+            <thead><tr><th>Title</th><th>Category</th><th>Action</th></tr></thead>
+            <tbody id="tbl-blogs"><tr><td colspan="3">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
   </div>
-
-  <section>
-    <h2 class="section-title">Featured Portfolio Works</h2>
-    <div class="grid" id="home-projects">
-      <div class="card"><p>Fetching published projects from database...</p></div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="section-title">Frequently Asked Questions</h2>
-    
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-question"><span>What courses does Sagar Dulal teach?</span> <span>+</span></div>
-      <div class="faq-answer">Sagar conducts training for Office Handling, Basic Computer Operations, Web Page Design (Frontend & Backend), Graphic Design, and C/C++ Programming.</div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-question"><span>Is Sagar available for freelance web & graphic design?</span> <span>+</span></div>
-      <div class="faq-answer">Yes, Sagar takes on select full-stack web development and graphic design projects for businesses and personal brands.</div>
-    </div>
-
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-question"><span>How can I reach out for direct inquiries?</span> <span>+</span></div>
-      <div class="faq-answer">You can call directly or connect on WhatsApp/Viber at 9818178656, or write an email to cotact.sagardulal@gmail.com.</div>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 Sagar Dulal. All rights reserved. | <a href="contact.html">Contact Support</a></p>
-  </footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
@@ -130,37 +214,161 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db = getFirestore(app);
+    const storage = getStorage(app);
 
-    async function loadHomeProjects() {
-      const container = document.getElementById('home-projects');
-      try {
-        const snap = await getDocs(collection(db, "projects"));
-        if (snap.empty) {
-          container.innerHTML = '<div class="card"><p>No published projects found.</p></div>';
-          return;
-        }
-        container.innerHTML = '';
-        snap.forEach((doc) => {
-          const data = doc.data();
-          const imgHtml = data.imageUrl ? `<img src="${data.imageUrl}" alt="${data.title}">` : '';
-          container.innerHTML += `
-            <div class="card">
-              ${imgHtml}
-              <h3>${data.title}</h3>
-              <p>${data.description}</p>
-            </div>
-          `;
-        });
-      } catch (err) {
-        container.innerHTML = '<div class="card"><p>Error connecting to database.</p></div>';
+    // Auth Listeners
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('admin-app').style.display = 'flex';
+        bindRealtimeTables();
+      } else {
+        document.getElementById('login-overlay').style.display = 'flex';
+        document.getElementById('admin-app').style.display = 'none';
       }
-    }
-    loadHomeProjects();
-  </script>
+    });
 
-  <script>
-    function toggleFaq(el) { el.classList.toggle('open'); }
+    document.getElementById('auth-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      document.getElementById('auth-msg').innerText = '';
+      try {
+        await signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value);
+      } catch (err) {
+        document.getElementById('auth-msg').innerText = err.message;
+      }
+    });
+
+    document.getElementById('auth-reg').addEventListener('click', async () => {
+      document.getElementById('auth-msg').innerText = '';
+      try {
+        await createUserWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value);
+        document.getElementById('auth-msg').style.color = 'var(--neon-cyan)';
+        document.getElementById('auth-msg').innerText = 'Account initialized! Logged in automatically.';
+      } catch (err) {
+        document.getElementById('auth-msg').innerText = err.message;
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+
+    // File Drop Zone UI Helper
+    ['p-file', 's-file', 'b-file'].forEach(id => {
+      document.getElementById(id).addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          document.getElementById(`${id}-label`).innerHTML = `Selected: <span>${file.name}</span>`;
+        }
+      });
+    });
+
+    // File Upload Helper
+    async function uploadImageFile(file, path) {
+      if (!file) return '';
+      const storageRef = ref(storage, `${path}/${Date.now()}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      return await getDownloadURL(storageRef);
+    }
+
+    // Tab Switching
+    window.showTab = function(name, btn) {
+      document.querySelectorAll('.section-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(`pane-${name}`).classList.add('active');
+      btn.classList.add('active');
+    };
+
+    // Form Submissions
+    document.getElementById('form-project').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = document.getElementById('p-file').files[0];
+      const imgUrl = await uploadImageFile(file, 'projects');
+      const title = document.getElementById('p-name').value;
+      const docId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      
+      await setDoc(doc(db, "projects", docId), {
+        title,
+        category: document.getElementById('p-cat').value,
+        imageUrl: imgUrl,
+        description: document.getElementById('p-desc').value,
+        timestamp: Date.now()
+      });
+      document.getElementById('form-project').reset();
+      document.getElementById('p-file-label').innerHTML = `Drag & drop project cover here, or <span>browse</span>`;
+    });
+
+    document.getElementById('form-service').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = document.getElementById('s-file').files[0];
+      const imgUrl = await uploadImageFile(file, 'services');
+      const title = document.getElementById('s-title').value;
+      const docId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+      await setDoc(doc(db, "services", docId), {
+        title,
+        imageUrl: imgUrl,
+        description: document.getElementById('s-desc').value,
+        timestamp: Date.now()
+      });
+      document.getElementById('form-service').reset();
+      document.getElementById('s-file-label').innerHTML = `Drag & drop service icon here, or <span>browse</span>`;
+    });
+
+    document.getElementById('form-blog').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = document.getElementById('b-file').files[0];
+      const imgUrl = await uploadImageFile(file, 'blogs');
+      const title = document.getElementById('b-title').value;
+      const docId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+      await setDoc(doc(db, "blogs", docId), {
+        title,
+        category: document.getElementById('b-cat').value,
+        imageUrl: imgUrl,
+        content: document.getElementById('b-content').value,
+        timestamp: Date.now()
+      });
+      document.getElementById('form-blog').reset();
+      document.getElementById('b-file-label').innerHTML = `Drag & drop blog banner here, or <span>browse</span>`;
+    });
+
+    // Realtime Sync Tables
+    function bindRealtimeTables() {
+      onSnapshot(collection(db, "projects"), (snap) => {
+        const tbl = document.getElementById('tbl-projects');
+        tbl.innerHTML = snap.empty ? '<tr><td colspan="4">No projects added.</td></tr>' : '';
+        snap.forEach(d => {
+          const item = d.data();
+          const img = item.imageUrl ? `<img src="${item.imageUrl}" class="thumb" />` : 'No Image';
+          tbl.innerHTML += `<tr><td>${img}</td><td><strong>${item.title}</strong></td><td>${item.category}</td><td><button class="btn-del" onclick="removeData('projects', '${d.id}')">Delete</button></td></tr>`;
+        });
+      });
+
+      onSnapshot(collection(db, "services"), (snap) => {
+        const tbl = document.getElementById('tbl-services');
+        tbl.innerHTML = snap.empty ? '<tr><td colspan="3">No services added.</td></tr>' : '';
+        snap.forEach(d => {
+          const item = d.data();
+          tbl.innerHTML += `<tr><td><strong>${item.title}</strong></td><td>${item.description}</td><td><button class="btn-del" onclick="removeData('services', '${d.id}')">Delete</button></td></tr>`;
+        });
+      });
+
+      onSnapshot(collection(db, "blogs"), (snap) => {
+        const tbl = document.getElementById('tbl-blogs');
+        tbl.innerHTML = snap.empty ? '<tr><td colspan="3">No blog posts added.</td></tr>' : '';
+        snap.forEach(d => {
+          const item = d.data();
+          tbl.innerHTML += `<tr><td><strong>${item.title}</strong></td><td>${item.category}</td><td><button class="btn-del" onclick="removeData('blogs', '${d.id}')">Delete</button></td></tr>`;
+        });
+      });
+    }
+
+    window.removeData = async function(coll, id) {
+      if (confirm(`Remove this item?`)) {
+        await deleteDoc(doc(db, coll, id));
+      }
+    };
   </script>
 </body>
 </html>
