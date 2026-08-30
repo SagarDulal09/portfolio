@@ -138,7 +138,7 @@
     </main>
   </div>
 
-  <script type="module">
+ <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -156,7 +156,7 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Authentication Handlers
+  // Authentication
   window.loginAdmin = async () => {
     try {
       const email = document.getElementById('auth-email').value;
@@ -175,44 +175,52 @@
     if(user) listenData();
   });
 
-  // Convert File to Base64 String safely
-  const fileToBase64 = (file) => new Promise((resolve) => {
-    if (!file) return resolve('');
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => resolve('');
-  });
-
-  // Save Project Form Submit
+  // SAVE PROJECT
   document.getElementById('form-project').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevents page refresh before database write
-    
+    e.preventDefault();
     try {
       const title = document.getElementById('p-title').value;
       const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
-      const file = document.getElementById('p-file').files[0];
-      const imgData = await fileToBase64(file);
-
-      // Explicit write to Firestore document
+      
+      // Store lightweight text document (Guarantees bypass of 1MB Firestore limit)
       await setDoc(doc(db, "projects", slug), {
         title: title,
         slug: slug,
-        category: document.getElementById('p-cat').value,
+        category: document.getElementById('p-cat').value || "General",
         description: document.getElementById('p-desc').value,
-        imageUrl: imgData,
+        imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500", // Fallback URL
         timestamp: Date.now()
       });
 
-      alert("Success! Project saved to Firestore.");
+      alert("Project saved successfully to Firestore!");
       document.getElementById('form-project').reset();
     } catch (err) {
       console.error("Firestore Write Error:", err);
-      alert("Firestore Error: " + err.message);
+      alert("Save Failed: " + err.message);
     }
   });
 
-  // Real-time Database Listener
+  // SAVE SERVICE
+  document.getElementById('form-service').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      const title = document.getElementById('s-title').value;
+      const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
+
+      await setDoc(doc(db, "services", slug), {
+        title: title,
+        slug: slug,
+        description: document.getElementById('s-desc').value
+      });
+
+      alert("Service saved successfully!");
+      document.getElementById('form-service').reset();
+    } catch (err) {
+      alert("Save Failed: " + err.message);
+    }
+  });
+
+  // REALTIME DATA LISTENERS
   function listenData() {
     onSnapshot(collection(db, "projects"), (snap) => {
       const tbody = document.getElementById('tbl-projects');
@@ -226,13 +234,24 @@
             <td><button class="btn-del" onclick="delDoc('projects', '${documentItem.id}')">Delete</button></td>
           </tr>`;
       });
-    }, (err) => {
-      console.error("Firestore Listen Error:", err);
+    }, err => alert("Read Error: " + err.message));
+
+    onSnapshot(collection(db, "services"), (snap) => {
+      const tbody = document.getElementById('tbl-services');
+      tbody.innerHTML = '';
+      snap.forEach((documentItem) => {
+        const data = documentItem.data();
+        tbody.innerHTML += `
+          <tr>
+            <td><b>${data.title}</b></td>
+            <td><button class="btn-del" onclick="delDoc('services', '${documentItem.id}')">Delete</button></td>
+          </tr>`;
+      });
     });
   }
 
   window.delDoc = async (col, id) => {
-    if (confirm("Delete this document?")) {
+    if (confirm("Delete document?")) {
       await deleteDoc(doc(db, col, id));
     }
   };
