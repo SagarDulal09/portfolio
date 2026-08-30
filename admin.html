@@ -139,103 +139,103 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
-      authDomain: "sagar-portfolio-dabc5.firebaseapp.com",
-      projectId: "sagar-portfolio-dabc5",
-      storageBucket: "sagar-portfolio-dabc5.firebasestorage.app",
-      messagingSenderId: "900240657480",
-      appId: "1:900240657480:web:60456aa2d3dfc173f05c7d"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
+    authDomain: "sagar-portfolio-dabc5.firebaseapp.com",
+    projectId: "sagar-portfolio-dabc5",
+    storageBucket: "sagar-portfolio-dabc5.firebasestorage.app",
+    messagingSenderId: "900240657480",
+    appId: "1:900240657480:web:60456aa2d3dfc173f05c7d"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-    window.switchTab = (name, btn) => {
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(`pane-${name}`).classList.add('active');
-      btn.classList.add('active');
-    };
+  // Authentication Handlers
+  window.loginAdmin = async () => {
+    try {
+      const email = document.getElementById('auth-email').value;
+      const pass = document.getElementById('auth-pass').value;
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch (err) {
+      alert("Login Error: " + err.message);
+    }
+  };
 
-    window.loginAdmin = () => signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value);
-    window.signOutAdmin = () => signOut(auth);
+  window.signOutAdmin = () => signOut(auth);
 
-    onAuthStateChanged(auth, user => {
-      document.getElementById('login-overlay').style.display = user ? 'none' : 'flex';
-      document.getElementById('admin-app').style.display = user ? 'flex' : 'none';
-      if(user) listenData();
-    });
+  onAuthStateChanged(auth, user => {
+    document.getElementById('login-overlay').style.display = user ? 'none' : 'flex';
+    document.getElementById('admin-app').style.display = user ? 'flex' : 'none';
+    if(user) listenData();
+  });
 
-    const fileToBase64 = file => new Promise((resolve) => {
-      if(!file) return resolve('');
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => resolve('');
-    });
+  // Convert File to Base64 String safely
+  const fileToBase64 = (file) => new Promise((resolve) => {
+    if (!file) return resolve('');
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => resolve('');
+  });
 
-    document.getElementById('form-project').addEventListener('submit', async (e) => {
-      e.preventDefault();
+  // Save Project Form Submit
+  document.getElementById('form-project').addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevents page refresh before database write
+    
+    try {
       const title = document.getElementById('p-title').value;
       const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
-      const img = await fileToBase64(document.getElementById('p-file').files[0]);
+      const file = document.getElementById('p-file').files[0];
+      const imgData = await fileToBase64(file);
+
+      // Explicit write to Firestore document
       await setDoc(doc(db, "projects", slug), {
-        title, slug, category: document.getElementById('p-cat').value,
-        description: document.getElementById('p-desc').value, imageUrl: img, timestamp: Date.now()
+        title: title,
+        slug: slug,
+        category: document.getElementById('p-cat').value,
+        description: document.getElementById('p-desc').value,
+        imageUrl: imgData,
+        timestamp: Date.now()
       });
+
+      alert("Success! Project saved to Firestore.");
       document.getElementById('form-project').reset();
-    });
-
-    document.getElementById('form-service').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const title = document.getElementById('s-title').value;
-      const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
-      await setDoc(doc(db, "services", slug), { title, slug, description: document.getElementById('s-desc').value });
-      document.getElementById('form-service').reset();
-    });
-
-    document.getElementById('form-blog').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const title = document.getElementById('b-title').value;
-      const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
-      const img = await fileToBase64(document.getElementById('b-file').files[0]);
-      await setDoc(doc(db, "blogs", slug), { title, slug, content: document.getElementById('b-content').value, imageUrl: img, timestamp: Date.now() });
-      document.getElementById('form-blog').reset();
-    });
-
-    function listenData() {
-      onSnapshot(collection(db, "projects"), snap => {
-        const t = document.getElementById('tbl-projects');
-        t.innerHTML = '';
-        snap.forEach(d => {
-          t.innerHTML += `<tr><td><b>${d.data().title}</b></td><td>${d.data().category}</td><td><button class="btn-del" onclick="delDoc('projects','${d.id}')">Delete</button></td></tr>`;
-        });
-      });
-      onSnapshot(collection(db, "services"), snap => {
-        const t = document.getElementById('tbl-services');
-        t.innerHTML = '';
-        snap.forEach(d => {
-          t.innerHTML += `<tr><td><b>${d.data().title}</b></td><td><button class="btn-del" onclick="delDoc('services','${d.id}')">Delete</button></td></tr>`;
-        });
-      });
-      onSnapshot(collection(db, "blogs"), snap => {
-        const t = document.getElementById('tbl-blogs');
-        t.innerHTML = '';
-        snap.forEach(d => {
-          t.innerHTML += `<tr><td><b>${d.data().title}</b></td><td><button class="btn-del" onclick="delDoc('blogs','${d.id}')">Delete</button></td></tr>`;
-        });
-      });
+    } catch (err) {
+      console.error("Firestore Write Error:", err);
+      alert("Firestore Error: " + err.message);
     }
+  });
 
-    window.delDoc = async (col, id) => {
-      if(confirm("Delete item permanently?")) await deleteDoc(doc(db, col, id));
-    };
-  </script>
+  // Real-time Database Listener
+  function listenData() {
+    onSnapshot(collection(db, "projects"), (snap) => {
+      const tbody = document.getElementById('tbl-projects');
+      tbody.innerHTML = '';
+      snap.forEach((documentItem) => {
+        const data = documentItem.data();
+        tbody.innerHTML += `
+          <tr>
+            <td><b>${data.title}</b></td>
+            <td>${data.category}</td>
+            <td><button class="btn-del" onclick="delDoc('projects', '${documentItem.id}')">Delete</button></td>
+          </tr>`;
+      });
+    }, (err) => {
+      console.error("Firestore Listen Error:", err);
+    });
+  }
+
+  window.delDoc = async (col, id) => {
+    if (confirm("Delete this document?")) {
+      await deleteDoc(doc(db, col, id));
+    }
+  };
+</script>
 </body>
 </html>
