@@ -3,58 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services | Sagar Dulal</title>
+  <title>Professional Services | Sagar Dulal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/layout.css">
   <style>
-    :root { --bg: #07070d; --card-bg: rgba(255, 255, 255, 0.03); --neon-blue: #00f0ff; --text: #f3f4f6; --text-muted: #9ca3af; --border: rgba(255, 255, 255, 0.08); }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 8%; background: rgba(7, 7, 13, 0.85); border-bottom: 1px solid var(--border); }
-    .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
-    .logo span { color: var(--neon-blue); }
-    nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; font-weight: 500; }
-    nav a.active { color: var(--neon-blue); }
-    section { padding: 5rem 8%; max-width: 1100px; margin: 0 auto; }
-    h1 { font-size: 3rem; color: #fff; font-weight: 800; margin-bottom: 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2.5rem; }
-    .service-card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; backdrop-filter: blur(12px); }
-    .service-card h3 { color: var(--neon-blue); font-size: 1.4rem; margin-bottom: 0.8rem; }
-    .service-card p { color: var(--text-muted); font-size: 0.95rem; }
+    .page-hero { padding: 9rem 8% 4rem; text-align: center; background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15), transparent 60%); }
+    .page-hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; padding: 2rem 8% 6rem; }
+    .service-card { background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 16px; padding: 2.5rem; transition: 0.3s; }
+    .service-card:hover { border-color: var(--accent-cyan); transform: translateY(-5px); }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html" class="logo">Sagar <span>Dulal</span></a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="services.html" class="active">Services</a>
-      <a href="projects.html">Portfolio</a>
-      <a href="blog.html">Blog</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
+  <nav>
+    <a href="/" class="logo">Sagar <span>Dulal</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/services" class="active">Services</a>
+      <a href="/projects">Portfolio</a>
+      <a href="/blog">Blog</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </nav>
 
-  <section>
-    <h1>Services Offered</h1>
-    <p style="color: var(--text-muted); font-size: 1.1rem;">Full-stack development, graphic identity, and instructional courses.</p>
+  <div class="page-hero">
+    <h1>Solutions & <span>Technical Services</span></h1>
+    <p style="color:var(--text-muted);">High-performance software engineering, UI design, and academic IT training.</p>
+  </div>
 
-    <div class="grid">
-      <div class="service-card">
-        <h3>Web Design (Frontend & Backend)</h3>
-        <p>Responsive custom website designs integrated with real-time cloud backend databases, clean URL slugs, and optimized frontend performance.</p>
+  <div class="grid" id="services-grid"></div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Sagar <span>Dulal</span></h3>
+        <p>Full-Stack Web Architect & Tech Instructor</p>
       </div>
-      <div class="service-card">
-        <h3>Graphic Design</h3>
-        <p>Visual graphic design, brand identity assets, marketing collateral, social media banners, and UI layout design.</p>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/projects">Portfolio</a></li>
+          <li><a href="/blog">Blog</a></li>
+        </ul>
       </div>
-      <div class="service-card">
-        <h3>Office Handling & Basic Computing</h3>
-        <p>Instructional courses covering Microsoft Office Suite, document automation, typing, file management, and practical office computer skills.</p>
-      </div>
-      <div class="service-card">
-        <h3>C & C++ Programming Instruction</h3>
-        <p>Structured training for beginners and intermediate learners covering algorithmic thinking, pointers, data structures, and memory management.</p>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li>
+          <li><a href="https://wa.me/9779818178656">WhatsApp Support</a></li>
+        </ul>
       </div>
     </div>
-  </section>
+    <div class="footer-bottom">&copy; 2026 Sagar Dulal. All rights reserved.</div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
+
+    onSnapshot(collection(db, "services"), snap => {
+      const g = document.getElementById('services-grid');
+      g.innerHTML = '';
+      snap.forEach(d => {
+        const item = d.data();
+        g.innerHTML += `
+          <div class="service-card">
+            <i class="fa-solid fa-code" style="font-size:2rem; color:var(--accent-cyan); margin-bottom:1rem;"></i>
+            <h3 style="font-size:1.4rem; margin-bottom:0.8rem;">${item.title}</h3>
+            <p style="color:var(--text-muted);">${item.description}</p>
+          </div>
+        `;
+      });
+    });
+  </script>
 </body>
 </html>
