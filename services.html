@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professional Services | Sagar Dulal</title>
+  <title>Services | Sagar Dulal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/shared.css">
   <style>
-    .page-hero { padding: 9rem 8% 4rem; text-align: center; background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15), transparent 60%); }
-    .page-hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 1rem; }
+    .hero { padding: 9rem 8% 4rem; text-align: center; background: radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.12), transparent 70%); }
+    .hero h1 { font-size: 3rem; font-weight: 900; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; padding: 2rem 8% 6rem; }
-    .service-card { background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 16px; padding: 2.5rem; transition: 0.3s; }
-    .service-card:hover { border-color: var(--accent-cyan); transform: translateY(-5px); }
+    .card { background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 16px; padding: 2.5rem; }
   </style>
 </head>
 <body>
@@ -19,16 +18,16 @@
     <a href="/" class="logo">Sagar <span>Dulal</span></a>
     <div class="nav-links">
       <a href="/">Home</a>
-      <a href="/services" class="active">Services</a>
-      <a href="/projects">Portfolio</a>
-      <a href="/blog">Blog</a>
-      <a href="/contact">Contact</a>
+      <a href="/services.html" class="active">Services</a>
+      <a href="/portfolio.html">Portfolio</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/contact.html">Contact</a>
     </div>
   </nav>
 
-  <div class="page-hero">
-    <h1>Solutions & <span>Technical Services</span></h1>
-    <p style="color:var(--text-muted);">High-performance software engineering, UI design, and academic IT training.</p>
+  <div class="hero">
+    <h1>Technical <span style="color:var(--accent-cyan)">Services</span></h1>
+    <p style="color:var(--text-muted)">High-performance development and specialized IT consulting.</p>
   </div>
 
   <div class="grid" id="services-grid"></div>
@@ -37,22 +36,21 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <h3>Sagar <span>Dulal</span></h3>
-        <p>Full-Stack Web Architect & Tech Instructor</p>
+        <p>Full-Stack Web Architect & Technical Trainer</p>
       </div>
       <div class="footer-col">
         <h4>Navigation</h4>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/projects">Portfolio</a></li>
-          <li><a href="/blog">Blog</a></li>
+          <li><a href="/services.html">Services</a></li>
+          <li><a href="/portfolio.html">Portfolio</a></li>
+          <li><a href="/contact.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
           <li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li>
-          <li><a href="https://wa.me/9779818178656">WhatsApp Support</a></li>
         </ul>
       </div>
     </div>
@@ -68,12 +66,11 @@
       const g = document.getElementById('services-grid');
       g.innerHTML = '';
       snap.forEach(d => {
-        const item = d.data();
         g.innerHTML += `
-          <div class="service-card">
+          <div class="card">
             <i class="fa-solid fa-code" style="font-size:2rem; color:var(--accent-cyan); margin-bottom:1rem;"></i>
-            <h3 style="font-size:1.4rem; margin-bottom:0.8rem;">${item.title}</h3>
-            <p style="color:var(--text-muted);">${item.description}</p>
+            <h3>${d.data().title}</h3>
+            <p style="color:var(--text-muted); margin-top:0.5rem;">${d.data().description}</p>
           </div>
         `;
       });
