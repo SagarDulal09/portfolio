@@ -3,61 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | Sagar Dulal</title>
+  <title>Admin Portal | Sagar Dulal</title>
   <style>
     :root {
-      --bg: #07070d;
-      --panel-bg: #111827;
-      --card-bg: rgba(255, 255, 255, 0.03);
+      --bg: #05050b;
+      --panel-bg: #0d0d1a;
+      --card-bg: rgba(176, 38, 255, 0.04);
       --neon-blue: #00f0ff;
-      --neon-purple: #a855f7;
-      --text: #f3f4f6;
-      --text-muted: #9ca3af;
-      --border: rgba(255, 255, 255, 0.1);
+      --neon-purple: #b026ff;
+      --neon-glow: rgba(0, 240, 255, 0.25);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(176, 38, 255, 0.2);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-    /* Login Guard Overlay with Loading Spinner */
+    /* Login Shield Overlay */
     #login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .login-card { background: var(--panel-bg); padding: 3rem; border-radius: 20px; border: 1px solid var(--border); width: 100%; max-width: 420px; box-shadow: 0 0 40px rgba(0, 240, 255, 0.1); text-align: center; }
-    .login-card h2 { color: #fff; font-size: 1.8rem; margin-bottom: 0.5rem; }
-    .login-card h2 span { color: var(--neon-blue); }
-    .login-card p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
-    .login-card label { text-align: left; display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-top: 1rem; }
-    .login-card input { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); background: #07070d; color: #fff; margin-top: 0.3rem; }
-    .login-btn { width: 100%; padding: 0.85rem; margin-top: 1.8rem; border-radius: 8px; border: none; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    .login-btn:hover { opacity: 0.9; }
+    .login-card { background: var(--panel-bg); padding: 3rem; border-radius: 20px; border: 1px solid var(--neon-purple); width: 100%; max-width: 420px; box-shadow: 0 0 35px rgba(176, 38, 255, 0.25); text-align: center; }
+    .login-card h2 { color: #fff; font-size: 2rem; font-weight: 800; margin-bottom: 0.3rem; }
+    .login-card h2 span { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+    .login-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .login-card label { text-align: left; display: block; font-size: 0.8rem; font-weight: 700; color: var(--neon-blue); margin-top: 1rem; }
+    .login-card input { width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border); background: #05050b; color: #fff; margin-top: 0.3rem; }
+    .login-card input:focus { border-color: var(--neon-blue); outline: none; box-shadow: 0 0 10px var(--neon-glow); }
+    
+    .login-btn { width: 100%; padding: 0.85rem; margin-top: 1.5rem; border-radius: 8px; border: none; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); color: #fff; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 0 15px rgba(176, 38, 255, 0.4); }
+    .login-btn:hover { opacity: 0.9; transform: translateY(-2px); }
 
-    .loader-spinner { display: none; width: 36px; height: 36px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--neon-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 1.2rem auto 0; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .signup-btn-secondary { width: 100%; padding: 0.75rem; margin-top: 0.8rem; border-radius: 8px; border: 1px solid var(--neon-blue); background: transparent; color: var(--neon-blue); font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .signup-btn-secondary:hover { background: rgba(0, 240, 255, 0.1); }
 
     /* Admin Workspace Dashboard */
     #app-container { display: flex; min-height: 100vh; display: none; }
     aside { width: 280px; background: var(--panel-bg); border-right: 1px solid var(--border); padding: 2rem 1.2rem; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
-    .brand-head { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 2rem; }
-    .brand-head span { color: var(--neon-blue); }
+    .brand-head { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 2rem; }
+    .brand-head span { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
 
-    .nav-group-title { font-size: 0.75rem; text-transform: uppercase; color: var(--neon-purple); font-weight: 700; margin-top: 1.2rem; margin-bottom: 0.5rem; padding-left: 0.5rem; }
-    .menu-item { width: 100%; text-align: left; background: transparent; border: none; color: var(--text-muted); padding: 0.75rem 0.8rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s; margin-bottom: 0.2rem; }
-    .menu-item:hover, .menu-item.active { background: rgba(0, 240, 255, 0.1); color: var(--neon-blue); }
+    .nav-group-title { font-size: 0.75rem; text-transform: uppercase; color: var(--neon-purple); font-weight: 800; margin-top: 1.5rem; margin-bottom: 0.5rem; padding-left: 0.5rem; letter-spacing: 1px; }
+    .menu-item { width: 100%; text-align: left; background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 0.75rem 0.8rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s; margin-bottom: 0.3rem; }
+    .menu-item:hover, .menu-item.active { background: rgba(0, 240, 255, 0.08); border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 240, 255, 0.15); }
 
     .logout-btn { width: 100%; padding: 0.75rem; background: #ef4444; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
     main { flex: 1; padding: 3rem; overflow-y: auto; }
-    .header-title { font-size: 2rem; font-weight: 800; margin-bottom: 2rem; color: #fff; }
+    .header-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 2rem; color: #fff; background: linear-gradient(135deg, #fff, var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-    .panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
-    .panel h3 { color: var(--neon-blue); margin-bottom: 1rem; }
+    .panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 0 20px rgba(0,0,0,0.4); }
+    .panel h3 { color: var(--neon-blue); margin-bottom: 1rem; font-size: 1.2rem; }
     label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-top: 1rem; }
-    input, select, textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: #07070d; color: #fff; margin-top: 0.3rem; }
+    input, select, textarea { width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 8px; background: #05050b; color: #fff; margin-top: 0.3rem; }
+    input:focus, select:focus, textarea:focus { border-color: var(--neon-purple); outline: none; box-shadow: 0 0 10px rgba(176, 38, 255, 0.2); }
     
-    .btn-submit { background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); color: #fff; border: none; padding: 0.85rem 1.4rem; border-radius: 8px; margin-top: 1.5rem; cursor: pointer; font-weight: 700; width: 100%; }
+    .btn-submit { background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); color: #fff; border: none; padding: 0.85rem 1.4rem; border-radius: 8px; margin-top: 1.5rem; cursor: pointer; font-weight: 800; width: 100%; text-transform: uppercase; letter-spacing: 1px; }
 
     table { width: 100%; border-collapse: collapse; margin-top: 1.2rem; text-align: left; }
-    th { padding: 0.8rem; background: #07070d; color: var(--text-muted); font-size: 0.8rem; border-bottom: 1px solid var(--border); text-transform: uppercase; }
+    th { padding: 0.8rem; background: #05050b; color: var(--neon-blue); font-size: 0.8rem; border-bottom: 1px solid var(--border); text-transform: uppercase; }
     td { padding: 0.9rem 0.8rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--text); }
-    .img-preview { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
+    .img-preview { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--neon-purple); }
     .btn-delete { background: #ef4444; color: #fff; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
 
     .tab-pane { display: none; }
@@ -69,19 +73,21 @@
   <!-- Login Shield -->
   <div id="login-overlay">
     <div class="login-card">
-      <h2>Sagar <span>Admin</span></h2>
-      <p>Secure Portal Authentication</p>
+      <h2>Sagar <span>Dulal</span></h2>
+      <p>Personal Portfolio Admin Portal</p>
       
       <form id="login-form">
         <label>Email Address</label>
-        <input type="email" id="login-email" placeholder="cotact.sagardulal@gmail.com" required>
+        <input type="email" id="login-email" value="cotact.sagardulal@gmail.com" required>
 
         <label>Password</label>
         <input type="password" id="login-pass" placeholder="••••••••" required>
 
-        <button type="submit" class="login-btn">Authenticate</button>
-        <div class="loader-spinner" id="login-spinner"></div>
-        <div id="login-error" style="color:#ef4444; font-size: 0.85rem; margin-top: 10px; font-weight: bold;"></div>
+        <button type="submit" class="login-btn">Sign In</button>
+        <button type="button" class="signup-btn-secondary" id="register-btn">First Time? Create Admin Account</button>
+        
+        <div id="login-error" style="color:#ef4444; font-size: 0.85rem; margin-top: 12px; font-weight: bold;"></div>
+        <div id="login-success" style="color:var(--neon-blue); font-size: 0.85rem; margin-top: 12px; font-weight: bold;"></div>
       </form>
     </div>
   </div>
@@ -89,7 +95,7 @@
   <div id="app-container">
     <aside>
       <div>
-        <div class="brand-head">Admin <span>Panel</span></div>
+        <div class="brand-head">Sagar <span>Dulal</span></div>
 
         <div class="nav-group-title">Portfolio</div>
         <button class="menu-item active" onclick="switchPane('pane-projects', this)">Manage Projects</button>
@@ -105,24 +111,25 @@
     </aside>
 
     <main>
-      <div class="header-title">Content Management System</div>
+      <div class="header-title">Personal Content Manager</div>
 
       <!-- Tab 1: Project Management -->
       <div id="pane-projects" class="tab-pane active-pane">
         <div class="panel">
-          <h3>Add New Project</h3>
+          <h3>Add New Portfolio Project</h3>
           <form id="add-project-form">
             <label>Project Title</label>
             <input type="text" id="p-title" required>
 
             <label>Category</label>
             <select id="p-cat">
-              <option value="Web Design">Web Design</option>
+              <option value="Web Development">Web Development</option>
               <option value="Graphic Design">Graphic Design</option>
+              <option value="UI/UX Design">UI/UX Design</option>
             </select>
 
-            <label>Image URL (Direct link to project screenshot)</label>
-            <input type="url" id="p-img" placeholder="https://example.com/image.jpg">
+            <label>Image URL (Paste image link)</label>
+            <input type="url" id="p-img" placeholder="https://example.com/project.jpg">
 
             <label>Description</label>
             <textarea id="p-desc" rows="3" required></textarea>
@@ -132,12 +139,12 @@
         </div>
 
         <div class="panel">
-          <h3>Live Portfolio Items</h3>
+          <h3>Published Projects</h3>
           <table>
             <thead>
               <tr><th>Image</th><th>Title</th><th>Category</th><th>Action</th></tr>
             </thead>
-            <tbody id="project-table"><tr><td colspan="4">Loading...</td></tr></tbody>
+            <tbody id="project-table"><tr><td colspan="4">Loading items...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -166,7 +173,7 @@
             <thead>
               <tr><th>Title</th><th>Description</th><th>Action</th></tr>
             </thead>
-            <tbody id="service-table"><tr><td colspan="3">Loading...</td></tr></tbody>
+            <tbody id="service-table"><tr><td colspan="3">Loading items...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -180,7 +187,7 @@
             <input type="text" id="b-title" required>
 
             <label>Category</label>
-            <input type="text" id="b-cat" placeholder="e.g., Tech Education" required>
+            <input type="text" id="b-cat" placeholder="e.g., Web Development" required>
 
             <label>Cover Image URL (Optional)</label>
             <input type="url" id="b-img" placeholder="https://example.com/cover.jpg">
@@ -198,7 +205,7 @@
             <thead>
               <tr><th>Title</th><th>Category</th><th>Action</th></tr>
             </thead>
-            <tbody id="blog-table"><tr><td colspan="3">Loading...</td></tr></tbody>
+            <tbody id="blog-table"><tr><td colspan="3">Loading items...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -208,7 +215,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, collection, setDoc, doc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -235,18 +242,43 @@
       }
     });
 
+    // Sign In Action
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const spinner = document.getElementById('login-spinner');
       const errorDiv = document.getElementById('login-error');
-      spinner.style.display = 'block';
+      const succDiv = document.getElementById('login-success');
       errorDiv.innerText = '';
+      succDiv.innerText = '';
       try {
         await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value);
       } catch (err) {
+        if(err.code === 'auth/invalid-credential') {
+          errorDiv.innerText = "Account not found or password incorrect. Click 'Create Admin Account' below to register this email.";
+        } else {
+          errorDiv.innerText = err.message;
+        }
+      }
+    });
+
+    // Create Admin Account Action
+    document.getElementById('register-btn').addEventListener('click', async () => {
+      const email = document.getElementById('login-email').value;
+      const pass = document.getElementById('login-pass').value;
+      const errorDiv = document.getElementById('login-error');
+      const succDiv = document.getElementById('login-success');
+      errorDiv.innerText = '';
+      succDiv.innerText = '';
+
+      if (!pass || pass.length < 6) {
+        errorDiv.innerText = "Please enter a password of at least 6 characters.";
+        return;
+      }
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+        succDiv.innerText = "Admin Account created successfully! Logging in...";
+      } catch (err) {
         errorDiv.innerText = err.message;
-      } finally {
-        spinner.style.display = 'none';
       }
     });
 
