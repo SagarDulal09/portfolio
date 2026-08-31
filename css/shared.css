@@ -1,38 +1,61 @@
 :root {
   --bg-main: #06070e;
-  --bg-card: rgba(18, 20, 32, 0.7);
-  --accent-cyan: #00f0ff;
-  --accent-purple: #8b5cf6;
+  --panel-bg: rgba(13, 15, 26, 0.75);
+  --card-bg: rgba(18, 21, 38, 0.6);
+  --neon-cyan: #00f0ff;
+  --neon-violet: #a855f7;
   --text-primary: #f8fafc;
   --text-muted: #94a3b8;
-  --border-line: rgba(255, 255, 255, 0.08);
+  --border-line: rgba(0, 240, 255, 0.15);
+  --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.25);
+  --glow-violet: 0 0 20px rgba(168, 85, 247, 0.25);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-body { background: var(--bg-main); color: var(--text-primary); line-height: 1.6; }
+body { 
+  background: var(--bg-main); 
+  color: var(--text-primary); 
+  line-height: 1.6;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
 
-/* Navbar */
+/* Futuristic Navbar */
 nav {
   position: fixed; top: 0; width: 100%; z-index: 1000;
-  backdrop-filter: blur(12px); background: rgba(6, 7, 14, 0.85);
+  backdrop-filter: blur(16px); background: rgba(6, 7, 14, 0.85);
   border-bottom: 1px solid var(--border-line);
   padding: 1.2rem 8%; display: flex; justify-content: space-between; align-items: center;
 }
-.logo { font-size: 1.4rem; font-weight: 900; color: #fff; text-decoration: none; }
-.logo span { color: var(--accent-cyan); }
-.nav-links { display: flex; gap: 2rem; }
-.nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s; }
-.nav-links a:hover, .nav-links a.active { color: var(--accent-cyan); }
+.logo { font-size: 1.4rem; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: 1px; }
+.logo span { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
 
-/* Unified Footer */
-footer { background: #030408; border-top: 1px solid var(--border-line); padding: 4rem 8% 2rem; margin-top: 5rem; }
+.nav-links { display: flex; gap: 1.8rem; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+.nav-links a:hover, .nav-links a.active { color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); }
+
+.nav-btn-chat { background: linear-gradient(135deg, var(--neon-violet), var(--neon-cyan)); color: #fff; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; box-shadow: var(--glow-cyan); }
+
+/* Common Hero Banner */
+.page-hero { padding: 9rem 8% 4rem; text-align: center; background: radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.15), transparent 70%); }
+.page-hero h1 { font-size: 3.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+.page-hero h1 span { color: var(--neon-cyan); text-shadow: 0 0 15px rgba(0, 240, 255, 0.5); }
+.page-hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 650px; margin: 0.8rem auto 0; }
+
+/* Cyborg Neon Footer */
+footer { background: #030408; border-top: 1px solid var(--border-line); padding: 4rem 8% 2rem; margin-top: 6rem; position: relative; }
+footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent); }
 .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
 .footer-brand h3 { font-size: 1.5rem; color: #fff; font-weight: 900; margin-bottom: 1rem; }
-.footer-brand h3 span { color: var(--accent-cyan); }
+.footer-brand h3 span { color: var(--neon-cyan); }
 .footer-brand p { color: var(--text-muted); font-size: 0.9rem; }
-.footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 1.2rem; border-left: 3px solid var(--accent-purple); padding-left: 10px; }
+
+.footer-col h4 { color: #fff; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.2rem; border-left: 3px solid var(--neon-violet); padding-left: 10px; }
 .footer-col ul { list-style: none; }
 .footer-col ul li { margin-bottom: 0.8rem; }
 .footer-col ul li a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
-.footer-col ul li a:hover { color: var(--accent-cyan); }
+.footer-col ul li a:hover { color: var(--neon-cyan); }
+
 .footer-bottom { text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-line); padding-top: 2rem; }
