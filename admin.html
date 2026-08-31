@@ -3,37 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | SD Creative Solutions</title>
+  <title>Control Center | SD Creative Solutions</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --bg-dark: #06070e;
-      --panel-bg: #0d0f1a;
+      --panel-bg: #0c0e18;
       --card-bg: #121526;
       --neon-cyan: #00f0ff;
       --neon-violet: #a855f7;
       --text-main: #f8fafc;
-      --text-muted: #64748b;
-      --border-line: rgba(0, 240, 255, 0.15);
+      --text-muted: #94a3b8;
+      --border-line: rgba(0, 240, 255, 0.2);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background: var(--bg-dark); color: var(--text-main); display: flex; min-height: 100vh; }
+    body { background: var(--bg-dark); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
 
-    /* Login Screen */
-    #login-overlay { position: fixed; inset: 0; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; z-index: 999; }
-    .auth-box { background: var(--panel-bg); padding: 3rem; border-radius: 16px; border: 1px solid var(--neon-cyan); width: 360px; text-align: center; box-shadow: 0 0 25px rgba(0,240,255,0.15); }
-
-    /* Sidebar Navigation */
+    /* Login Screen & Entrance Animation */
+    #login-overlay { position: fixed; inset: 0; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease, transform 0.6s ease; }
+    #login-overlay.unlock-anim { opacity: 0; transform: scale(1.1); pointer-events: none; }
+    .auth-card { background: var(--panel-bg); padding: 3rem; border-radius: 16px; border: 1px solid var(--neon-cyan); width: 380px; text-align: center; box-shadow: 0 0 30px rgba(0, 240, 255, 0.2); }
+    
+    /* Layout Scaffolding */
     #admin-app { display: none; width: 100%; min-height: 100vh; }
-    aside { width: 280px; background: var(--panel-bg); border-right: 1px solid var(--border-line); padding: 2rem 1.2rem; display: flex; flex-direction: column; flex-shrink: 0; }
-    .brand { font-size: 1.2rem; font-weight: 900; color: #fff; margin-bottom: 2rem; padding-left: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+    #admin-app.active { display: flex; animation: fadeIn 0.8s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    aside { width: 280px; background: var(--panel-bg); border-right: 1px solid var(--border-line); padding: 2rem 1rem; display: flex; flex-direction: column; flex-shrink: 0; }
+    .brand { font-size: 1.2rem; font-weight: 900; color: #fff; margin-bottom: 2rem; padding-left: 0.5rem; letter-spacing: 1px; }
     .brand span { color: var(--neon-cyan); }
     
-    .nav-group { display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
-    .nav-btn { display: flex; align-items: center; gap: 12px; padding: 1rem 1.2rem; border-radius: 10px; color: var(--text-muted); background: transparent; border: none; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: left; }
-    .nav-btn:hover, .nav-btn.active { background: rgba(0, 240, 255, 0.1); color: var(--neon-cyan); border-left: 3px solid var(--neon-cyan); }
+    .nav-list { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+    .nav-btn { display: flex; align-items: center; gap: 12px; padding: 0.9rem 1rem; border-radius: 8px; color: var(--text-muted); background: transparent; border: none; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: left; }
+    .nav-btn:hover, .nav-btn.active { background: rgba(0, 240, 255, 0.1); color: var(--neon-cyan); border-left: 4px solid var(--neon-cyan); }
 
-    main { flex: 1; padding: 3rem; overflow-y: auto; }
+    main { flex: 1; padding: 2.5rem; overflow-y: auto; height: 100vh; }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
 
@@ -41,22 +45,37 @@
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
     .full-width { grid-column: span 2; }
     label { font-size: 0.75rem; font-weight: 800; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 1px; }
-    input, textarea, select { width: 100%; padding: 0.9rem; background: #080912; border: 1px solid var(--border-line); color: #fff; border-radius: 8px; margin-top: 0.4rem; outline: none; }
-    input:focus, textarea:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+    input, textarea, select { width: 100%; padding: 0.85rem; background: #080912; border: 1px solid var(--border-line); color: #fff; border-radius: 8px; margin-top: 0.4rem; outline: none; }
+    input:focus, textarea:focus, select:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
     
-    .btn-action { background: linear-gradient(135deg, var(--neon-violet), var(--neon-cyan)); border: none; padding: 1rem 2rem; border-radius: 8px; color: #fff; font-weight: 800; cursor: pointer; margin-top: 1rem; width: 100%; text-transform: uppercase; letter-spacing: 1px; }
+    /* Drag and Drop Zone */
+    .dropzone { border: 2px dashed var(--border-line); border-radius: 10px; padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2); cursor: pointer; transition: 0.3s; margin-top: 0.4rem; }
+    .dropzone.dragover { border-color: var(--neon-cyan); background: rgba(0, 240, 255, 0.1); }
+    .dropzone p { color: var(--text-muted); font-size: 0.85rem; }
+
+    .btn-action { background: linear-gradient(135deg, var(--neon-violet), var(--neon-cyan)); border: none; padding: 0.9rem 1.8rem; border-radius: 8px; color: #fff; font-weight: 800; cursor: pointer; margin-top: 1.2rem; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+    .btn-action:hover { box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-line); font-size: 0.9rem; }
+    th, td { padding: 0.9rem; text-align: left; border-bottom: 1px solid var(--border-line); font-size: 0.85rem; }
     th { color: var(--neon-cyan); background: #080912; text-transform: uppercase; font-size: 0.75rem; }
-    .btn-del { background: #ef4444; border: none; padding: 0.5rem 1rem; color: #fff; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .btn-del { background: #ef4444; border: none; padding: 0.4rem 0.8rem; color: #fff; border-radius: 6px; cursor: pointer; font-weight: bold; }
+
+    @media (max-width: 900px) {
+      #admin-app.active { flex-direction: column; }
+      aside { width: 100%; }
+      .form-grid { grid-template-columns: 1fr; }
+      .full-width { grid-column: span 1; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Animated Authorization Overlay -->
   <div id="login-overlay">
-    <div class="auth-box">
-      <h2 style="margin-bottom:0.5rem;">CYBORG <span>ADMIN</span></h2>
-      <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:0.85rem;">SD Creative Solutions Portal</p>
+    <div class="auth-card">
+      <h2 style="margin-bottom:0.5rem; letter-spacing: 1px;">PORTAL <span>AUTH</span></h2>
+      <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:0.85rem;">SD Creative Solutions Dashboard</p>
       <input type="email" id="auth-email" value="cotact.sagardulal@gmail.com">
       <input type="password" id="auth-pass" placeholder="Password" style="margin-top:0.8rem;">
       <button class="btn-action" onclick="loginAdmin()">Authorize Access</button>
@@ -66,42 +85,51 @@
   <div id="admin-app">
     <aside>
       <div class="brand">SD <span>CREATIVE</span></div>
-      <div class="nav-group">
+      <div class="nav-list">
         <button class="nav-btn active" onclick="switchTab('projects', this)"><i class="fa-solid fa-folder-open"></i> Projects</button>
         <button class="nav-btn" onclick="switchTab('services', this)"><i class="fa-solid fa-cubes"></i> Services</button>
         <button class="nav-btn" onclick="switchTab('pricing', this)"><i class="fa-solid fa-tags"></i> Pricing Plans</button>
         <button class="nav-btn" onclick="switchTab('blogs', this)"><i class="fa-solid fa-newspaper"></i> Blog Articles</button>
+        <button class="nav-btn" onclick="switchTab('certs', this)"><i class="fa-solid fa-certificate"></i> Certificates</button>
+        <button class="nav-btn" onclick="switchTab('mcqs', this)"><i class="fa-solid fa-list-check"></i> Add Section MCQs</button>
       </div>
-      <button class="btn-del" onclick="signOutAdmin()" style="width:100%; padding:0.9rem; margin-top:auto;">Disconnect</button>
+      <button class="btn-del" onclick="signOutAdmin()" style="width:100%; padding:0.8rem; margin-top:2rem;">Sign Out</button>
     </aside>
 
     <main>
       <!-- PROJECTS TAB -->
       <div id="pane-projects" class="tab-pane active">
-        <h1 style="margin-bottom:1.5rem;">Manage Portfolio Projects</h1>
+        <h1 style="margin-bottom:1.5rem;">Manage Projects</h1>
         <div class="card">
           <form id="form-project">
             <div class="form-grid">
               <div><label>Project Title</label><input type="text" id="p-title" required></div>
               <div><label>Category</label>
                 <select id="p-cat">
+                  <option value="Web Design">Web Design</option>
                   <option value="Graphic Design">Graphic Design</option>
                   <option value="Logo Design">Logo Design</option>
                   <option value="Thumbnail Design">Thumbnail Design</option>
-                  <option value="Webpage Design">Webpage Design</option>
-                  <option value="Flyer & Poster">Flyer & Poster</option>
-                  <option value="Social Media">Social Media</option>
+                  <option value="Flyers & Posters">Flyers & Posters</option>
                 </select>
               </div>
-              <div><label>External / Live URL</label><input type="text" id="p-url" placeholder="https://example.com"></div>
-              <div><label>Image URL (Unsplash or Hosted Link)</label><input type="text" id="p-img" placeholder="https://images.unsplash.com/..." required></div>
-              <div class="full-width"><label>Project Details</label><textarea id="p-desc" rows="3" required></textarea></div>
+              <div class="full-width"><label>Live / Demo Link</label><input type="text" id="p-url" placeholder="https://example.com"></div>
+              <div class="full-width">
+                <label>Project Cover Image (Select PC File or Drag & Drop)</label>
+                <div class="dropzone" id="dz-p" onclick="document.getElementById('p-file').click()">
+                  <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--neon-cyan);"></i>
+                  <p id="dz-p-txt">Click or Drag & Drop Image Here</p>
+                  <input type="file" id="p-file" accept="image/*" style="display:none;">
+                </div>
+                <input type="text" id="p-imgurl" placeholder="Or paste external image URL..." style="margin-top:0.6rem;">
+              </div>
+              <div class="full-width"><label>Description</label><textarea id="p-desc" rows="3" required></textarea></div>
             </div>
             <button type="submit" class="btn-action">Publish Project</button>
           </form>
         </div>
         <div class="card">
-          <h3>Live Projects</h3>
+          <h3>Published Projects</h3>
           <table>
             <thead><tr><th>Title</th><th>Category</th><th>Action</th></tr></thead>
             <tbody id="tbl-projects"></tbody>
@@ -111,13 +139,22 @@
 
       <!-- SERVICES TAB -->
       <div id="pane-services" class="tab-pane">
-        <h1 style="margin-bottom:1.5rem;">Manage Offered Services</h1>
+        <h1 style="margin-bottom:1.5rem;">Manage Services</h1>
         <div class="card">
           <form id="form-service">
             <div class="form-grid">
               <div><label>Service Title</label><input type="text" id="s-title" required></div>
-              <div><label>Icon Class (FontAwesome)</label><input type="text" id="s-icon" placeholder="fa-solid fa-palette" required></div>
-              <div class="full-width"><label>Short Description</label><textarea id="s-desc" rows="3" required></textarea></div>
+              <div><label>FontAwesome Icon</label><input type="text" id="s-icon" placeholder="fa-solid fa-code" required></div>
+              <div class="full-width">
+                <label>Service Banner (PC File / Drag & Drop)</label>
+                <div class="dropzone" id="dz-s" onclick="document.getElementById('s-file').click()">
+                  <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--neon-cyan);"></i>
+                  <p id="dz-s-txt">Click or Drag & Drop Image Here</p>
+                  <input type="file" id="s-file" accept="image/*" style="display:none;">
+                </div>
+                <input type="text" id="s-imgurl" placeholder="Or paste external image URL..." style="margin-top:0.6rem;">
+              </div>
+              <div class="full-width"><label>Service Description</label><textarea id="s-desc" rows="3" required></textarea></div>
             </div>
             <button type="submit" class="btn-action">Save Service</button>
           </form>
@@ -133,15 +170,15 @@
 
       <!-- PRICING TAB -->
       <div id="pane-pricing" class="tab-pane">
-        <h1 style="margin-bottom:1.5rem;">Manage Price & Plans</h1>
+        <h1 style="margin-bottom:1.5rem;">Manage Pricing Plans</h1>
         <div class="card">
           <form id="form-pricing">
             <div class="form-grid">
-              <div><label>Plan Name</label><input type="text" id="pr-name" placeholder="e.g. Starter Graphic Package" required></div>
-              <div><label>Price ($ / NPR)</label><input type="text" id="pr-price" placeholder="e.g. $49 or NPR 5,000" required></div>
-              <div class="full-width"><label>Features Included (Comma Separated)</label><textarea id="pr-feats" rows="3" placeholder="3 Revisions, Source Files Included, Fast 24h Delivery" required></textarea></div>
+              <div><label>Plan Name</label><input type="text" id="pr-name" required></div>
+              <div><label>Price Rate</label><input type="text" id="pr-price" placeholder="e.g. NPR 5,000 / $45" required></div>
+              <div class="full-width"><label>Features Included (Comma Separated)</label><textarea id="pr-feats" rows="3" required></textarea></div>
             </div>
-            <button type="submit" class="btn-action">Publish Pricing Plan</button>
+            <button type="submit" class="btn-action">Save Pricing Plan</button>
           </form>
         </div>
         <div class="card">
@@ -153,25 +190,104 @@
         </div>
       </div>
 
-      <!-- BLOGS TAB -->
+      <!-- BLOG TAB -->
       <div id="pane-blogs" class="tab-pane">
-        <h1 style="margin-bottom:1.5rem;">Publish Tech & Design Articles</h1>
+        <h1 style="margin-bottom:1.5rem;">Manage Articles</h1>
         <div class="card">
           <form id="form-blog">
             <div class="form-grid">
               <div><label>Article Title</label><input type="text" id="b-title" required></div>
-              <div><label>Category</label><input type="text" id="b-cat" placeholder="Design Tips" required></div>
-              <div class="full-width"><label>Cover Image URL</label><input type="text" id="b-img" placeholder="https://images.unsplash.com/..." required></div>
+              <div><label>Topic / Category</label><input type="text" id="b-cat" placeholder="Web Development" required></div>
+              <div class="full-width">
+                <label>Article Cover Image (PC Upload / Drag & Drop)</label>
+                <div class="dropzone" id="dz-b" onclick="document.getElementById('b-file').click()">
+                  <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--neon-cyan);"></i>
+                  <p id="dz-b-txt">Click or Drag & Drop Image Here</p>
+                  <input type="file" id="b-file" accept="image/*" style="display:none;">
+                </div>
+                <input type="text" id="b-imgurl" placeholder="Or paste external image URL..." style="margin-top:0.6rem;">
+              </div>
               <div class="full-width"><label>Article Body</label><textarea id="b-content" rows="6" required></textarea></div>
             </div>
             <button type="submit" class="btn-action">Publish Article</button>
           </form>
         </div>
         <div class="card">
-          <h3>Published Blog Articles</h3>
+          <h3>Published Blog Posts</h3>
           <table>
             <thead><tr><th>Title</th><th>Category</th><th>Action</th></tr></thead>
             <tbody id="tbl-blogs"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CERTIFICATES TAB -->
+      <div id="pane-certs" class="tab-pane">
+        <h1 style="margin-bottom:1.5rem;">Manage Certificates</h1>
+        <div class="card">
+          <form id="form-cert">
+            <div class="form-grid">
+              <div><label>Certificate Title</label><input type="text" id="c-title" placeholder="e.g. Fullstack Web Development" required></div>
+              <div><label>Issuing Institute</label><input type="text" id="c-org" placeholder="e.g. DIT Solution" required></div>
+              <div class="full-width">
+                <label>Certificate Image File / Drag & Drop</label>
+                <div class="dropzone" id="dz-c" onclick="document.getElementById('c-file').click()">
+                  <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--neon-cyan);"></i>
+                  <p id="dz-c-txt">Click or Drag & Drop Image Here</p>
+                  <input type="file" id="c-file" accept="image/*" style="display:none;">
+                </div>
+                <input type="text" id="c-imgurl" placeholder="Or paste image URL directly..." style="margin-top:0.6rem;">
+              </div>
+            </div>
+            <button type="submit" class="btn-action">Add Certificate</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Uploaded Certificates</h3>
+          <table>
+            <thead><tr><th>Title</th><th>Issuer</th><th>Action</th></tr></thead>
+            <tbody id="tbl-certs"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION MCQ / QUIZ BUILDER TAB -->
+      <div id="pane-mcqs" class="tab-pane">
+        <h1 style="margin-bottom:1.5rem;">Manage Topic / Section MCQs</h1>
+        <div class="card">
+          <form id="form-mcq">
+            <div class="form-grid">
+              <div><label>Target Section Topic</label>
+                <select id="m-section">
+                  <option value="Projects">Projects</option>
+                  <option value="Services">Services</option>
+                  <option value="Pricing">Pricing</option>
+                  <option value="Blog">Blog</option>
+                  <option value="General Web Knowledge">General Web Knowledge</option>
+                </select>
+              </div>
+              <div class="full-width"><label>Question Text</label><input type="text" id="m-q" required></div>
+              <div><label>Option A</label><input type="text" id="m-opt-a" required></div>
+              <div><label>Option B</label><input type="text" id="m-opt-b" required></div>
+              <div><label>Option C</label><input type="text" id="m-opt-c" required></div>
+              <div><label>Option D</label><input type="text" id="m-opt-d" required></div>
+              <div class="full-width"><label>Correct Option</label>
+                <select id="m-ans">
+                  <option value="A">Option A</option>
+                  <option value="B">Option B</option>
+                  <option value="C">Option C</option>
+                  <option value="D">Option D</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn-action">Save Section MCQ</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Stored Section MCQs</h3>
+          <table>
+            <thead><tr><th>Section</th><th>Question</th><th>Action</th></tr></thead>
+            <tbody id="tbl-mcqs"></tbody>
           </table>
         </div>
       </div>
@@ -193,6 +309,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    // Tab Navigation
     window.switchTab = (name, btn) => {
       document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -200,53 +317,129 @@
       btn.classList.add('active');
     };
 
-    window.loginAdmin = () => signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value);
+    // Authentication Handlers
+    window.loginAdmin = async () => {
+      try {
+        await signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value);
+      } catch(err) { alert("Auth Failed: " + err.message); }
+    };
+
     window.signOutAdmin = () => signOut(auth);
 
     onAuthStateChanged(auth, user => {
-      document.getElementById('login-overlay').style.display = user ? 'none' : 'flex';
-      document.getElementById('admin-app').style.display = user ? 'flex' : 'none';
-      if(user) listenData();
+      const overlay = document.getElementById('login-overlay');
+      const app = document.getElementById('admin-app');
+      if (user) {
+        overlay.classList.add('unlock-anim');
+        setTimeout(() => { overlay.style.display = 'none'; app.classList.add('active'); }, 500);
+        listenAllData();
+      } else {
+        overlay.style.display = 'flex';
+        overlay.classList.remove('unlock-anim');
+        app.classList.remove('active');
+      }
     });
 
-    // Form Submissions
-    document.getElementById('form-project').addEventListener('submit', async (e) => {
+    // Helper: Convert File to Optimized Data URI
+    const getFileData = (fileInput, defaultUrl) => new Promise(resolve => {
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        resolve(defaultUrl || "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800");
+      }
+    });
+
+    // Setup Drag and Drop
+    function bindDragDrop(zoneId, inputId, textId) {
+      const zone = document.getElementById(zoneId);
+      const input = document.getElementById(inputId);
+      const txt = document.getElementById(textId);
+
+      ['dragenter', 'dragover'].forEach(eventName => zone.addEventListener(eventName, e => { e.preventDefault(); zone.classList.add('dragover'); }, false));
+      ['dragleave', 'drop'].forEach(eventName => zone.addEventListener(eventName, e => { e.preventDefault(); zone.classList.remove('dragover'); }, false));
+
+      zone.addEventListener('drop', e => {
+        if (e.dataTransfer.files.length) {
+          input.files = e.dataTransfer.files;
+          txt.innerText = "Selected: " + e.dataTransfer.files[0].name;
+        }
+      });
+      input.addEventListener('change', () => {
+        if(input.files.length) txt.innerText = "Selected: " + input.files[0].name;
+      });
+    }
+
+    bindDragDrop('dz-p', 'p-file', 'dz-p-txt');
+    bindDragDrop('dz-s', 's-file', 'dz-s-txt');
+    bindDragDrop('dz-b', 'b-file', 'dz-b-txt');
+    bindDragDrop('dz-c', 'c-file', 'dz-c-txt');
+
+    // Submit Actions
+    document.getElementById('form-project').addEventListener('submit', async e => {
       e.preventDefault();
       const title = document.getElementById('p-title').value;
       const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
-      await setDoc(doc(db, "projects", slug), {
-        title, slug, category: document.getElementById('p-cat').value,
-        url: document.getElementById('p-url').value, imageUrl: document.getElementById('p-img').value,
-        description: document.getElementById('p-desc').value, timestamp: Date.now()
-      });
+      const img = await getFileData(document.getElementById('p-file'), document.getElementById('p-imgurl').value);
+      await setDoc(doc(db, "projects", slug), { title, slug, category: document.getElementById('p-cat').value, url: document.getElementById('p-url').value, imageUrl: img, description: document.getElementById('p-desc').value, timestamp: Date.now() });
       alert("Project Saved!"); document.getElementById('form-project').reset();
     });
 
-    document.getElementById('form-service').addEventListener('submit', async (e) => {
+    document.getElementById('form-service').addEventListener('submit', async e => {
       e.preventDefault();
       const title = document.getElementById('s-title').value;
       const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
-      await setDoc(doc(db, "services", slug), { title, slug, icon: document.getElementById('s-icon').value, description: document.getElementById('s-desc').value });
+      const img = await getFileData(document.getElementById('s-file'), document.getElementById('s-imgurl').value);
+      await setDoc(doc(db, "services", slug), { title, slug, icon: document.getElementById('s-icon').value, imageUrl: img, description: document.getElementById('s-desc').value });
       alert("Service Saved!"); document.getElementById('form-service').reset();
     });
 
-    document.getElementById('form-pricing').addEventListener('submit', async (e) => {
+    document.getElementById('form-pricing').addEventListener('submit', async e => {
       e.preventDefault();
       const name = document.getElementById('pr-name').value;
       const slug = name.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
       await setDoc(doc(db, "pricing", slug), { name, price: document.getElementById('pr-price').value, features: document.getElementById('pr-feats').value });
-      alert("Pricing Plan Saved!"); document.getElementById('form-pricing').reset();
+      alert("Pricing Saved!"); document.getElementById('form-pricing').reset();
     });
 
-    document.getElementById('form-blog').addEventListener('submit', async (e) => {
+    document.getElementById('form-blog').addEventListener('submit', async e => {
       e.preventDefault();
       const title = document.getElementById('b-title').value;
       const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
-      await setDoc(doc(db, "blogs", slug), { title, slug, category: document.getElementById('b-cat').value, imageUrl: document.getElementById('b-img').value, content: document.getElementById('b-content').value, timestamp: Date.now() });
+      const img = await getFileData(document.getElementById('b-file'), document.getElementById('b-imgurl').value);
+      await setDoc(doc(db, "blogs", slug), { title, slug, category: document.getElementById('b-cat').value, imageUrl: img, content: document.getElementById('b-content').value, timestamp: Date.now() });
       alert("Article Published!"); document.getElementById('form-blog').reset();
     });
 
-    function listenData() {
+    document.getElementById('form-cert').addEventListener('submit', async e => {
+      e.preventDefault();
+      const title = document.getElementById('c-title').value;
+      const slug = title.toLowerCase().trim().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
+      const img = await getFileData(document.getElementById('c-file'), document.getElementById('c-imgurl').value);
+      await setDoc(doc(db, "certificates", slug), { title, organization: document.getElementById('c-org').value, imageUrl: img, timestamp: Date.now() });
+      alert("Certificate Saved!"); document.getElementById('form-cert').reset();
+    });
+
+    document.getElementById('form-mcq').addEventListener('submit', async e => {
+      e.preventDefault();
+      const id = 'mcq-' + Date.now();
+      await setDoc(doc(db, "mcqs", id), {
+        section: document.getElementById('m-section').value,
+        question: document.getElementById('m-q').value,
+        options: {
+          A: document.getElementById('m-opt-a').value,
+          B: document.getElementById('m-opt-b').value,
+          C: document.getElementById('m-opt-c').value,
+          D: document.getElementById('m-opt-d').value
+        },
+        answer: document.getElementById('m-ans').value
+      });
+      alert("MCQ Saved!"); document.getElementById('form-mcq').reset();
+    });
+
+    // Realtime Data Sync
+    function listenAllData() {
       onSnapshot(collection(db, "projects"), snap => {
         const t = document.getElementById('tbl-projects'); t.innerHTML = '';
         snap.forEach(d => t.innerHTML += `<tr><td><b>${d.data().title}</b></td><td>${d.data().category}</td><td><button class="btn-del" onclick="delItem('projects','${d.id}')">Delete</button></td></tr>`);
@@ -263,9 +456,17 @@
         const t = document.getElementById('tbl-blogs'); t.innerHTML = '';
         snap.forEach(d => t.innerHTML += `<tr><td><b>${d.data().title}</b></td><td>${d.data().category}</td><td><button class="btn-del" onclick="delItem('blogs','${d.id}')">Delete</button></td></tr>`);
       });
+      onSnapshot(collection(db, "certificates"), snap => {
+        const t = document.getElementById('tbl-certs'); t.innerHTML = '';
+        snap.forEach(d => t.innerHTML += `<tr><td><b>${d.data().title}</b></td><td>${d.data().organization}</td><td><button class="btn-del" onclick="delItem('certificates','${d.id}')">Delete</button></td></tr>`);
+      });
+      onSnapshot(collection(db, "mcqs"), snap => {
+        const t = document.getElementById('tbl-mcqs'); t.innerHTML = '';
+        snap.forEach(d => t.innerHTML += `<tr><td><b>[${d.data().section}]</b> ${d.data().question}</td><td>Correct: ${d.data().answer}</td><td><button class="btn-del" onclick="delItem('mcqs','${d.id}')">Delete</button></td></tr>`);
+      });
     }
 
-    window.delItem = async (col, id) => { if(confirm("Permanently delete?")) await deleteDoc(doc(db, col, id)); };
+    window.delItem = async (col, id) => { if(confirm("Permanently delete document?")) await deleteDoc(doc(db, col, id)); };
   </script>
 </body>
 </html>
