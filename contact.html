@@ -3,64 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact | Sagar Dulal</title>
+  <title>Contact Sagar Dulal | SD Creative Solutions</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/shared.css">
   <style>
-    .contact-box { max-width: 700px; margin: 9rem auto 4rem; padding: 3rem; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 16px; }
-    input, textarea { width: 100%; padding: 1rem; background: #000; border: 1px solid var(--border-line); color: #fff; border-radius: 8px; margin-top: 0.5rem; margin-bottom: 1.5rem; }
-    .btn-send { background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)); border: none; padding: 1rem 2rem; color: #fff; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; text-transform: uppercase; }
+    .contact-container { padding: 9rem 8% 6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1100px; margin: 0 auto; }
+    .contact-card { background: var(--panel-bg); border: 1px solid var(--border-line); border-radius: 16px; padding: 3rem; }
+    input, textarea { width: 100%; padding: 1rem; background: #080912; border: 1px solid var(--border-line); color: #fff; border-radius: 8px; margin-top: 0.4rem; margin-bottom: 1.5rem; outline: none; }
+    input:focus, textarea:focus { border-color: var(--neon-cyan); }
   </style>
 </head>
 <body>
   <nav>
-    <a href="/" class="logo">Sagar <span>Dulal</span></a>
+    <a href="/" class="logo">SD <span>CREATIVE</span></a>
     <div class="nav-links">
       <a href="/">Home</a>
+      <a href="/about.html">About</a>
       <a href="/services.html">Services</a>
-      <a href="/portfolio.html">Portfolio</a>
+      <a href="/portfolio.html">Work</a>
+      <a href="/pricing.html">Pricing</a>
       <a href="/blog.html">Blog</a>
       <a href="/contact.html" class="active">Contact</a>
     </div>
+    <a href="https://wa.me/9779818178656" class="nav-btn-chat"><i class="fa-brands fa-whatsapp"></i> Direct Talk</a>
   </nav>
 
-  <div class="contact-box">
-    <h2>Get In <span>Touch</span></h2>
-    <p style="color:var(--text-muted); margin-bottom:2rem;">Send direct inquiries or support requests.</p>
-    <form onsubmit="alert('Message sent successfully!'); return false;">
-      <label style="font-size:0.8rem; font-weight:bold; color:var(--accent-cyan);">NAME</label>
-      <input type="text" required>
-      <label style="font-size:0.8rem; font-weight:bold; color:var(--accent-cyan);">EMAIL</label>
-      <input type="email" required>
-      <label style="font-size:0.8rem; font-weight:bold; color:var(--accent-cyan);">MESSAGE</label>
-      <textarea rows="4" required></textarea>
-      <button type="submit" class="btn-send">Send Message</button>
-    </form>
+  <div class="contact-container">
+    <div>
+      <h1 style="font-size:3rem; font-weight:900; margin-bottom:1rem;">Let's Build <span>Together</span></h1>
+      <p style="color:var(--text-muted); margin-bottom:2rem;">Have a project in mind or need technical support? Send an inquiry directly.</p>
+      
+      <div style="margin-bottom:1.5rem;">
+        <h4 style="color:var(--neon-cyan);">EMAIL</h4>
+        <p style="color:#fff;">cotact.sagardulal@gmail.com</p>
+      </div>
+      <div>
+        <h4 style="color:var(--neon-cyan);">WHATSAPP / DIRECT PHONE</h4>
+        <p style="color:#fff;">+977 9818178656</p>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <form onsubmit="alert('Thank you! Message sent directly to Sagar Dulal.'); return false;">
+        <label style="color:var(--neon-cyan); font-size:0.8rem; font-weight:bold;">YOUR NAME</label>
+        <input type="text" required>
+        <label style="color:var(--neon-cyan); font-size:0.8rem; font-weight:bold;">EMAIL ADDRESS</label>
+        <input type="email" required>
+        <label style="color:var(--neon-cyan); font-size:0.8rem; font-weight:bold;">MESSAGE / PROJECT BRIEF</label>
+        <textarea rows="5" required></textarea>
+        <button type="submit" class="nav-btn-chat" style="width:100%; padding:1rem; border:none; cursor:pointer;">Send Message</button>
+      </form>
+    </div>
   </div>
 
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
-        <h3>Sagar <span>Dulal</span></h3>
-        <p>Full-Stack Web Architect & Technical Trainer</p>
+        <h3>SD <span>CREATIVE</span></h3>
+        <p>Full-Stack Web Architect & Visual Brand Strategist</p>
       </div>
       <div class="footer-col">
         <h4>Navigation</h4>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/services.html">Services</a></li>
-          <li><a href="/portfolio.html">Portfolio</a></li>
-          <li><a href="/contact.html">Contact</a></li>
+          <li><a href="/about.html">About Sagar</a></li>
+          <li><a href="/services.html">Core Services</a></li>
+          <li><a href="/portfolio.html">Featured Works</a></li>
+          <li><a href="/pricing.html">Price & Plans</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Contact</h4>
+        <h4>Direct Contact</h4>
         <ul>
           <li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li>
+          <li><a href="https://wa.me/9779818178656">WhatsApp Direct</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">&copy; 2026 Sagar Dulal. All rights reserved.</div>
+    <div class="footer-bottom">&copy; 2026 Sagar Dulal / SD Creative Solutions. All rights reserved.</div>
   </footer>
 </body>
 </html>
