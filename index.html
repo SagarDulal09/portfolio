@@ -3,64 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sagar Dulal | Fullstack Developer & Designer</title>
+  <title>Sagar Dulal | Digital Architect</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/shared.css">
   <style>
-    /* Hero Layout */
-    .hero { min-height: 90vh; padding: 10rem 8% 4rem; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; max-width: 1300px; margin: 0 auto; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,240,255,0.08); border: 1px solid var(--neon-cyan); padding: 0.4rem 1rem; border-radius: 50px; color: var(--neon-cyan); font-size: 0.85rem; font-weight: 800; margin-bottom: 1.5rem; text-transform: uppercase; }
+    .hero { min-height: 85vh; padding: 10rem 8% 4rem; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; max-width: 1300px; margin: 0 auto; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,240,255,0.08); border: 1px solid var(--neon-cyan); padding: 0.4rem 1rem; border-radius: 50px; color: var(--neon-cyan); font-size: 0.85rem; font-weight: 800; margin-bottom: 1.5rem; }
     .hero-title { font-size: 3.5rem; font-weight: 900; line-height: 1.15; margin-bottom: 1.2rem; }
-    .hero-title span { color: var(--neon-cyan); text-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
-
-    /* Interactive Menu Box */
+    .hero-title span { color: var(--neon-cyan); }
     .interactive-card { background: var(--panel-bg); border: 1px solid var(--border-line); border-radius: 16px; padding: 2rem; box-shadow: var(--glow-cyan); }
     .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.2rem; }
-    .opt-btn { background: #080912; border: 1px solid var(--border-line); color: var(--text-main); padding: 0.8rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; text-align: left; transition: 0.2s; font-weight: 600; }
-    .opt-btn:hover { border-color: var(--neon-cyan); background: rgba(0, 240, 255, 0.1); color: var(--neon-cyan); }
-
-    /* Section Styling */
-    .sec-container { max-width: 1300px; margin: 0 auto; padding: 5rem 2rem; }
-    .sec-title { text-align: center; margin-bottom: 3.5rem; }
-    .sec-title h2 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; }
-    .sec-title h2 span { color: var(--neon-cyan); }
-
-    /* Skills Grid */
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-    .skill-card { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 14px; padding: 2rem; transition: 0.3s; }
-    .skill-card:hover { border-color: var(--neon-cyan); box-shadow: var(--glow-cyan); transform: translateY(-4px); }
-    .skill-card h3 { color: var(--neon-cyan); margin-bottom: 1rem; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-    .skill-list { list-style: none; }
-    .skill-list li { margin-bottom: 0.6rem; color: var(--text-muted); font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
-    .skill-list li i { color: var(--neon-violet); font-size: 0.8rem; }
-
-    /* Qualifications Timeline */
-    .timeline { border-left: 2px solid var(--neon-cyan); padding-left: 2rem; max-width: 800px; margin: 0 auto; }
-    .tl-item { margin-bottom: 2.5rem; position: relative; }
-    .tl-item::before { content:''; position: absolute; left: -2.5rem; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--neon-cyan); box-shadow: var(--glow-cyan); }
-
-    /* Certificate Grid */
-    .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-    .cert-card { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 14px; overflow: hidden; transition: 0.3s; }
-    .cert-card:hover { border-color: var(--neon-cyan); box-shadow: var(--glow-cyan); }
-    .cert-img { width: 100%; height: 200px; object-fit: cover; }
-
-    /* FAQ Accordion */
-    .faq-item { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; }
-    .faq-q { padding: 1.2rem; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; color: var(--neon-cyan); }
-    .faq-a { padding: 0 1.2rem 1.2rem; color: var(--text-muted); display: none; font-size: 0.95rem; }
-
-    /* Quiz Modal / Box */
-    .quiz-box { background: var(--panel-bg); border: 1px solid var(--neon-violet); border-radius: 14px; padding: 2rem; margin-top: 2rem; }
-
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; padding-top: 8rem; }
-      .menu-grid { grid-template-columns: 1fr; }
-    }
+    .opt-btn { background: #080912; border: 1px solid var(--border-line); color: var(--text-main); padding: 0.8rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; text-align: left; font-weight: 600; }
+    .opt-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    .cert-card { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 14px; overflow: hidden; }
+    .cert-img { width: 100%; height: 190px; object-fit: cover; }
+    .faq-item { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 10px; margin-bottom: 1rem; }
+    .faq-q { padding: 1.2rem; cursor: pointer; font-weight: 700; color: var(--neon-cyan); display: flex; justify-content: space-between; }
+    .faq-a { padding: 0 1.2rem 1.2rem; color: var(--text-muted); display: none; }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding-top: 8rem; } }
   </style>
 </head>
 <body>
-
   <header>
     <nav>
       <a href="/" class="logo">SD <span>CREATIVE</span></a>
@@ -77,284 +41,121 @@
     </nav>
   </header>
 
-  <!-- HERO SECTION -->
   <section class="hero">
     <div>
       <div class="hero-badge"><i class="fa-solid fa-code"></i> SD Creative Solutions</div>
       <h1 class="hero-title">👋 Hello, I'm <span>Sagar Dulal</span></h1>
-      <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">
-        Full-Stack Web Architect, Visual Graphic Specialist, and Computer Hardware Technician. Delivering high-impact digital products and scalable online solutions.
-      </p>
-      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-        <a href="/portfolio.html" style="background: linear-gradient(135deg, var(--neon-violet), var(--neon-cyan)); color:#fff; padding: 0.9rem 1.8rem; border-radius: 8px; text-decoration:none; font-weight:800; text-transform:uppercase;">View Projects</a>
-        <a href="/contact.html" style="border: 1px solid var(--neon-cyan); color: #fff; padding: 0.9rem 1.8rem; border-radius: 8px; text-decoration:none; font-weight:700; text-transform:uppercase;">Contact Me</a>
+      <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">Fullstack Web Architect, Graphic Specialist, and Computer Hardware Technician.</p>
+      <div style="display:flex; gap:1rem;">
+        <a href="/portfolio.html" style="background: linear-gradient(135deg, var(--neon-violet), var(--neon-cyan)); color:#fff; padding: 0.9rem 1.8rem; border-radius: 8px; text-decoration:none; font-weight:800;">View Portfolio</a>
+        <a href="/contact.html" style="border: 1px solid var(--neon-cyan); color: #fff; padding: 0.9rem 1.8rem; border-radius: 8px; text-decoration:none; font-weight:700;">Get In Touch</a>
       </div>
     </div>
-
-    <!-- Direct Option Explorer -->
     <div class="interactive-card">
-      <h3 style="font-size:1.2rem; color:var(--neon-cyan);">Service Direct Inquiry</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.4rem;">Select an option below to view specifics:</p>
+      <h3 style="color:var(--neon-cyan);">Direct Option Inquiries</h3>
       <div class="menu-grid">
-        <button class="opt-btn" onclick="showInfo('Graphic Design', 'Professional digital graphics, promotional materials, and marketing layouts.')">1️⃣ Graphic Design</button>
-        <button class="opt-btn" onclick="showInfo('Logo Design', 'Vector logo artwork and minimalist brand identity packages.')">2️⃣ Logo Design</button>
-        <button class="opt-btn" onclick="showInfo('Thumbnail Design', 'High-CTR custom YouTube and media thumbnail graphics.')">3️⃣ Thumbnail Design</button>
-        <button class="opt-btn" onclick="showInfo('Webpage Design', 'Fast, fully responsive full-stack websites built with modern UI.')">4️⃣ Webpage Design</button>
-        <button class="opt-btn" onclick="showInfo('Flyer Design', 'Event banners, promotional flyers, and social media posters.')">5️⃣ Flyer Design</button>
-        <button class="opt-btn" onclick="showInfo('Computer Services', 'BIOS configuration, Windows formatting, RAM/SSD installation, and hardware troubleshooting.')">6️⃣ Computer Services</button>
+        <button class="opt-btn" onclick="showInfo('Graphic Design', 'Custom brand artwork, social banners, and layout designs.')">1️⃣ Graphic Design</button>
+        <button class="opt-btn" onclick="showInfo('Logo Design', 'Vector logo packages and vector identity design.')">2️⃣ Logo Design</button>
+        <button class="opt-btn" onclick="showInfo('Thumbnail Design', 'High-CTR YouTube and social video thumbnails.')">3️⃣ Thumbnail Design</button>
+        <button class="opt-btn" onclick="showInfo('Webpage Design', 'Responsive fullstack web applications and landing pages.')">4️⃣ Webpage Design</button>
+        <button class="opt-btn" onclick="showInfo('Flyer Design', 'Event banners, posters, and print-ready artwork.')">5️⃣ Flyer Design</button>
+        <button class="opt-btn" onclick="showInfo('Computer Services', 'BIOS setup, Windows installation/formatting, RAM/SSD upgrades, and printer maintenance.')">6️⃣ Computer Services</button>
       </div>
       <div id="info-display" style="margin-top:1.2rem; padding:1rem; background:#080912; border-radius:8px; border-left:3px solid var(--neon-cyan); display:none;"></div>
     </div>
   </section>
 
-  <!-- SKILLS MATRIX -->
+  <!-- ADD CERTIFICATE ON HOMEPAGE -->
   <section class="sec-container">
-    <div class="sec-title">
-      <h2>Comprehensive <span>Skills</span></h2>
-      <p style="color:var(--text-muted);">Technical proficiency across design, engineering, and IT support</p>
+    <div style="text-align:center; margin-bottom:3rem;">
+      <h2 style="font-size:2.2rem; text-transform:uppercase;">Verified <span>Certificates</span></h2>
+      <p style="color:var(--text-muted);">Dynamically updated via Admin Panel</p>
     </div>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <h3><i class="fa-solid fa-laptop-code"></i> Web Architecture</h3>
-        <ul class="skill-list">
-          <li><i class="fa-solid fa-check"></i> HTML5, CSS3, Modern JavaScript</li>
-          <li><i class="fa-solid fa-check"></i> Fullstack Frontend + Backend</li>
-          <li><i class="fa-solid fa-check"></i> Firebase & Database Persistence</li>
-          <li><i class="fa-solid fa-check"></i> Responsive Web Layouts</li>
-        </ul>
-      </div>
-
-      <div class="skill-card">
-        <h3><i class="fa-solid fa-palette"></i> Graphic & Visual</h3>
-        <ul class="skill-list">
-          <li><i class="fa-solid fa-check"></i> Vector Logo Design</li>
-          <li><i class="fa-solid fa-check"></i> Thumbnails, Flyers & Posters</li>
-          <li><i class="fa-solid fa-check"></i> Social Media Brand Kits</li>
-          <li><i class="fa-solid fa-check"></i> Canva Visual Suite</li>
-        </ul>
-      </div>
-
-      <div class="skill-card">
-        <h3><i class="fa-solid fa-microchip"></i> Hardware & IT</h3>
-        <ul class="skill-list">
-          <li><i class="fa-solid fa-check"></i> BIOS Setup & Configuration</li>
-          <li><i class="fa-solid fa-check"></i> Windows Installation & Formatting</li>
-          <li><i class="fa-solid fa-check"></i> RAM & SSD Upgrade/Installation</li>
-          <li><i class="fa-solid fa-check"></i> Printer Troubleshooting</li>
-        </ul>
-      </div>
-
-      <div class="skill-card">
-        <h3><i class="fa-solid fa-file-lines"></i> Office Applications</h3>
-        <ul class="skill-list">
-          <li><i class="fa-solid fa-check"></i> Microsoft Word Document Formatting</li>
-          <li><i class="fa-solid fa-check"></i> Microsoft Excel Data Analytics</li>
-          <li><i class="fa-solid fa-check"></i> Microsoft PowerPoint Presentations</li>
-        </ul>
-      </div>
-    </div>
+    <div class="cert-grid" id="certs-grid"></div>
   </section>
 
-  <!-- QUALIFICATIONS TIMELINE -->
-  <section class="sec-container" style="background: rgba(12, 14, 24, 0.4); border-y: 1px solid var(--border-line);">
-    <div class="sec-title">
-      <h2>Academic & Technical <span>Qualifications</span></h2>
-      <p style="color:var(--text-muted);">Verified education path and certified diplomas</p>
-    </div>
-    <div class="timeline">
-      <div class="tl-item">
-        <h3 style="color:#fff;">DIT Solution Training Certification</h3>
-        <p style="color:var(--neon-cyan); font-size:0.9rem; font-weight:700;">Professional Diplomas Completed:</p>
-        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.4rem;">
-          • Programming Fundamentals in C & C++ <br>
-          • Basic Hardware & Networking Infrastructure <br>
-          • Fullstack Web Page Designing (Frontend + Backend) <br>
-          • Graphic Design
-        </p>
-      </div>
-
-      <div class="tl-item">
-        <h3 style="color:#fff;">+2 Higher Secondary Education</h3>
-        <p style="color:var(--neon-cyan); font-size:0.9rem; font-weight:700;">Pushpalal Memorial College</p>
-        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.4rem;">Successfully completed secondary education with focus on core academics.</p>
-      </div>
-
-      <div class="tl-item">
-        <h3 style="color:#fff;">Secondary Education Examination (SEE)</h3>
-        <p style="color:var(--neon-cyan); font-size:0.9rem; font-weight:700;">Himsheela Boarding School</p>
-        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.4rem;">Completed primary and secondary schooling (Grade 1 to Grade 10).</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CERTIFICATES SECTION -->
-  <section class="sec-container">
-    <div class="sec-title">
-      <h2>Verified <span>Certificates</span></h2>
-      <p style="color:var(--text-muted);">Credentials managed dynamically via Admin Panel</p>
-    </div>
-    <div class="cert-grid" id="public-certs-grid"></div>
-  </section>
-
-  <!-- DYNAMIC SECTION MCQS / QUIZ SECTION -->
+  <!-- DYNAMIC SECTION MCQS -->
   <section class="sec-container" style="background: rgba(12, 14, 24, 0.4);">
-    <div class="sec-title">
-      <h2>Interactive Section <span>Knowledge Quiz</span></h2>
-      <p style="color:var(--text-muted);">Test your knowledge on our services, web topics, and IT skills</p>
+    <div style="text-align:center; margin-bottom:2rem;">
+      <h2 style="font-size:2.2rem; text-transform:uppercase;">Section <span>Knowledge Quiz</span></h2>
     </div>
     <div style="max-width: 700px; margin: 0 auto;">
-      <label>Select Quiz Topic:</label>
-      <select id="quiz-topic-select" onchange="loadTopicMCQs()" style="margin-bottom:1.5rem;">
+      <select id="quiz-topic" onchange="loadQuiz()" style="padding:0.8rem; width:100%; background:#080912; border:1px solid var(--border-line); color:#fff; border-radius:8px; margin-bottom:1.5rem;">
         <option value="General Web Knowledge">General Web Knowledge</option>
         <option value="Projects">Projects</option>
         <option value="Services">Services</option>
         <option value="Pricing">Pricing</option>
         <option value="Blog">Blog</option>
       </select>
-      <div id="quiz-container" class="quiz-box">
-        <p style="color:var(--text-muted);">Select a section to load questions...</p>
-      </div>
+      <div id="quiz-box" style="background:var(--panel-bg); border:1px solid var(--border-line); border-radius:12px; padding:2rem;"></div>
     </div>
   </section>
 
-  <!-- FAQ ACCORDION -->
+  <!-- DYNAMIC FAQ SECTION -->
   <section class="sec-container">
-    <div class="sec-title">
-      <h2>Frequently Asked <span>Questions</span></h2>
-      <p style="color:var(--text-muted);">Clear answers to common client questions</p>
+    <div style="text-align:center; margin-bottom:3rem;">
+      <h2 style="font-size:2.2rem; text-transform:uppercase;">Dynamic <span>FAQs</span></h2>
     </div>
-    <div style="max-width: 800px; margin: 0 auto;">
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">What services does SD Creative Solutions provide? <i class="fa-solid fa-chevron-down"></i></div>
-        <div class="faq-a">We provide Web Design, Graphic Design, Logo Design, Thumbnail Design, Flyer & Poster Design, and Computer Hardware Maintenance (Windows formatting, RAM/SSD upgrades, and troubleshooting).</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">How can I request a quote for a website or design project? <i class="fa-solid fa-chevron-down"></i></div>
-        <div class="faq-a">You can navigate to our Contact page, fill out the form with your project details, or review our Pricing page for fixed packages.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Can you assist with local computer hardware issues? <i class="fa-solid fa-chevron-down"></i></div>
-        <div class="faq-a">Yes! We offer BIOS setup, Windows installation, formatting, hardware component upgrades (SSD/RAM), and printer troubleshooting.</div>
-      </div>
-    </div>
+    <div style="max-width: 800px; margin: 0 auto;" id="faq-list"></div>
   </section>
 
   <footer>
     <div class="footer-grid">
-      <div>
-        <h3 style="font-size:1.4rem; color:#fff; font-weight:900; margin-bottom:1rem;">SD <span>CREATIVE</span></h3>
-        <p style="color:var(--text-muted); font-size:0.9rem;">Sagar Dulal — Professional Fullstack Web Architect & Visual Strategist.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Navigation</h4>
-        <ul>
-          <li><a href="/about.html">About Me</a></li>
-          <li><a href="/services.html">Services</a></li>
-          <li><a href="/portfolio.html">Work</a></li>
-          <li><a href="/pricing.html">Pricing</a></li>
-          <li><a href="/contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Inquiries</h4>
-        <ul>
-          <li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li>
-        </ul>
-      </div>
+      <div><h3>SD <span>CREATIVE</span></h3><p style="color:var(--text-muted);">Sagar Dulal Portfolio Portal</p></div>
+      <div class="footer-col"><h4>Menu</h4><ul><li><a href="/about.html">About</a></li><li><a href="/services.html">Services</a></li><li><a href="/portfolio.html">Work</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Direct Email</h4><ul><li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li></ul></div>
     </div>
-    <div class="footer-bottom">&copy; 2026 Sagar Dulal / SD Creative Solutions. All rights reserved.</div>
+    <div class="footer-bottom">&copy; 2026 Sagar Dulal. All rights reserved.</div>
   </footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    
-    const db = getFirestore(initializeApp({
-      apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
-      authDomain: "sagar-portfolio-dabc5.firebaseapp.com",
-      projectId: "sagar-portfolio-dabc5"
-    }));
 
-    // Option Display Box
-    window.showInfo = (title, desc) => {
-      const box = document.getElementById('info-display');
-      box.style.display = 'block';
-      box.innerHTML = `<b style="color:var(--neon-cyan);">${title}</b><p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.3rem;">${desc}</p>`;
+    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
+
+    window.showInfo = (t, d) => {
+      const box = document.getElementById('info-display'); box.style.display = 'block';
+      box.innerHTML = `<b style="color:var(--neon-cyan);">${t}</b><p style="color:var(--text-muted); font-size:0.85rem;">${d}</p>`;
     };
 
-    // FAQ Accordion Toggle
-    window.toggleFaq = (el) => {
-      const ans = el.nextElementSibling;
-      const isVisible = ans.style.display === 'block';
-      document.querySelectorAll('.faq-a').forEach(a => a.style.display = 'none');
-      ans.style.display = isVisible ? 'none' : 'block';
-    };
-
-    // Realtime Load Certificates
     onSnapshot(collection(db, "certificates"), snap => {
-      const container = document.getElementById('public-certs-grid');
-      container.innerHTML = '';
-      if(snap.empty) {
-        container.innerHTML = `<p style="color:var(--text-muted);">Certificates from DIT Solution and accredited institutes will appear here when published in admin.</p>`;
-        return;
-      }
+      const c = document.getElementById('certs-grid'); c.innerHTML = '';
+      if(snap.empty) c.innerHTML = '<p style="color:var(--text-muted);">No certificates added yet.</p>';
       snap.forEach(d => {
-        const item = d.data();
-        container.innerHTML += `
-          <div class="cert-card">
-            <img src="${item.imageUrl}" class="cert-img">
-            <div style="padding:1.2rem;">
-              <h4 style="color:#fff;">${item.title}</h4>
-              <p style="color:var(--neon-cyan); font-size:0.85rem; margin-top:0.2rem;">Issued by: ${item.organization}</p>
-            </div>
-          </div>
-        `;
+        c.innerHTML += `<div class="cert-card"><img src="${d.data().imageUrl}" class="cert-img"><div style="padding:1.2rem;"><h4 style="color:#fff;">${d.data().title}</h4><p style="color:var(--neon-cyan); font-size:0.85rem;">Issuer: ${d.data().organization}</p></div></div>`;
       });
     });
 
-    // Dynamic Section MCQ Quiz Logic
-    window.loadTopicMCQs = () => {
-      const topic = document.getElementById('quiz-topic-select').value;
-      const qBox = document.getElementById('quiz-container');
-      qBox.innerHTML = `<p style="color:var(--text-muted);">Loading questions...</p>`;
+    onSnapshot(collection(db, "faqs"), snap => {
+      const f = document.getElementById('faq-list'); f.innerHTML = '';
+      snap.forEach(d => {
+        f.innerHTML += `<div class="faq-item"><div class="faq-q" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block'">${d.data().question} <i class="fa-solid fa-chevron-down"></i></div><div class="faq-a">${d.data().answer}</div></div>`;
+      });
+    });
 
-      const qQuery = query(collection(db, "mcqs"), where("section", "==", topic));
-      onSnapshot(qQuery, snap => {
-        qBox.innerHTML = '';
-        if(snap.empty) {
-          qBox.innerHTML = `<p style="color:var(--text-muted);">No questions added for <b>${topic}</b> yet. Add questions from the Admin Panel!</p>`;
-          return;
-        }
-        let index = 1;
+    window.loadQuiz = () => {
+      const topic = document.getElementById('quiz-topic').value;
+      const box = document.getElementById('quiz-box');
+      onSnapshot(query(collection(db, "mcqs"), where("section", "==", topic)), snap => {
+        box.innerHTML = '';
+        if(snap.empty) { box.innerHTML = '<p style="color:var(--text-muted);">No MCQs available for this topic yet.</p>'; return; }
         snap.forEach(d => {
           const item = d.data();
-          qBox.innerHTML += `
+          box.innerHTML += `
             <div style="margin-bottom:1.5rem; border-bottom:1px solid var(--border-line); padding-bottom:1rem;">
-              <p style="font-weight:bold; color:#fff;">Q${index}. ${item.question}</p>
+              <p style="color:#fff; font-weight:bold;">${item.question}</p>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:0.8rem;">
-                <button class="opt-btn" onclick="checkAns(this, '${item.answer}', 'A')">A: ${item.options.A}</button>
-                <button class="opt-btn" onclick="checkAns(this, '${item.answer}', 'B')">B: ${item.options.B}</button>
-                <button class="opt-btn" onclick="checkAns(this, '${item.answer}', 'C')">C: ${item.options.C}</button>
-                <button class="opt-btn" onclick="checkAns(this, '${item.answer}', 'D')">D: ${item.options.D}</button>
+                <button class="opt-btn" onclick="this.style.background= '${item.answer}' === 'A' ? '#22c55e' : '#ef4444'">A: ${item.options.A}</button>
+                <button class="opt-btn" onclick="this.style.background= '${item.answer}' === 'B' ? '#22c55e' : '#ef4444'">B: ${item.options.B}</button>
+                <button class="opt-btn" onclick="this.style.background= '${item.answer}' === 'C' ? '#22c55e' : '#ef4444'">C: ${item.options.C}</button>
+                <button class="opt-btn" onclick="this.style.background= '${item.answer}' === 'D' ? '#22c55e' : '#ef4444'">D: ${item.options.D}</button>
               </div>
-            </div>
-          `;
-          index++;
+            </div>`;
         });
       });
     };
-
-    window.checkAns = (btn, correct, selected) => {
-      if(selected === correct) {
-        btn.style.background = '#22c55e';
-        btn.style.color = '#fff';
-      } else {
-        btn.style.background = '#ef4444';
-        btn.style.color = '#fff';
-      }
-    };
-
-    loadTopicMCQs();
+    loadQuiz();
   </script>
 </body>
 </html>
