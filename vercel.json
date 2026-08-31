@@ -3,8 +3,11 @@
   "trailingSlash": false,
   "routes": [
     { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/about", "dest": "/about.html" },
     { "src": "/services", "dest": "/services.html" },
     { "src": "/portfolio", "dest": "/portfolio.html" },
+    { "src": "/pricing", "dest": "/pricing.html" },
+    { "src": "/blog", "dest": "/blog.html" },
     { "src": "/contact", "dest": "/contact.html" }
   ]
 }
