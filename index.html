@@ -3,258 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sagar Dulal | Full-Stack Software Developer & Technology Educator</title>
-  <meta name="description" content="Official platform of Sagar Dulal — Software Developer, UI/UX Designer, and Educator delivering tech solutions and IT instruction.">
+  <title>Sagar Dulal | SD Creative Solutions</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/shared.css">
   <style>
-    :root {
-      --bg: #05050b;
-      --card-bg: rgba(13, 14, 24, 0.85);
-      --neon-cyan: #00f0ff;
-      --neon-purple: #9d4edd;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --border: rgba(157, 78, 221, 0.2);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text-main); overflow-x: hidden; line-height: 1.6; }
-
-    nav { position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(15px); background: rgba(5, 5, 11, 0.85); border-bottom: 1px solid var(--border); padding: 1.2rem 8%; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 1.5rem; font-weight: 900; text-decoration: none; color: #fff; }
-    .logo span { color: var(--neon-cyan); }
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a { color: var(--text-sub); text-decoration: none; font-weight: 600; transition: 0.3s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--neon-cyan); }
-
-    .hero { min-height: 85vh; padding: 9rem 8% 4rem; display: flex; align-items: center; background: radial-gradient(circle at 10% 20%, rgba(157, 78, 221, 0.15), transparent 50%), radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.1), transparent 50%); }
-    .hero-content h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
-    .hero-content h1 span { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero-content p { color: var(--text-sub); font-size: 1.2rem; max-width: 650px; margin-bottom: 2rem; }
+    /* Custom Cyborg Components */
+    .hero-container { min-height: 100vh; padding: 10rem 8% 4rem; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,240,255,0.08); border: 1px solid var(--neon-cyan); padding: 0.4rem 1rem; border-radius: 50px; color: var(--neon-cyan); font-size: 0.85rem; font-weight: 800; margin-bottom: 1.5rem; text-transform: uppercase; }
+    .hero-title { font-size: 3.8rem; font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-title span { color: transparent; -webkit-text-stroke: 1px var(--neon-cyan); }
     
-    .btn-group { display: flex; gap: 1rem; }
-    .btn-primary { padding: 0.9rem 2.2rem; border-radius: 8px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); color: #fff; text-decoration: none; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 20px rgba(157, 78, 221, 0.4); }
-
-    /* Section Structure */
-    section { padding: 6rem 8%; }
-    .sec-header { text-align: center; margin-bottom: 4rem; }
-    .sec-tag { color: var(--neon-cyan); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; margin-bottom: 0.5rem; }
-    .sec-header h2 { font-size: 2.4rem; font-weight: 900; }
+    /* Interactive Terminal Chatbot Component */
+    .terminal-box { background: rgba(13, 15, 26, 0.95); border: 1px solid var(--neon-cyan); border-radius: 16px; padding: 1.8rem; box-shadow: var(--glow-cyan); }
+    .terminal-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-line); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+    .dots { display: flex; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; }
+    .dot:nth-child(2) { background: #ffbd2e; } .dot:nth-child(3) { background: #27c93f; }
     
-    /* Stats Division */
-    .stats-section { background: rgba(10, 11, 20, 0.9); border-y: 1px solid var(--border); padding: 4rem 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; text-align: center; }
-    .stat-card i { font-size: 2.5rem; color: var(--neon-cyan); margin-bottom: 0.8rem; }
-    .stat-number { font-size: 2.8rem; font-weight: 900; color: #fff; }
-    .stat-label { color: var(--text-sub); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; margin-top: 0.2rem; }
+    .chat-body { display: flex; flex-direction: column; gap: 1rem; max-height: 320px; overflow-y: auto; padding-right: 0.5rem; }
+    .msg { padding: 0.8rem 1.2rem; border-radius: 10px; font-size: 0.9rem; max-width: 90%; }
+    .msg-bot { background: rgba(0, 240, 255, 0.1); border-left: 3px solid var(--neon-cyan); color: #fff; }
+    .msg-user { background: rgba(168, 85, 247, 0.2); border-right: 3px solid var(--neon-violet); align-self: flex-end; color: #fff; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: 0.3s; }
-    .card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); }
-    .card-img { width: 100%; height: 200px; object-fit: cover; background: #000; }
-    .card-body { padding: 1.8rem; }
-    .card-title { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
-    .card-desc { color: var(--text-sub); font-size: 0.95rem; }
-    .card-link { display: inline-block; margin-top: 1rem; color: var(--neon-cyan); font-weight: 700; text-decoration: none; }
+    .menu-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1rem; }
+    .menu-btn { background: #080912; border: 1px solid var(--border-line); color: var(--text-primary); padding: 0.7rem 0.9rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; text-align: left; transition: 0.2s; font-weight: 600; }
+    .menu-btn:hover { border-color: var(--neon-cyan); background: rgba(0,240,255,0.1); color: var(--neon-cyan); }
 
-    /* Dynamic FAQ */
-    .faq-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1.2rem; overflow: hidden; }
-    .faq-q { padding: 1.2rem 1.5rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-    .faq-a { padding: 0 1.5rem 1.2rem; color: var(--text-sub); display: none; }
-    .faq-item.active .faq-a { display: block; }
-    .faq-item.active .faq-q { color: var(--neon-cyan); }
+    /* Service Grid Section */
+    .section-title { text-align: center; margin-bottom: 3rem; }
+    .section-title h2 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; }
+    .section-title h2 span { color: var(--neon-cyan); }
 
-    /* Professional Footer Component */
-    footer { background: #020307; border-top: 1px solid var(--border); padding: 4rem 8% 2rem; }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
-    .footer-col h4 { color: #fff; font-size: 1.1rem; margin-bottom: 1.2rem; border-left: 3px solid var(--neon-purple); padding-left: 10px; }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 0.8rem; }
-    .footer-col ul li a { color: var(--text-sub); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
-    .footer-col ul li a:hover { color: var(--neon-cyan); }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; padding: 0 8%; }
+    .cyber-card { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 16px; padding: 2.5rem; transition: 0.3s; position: relative; overflow: hidden; }
+    .cyber-card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); box-shadow: var(--glow-cyan); }
+    .cyber-card i { font-size: 2.5rem; color: var(--neon-cyan); margin-bottom: 1.2rem; }
   </style>
 </head>
 <body>
 
   <nav>
-    <a href="/" class="logo">Sagar <span>Dulal</span></a>
+    <a href="/" class="logo">SD <span>CREATIVE</span></a>
     <div class="nav-links">
       <a href="/" class="active">Home</a>
-      <a href="/services">Services</a>
-      <a href="/projects">Portfolio</a>
-      <a href="/blog">Blog</a>
-      <a href="/contact">Contact</a>
+      <a href="/about.html">About</a>
+      <a href="/services.html">Services</a>
+      <a href="/portfolio.html">Work</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/contact.html">Contact</a>
     </div>
+    <a href="https://wa.me/9779818178656" class="nav-btn-chat"><i class="fa-brands fa-whatsapp"></i> Direct Talk</a>
   </nav>
 
-  <div class="hero">
-    <div class="hero-content">
-      <h1>Software Architect & <span>IT Educator</span></h1>
-      <p>Building high-speed web apps and delivering structured technology courses tailored for real-world impact.</p>
-      <div class="btn-group">
-        <a href="/projects" class="btn-primary">Explore Work</a>
+  <!-- HERO SECTION -->
+  <section class="hero-container">
+    <div>
+      <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Cyborg Visuals & Web Architecture</div>
+      <h1 class="hero-title">👋 Welcome to <span>SD Creative Solutions</span></h1>
+      <p style="color: var(--text-muted); font-size: 1.2rem; margin-bottom: 2rem;">
+        Hello, I’m <b>Sagar Dulal</b>. I build modern websites, brand identities, and high-converting creative media designed to give businesses a competitive edge.
+      </p>
+      <div style="display: flex; gap: 1rem;">
+        <a href="/portfolio.html" class="nav-btn-chat" style="padding: 1rem 2rem; font-size: 1rem;">Explore Work</a>
+        <a href="/contact.html" style="border: 1px solid var(--neon-cyan); color: #fff; padding: 1rem 2rem; border-radius: 6px; text-decoration: none; font-weight: 700; text-transform: uppercase;">Get Quote</a>
       </div>
     </div>
-  </div>
 
-  <!-- Academic Success & Stats Division -->
-  <div class="stats-section">
-    <div class="stat-card">
-      <i class="fa-solid fa-graduation-cap"></i>
-      <div class="stat-number" data-target="1000">0</div>
-      <div class="stat-label">Happy Clients & Students</div>
-    </div>
-    <div class="stat-card">
-      <i class="fa-solid fa-diagram-project"></i>
-      <div class="stat-number" data-target="50">0</div>
-      <div class="stat-label">Projects Completed</div>
-    </div>
-    <div class="stat-card">
-      <i class="fa-solid fa-certificate"></i>
-      <div class="stat-number" data-target="100">0</div>
-      <div class="stat-label">% Satisfaction Rate</div>
-    </div>
-  </div>
-
-  <!-- Academic Framework Division -->
-  <section>
-    <div class="sec-header">
-      <div class="sec-tag">Educational Blueprint</div>
-      <h2>Academic & Learning <span>Framework</span></h2>
-    </div>
-    <div class="grid">
-      <div class="card" style="padding:2rem;">
-        <i class="fa-solid fa-clock" style="font-size:2rem; color:var(--neon-cyan); margin-bottom:1rem;"></i>
-        <h3 class="card-title">Flexible Scheduling</h3>
-        <p class="card-desc">Easily manage and customize your study schedule to fit your lifestyle, work commitments, and career development goals.</p>
+    <!-- Interactive Automated Terminal / Option Menu -->
+    <div class="terminal-box">
+      <div class="terminal-header">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span style="font-size:0.75rem; color:var(--neon-cyan); font-weight:800; text-transform:uppercase;">SD Automated Assistant v2.6</span>
       </div>
-      <div class="card" style="padding:2rem;">
-        <i class="fa-solid fa-users-gear" style="font-size:2rem; color:var(--neon-cyan); margin-bottom:1rem;"></i>
-        <h3 class="card-title">Community Support</h3>
-        <p class="card-desc">Join collaborative study networks, work on real projects with peers, and get continuous mentorship from senior instructors.</p>
+      <div class="chat-body" id="chat-stream">
+        <div class="msg msg-bot">
+          👋 Welcome to SD Creative Solutions! <br>Hello, I’m Sagar Dulal. Select an option below to get started instantly:
+        </div>
       </div>
-      <div class="card" style="padding:2rem;">
-        <i class="fa-solid fa-user-tie" style="font-size:2rem; color:var(--neon-cyan); margin-bottom:1rem;"></i>
-        <h3 class="card-title">Expert Instructors</h3>
-        <p class="card-desc">Learn directly from industry professionals with extensive experience in full-stack architecture, web layout, and visual graphic design.</p>
-      </div>
-      <div class="card" style="padding:2rem;">
-        <i class="fa-solid fa-rocket" style="font-size:2rem; color:var(--neon-cyan); margin-bottom:1rem;"></i>
-        <h3 class="card-title">Innovative Learning</h3>
-        <p class="card-desc">Hands-on practical methods, code-along challenges, and updated visual tool workflows for maximum knowledge retention.</p>
+      <div class="menu-options">
+        <button class="menu-btn" onclick="triggerOption('1️⃣ Graphic Design', 'We deliver high-end brand assets, banners, and digital graphics customized for your company.')">1️⃣ Graphic Design</button>
+        <button class="menu-btn" onclick="triggerOption('2️⃣ Logo Design', 'Vector logos crafted with modern minimalism and strong brand identity principles.')">2️⃣ Logo Design</button>
+        <button class="menu-btn" onclick="triggerOption('3️⃣ Thumbnail Design', 'High-CTR YouTube and social thumbnails built to drive clicks and engagement.')">3️⃣ Thumbnail Design</button>
+        <button class="menu-btn" onclick="triggerOption('4️⃣ Webpage Design', 'Responsive, lightning-fast, cyborg-themed web applications tailored for growth.')">4️⃣ Webpage Design</button>
+        <button class="menu-btn" onclick="triggerOption('5️⃣ Flyer Design', 'Print and digital event flyers and promotional posters.')">5️⃣ Flyer Design</button>
+        <button class="menu-btn" onclick="triggerOption('6️⃣ Price Inquiry', 'Check out our flexible static and dynamic service pricing plans directly.')">6️⃣ Price Inquiry</button>
+        <button class="menu-btn" onclick="triggerOption('7️⃣ Other Services', 'Custom computer support, IT troubleshooting, and software installation services.')">7️⃣ Other Services</button>
+        <button class="menu-btn" onclick="location.href='https://wa.me/9779818178656'" style="border-color: var(--neon-violet); color: var(--neon-violet);">0️⃣ Talk Directly with Sagar</button>
       </div>
     </div>
   </section>
 
-  <!-- Featured Projects -->
-  <section style="background: rgba(10,11,20,0.5);">
-    <div class="sec-header">
-      <div class="sec-tag">Portfolio Highlights</div>
-      <h2>Engineered <span>Solutions</span></h2>
+  <!-- FEATURED SERVICES SECTION -->
+  <section style="padding: 4rem 0;">
+    <div class="section-title">
+      <h2>Core <span>Solutions</span></h2>
+      <p style="color:var(--text-muted);">Creative and technical services we offer</p>
     </div>
-    <div class="grid" id="container-projects"></div>
-  </section>
-
-  <!-- Dynamic FAQs -->
-  <section>
-    <div class="sec-header">
-      <div class="sec-tag">Knowledge Base</div>
-      <h2>Frequently Asked <span>Questions</span></h2>
-    </div>
-    <div style="max-width:800px; margin: 0 auto;" id="container-faqs"></div>
+    <div class="grid-3" id="home-services-grid"></div>
   </section>
 
   <footer>
     <div class="footer-grid">
-      <div>
-        <h3 style="color:#fff; margin-bottom:1rem;">Sagar <span>Dulal</span></h3>
-        <p style="color:var(--text-sub); font-size:0.9rem;">Full-Stack Development, Graphic Design, and Technology Education.</p>
+      <div class="footer-brand">
+        <h3>SD <span>CREATIVE</span></h3>
+        <p>Full-Stack Web Architect & Visual Brand Strategist</p>
       </div>
       <div class="footer-col">
         <h4>Navigation</h4>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/projects">Portfolio</a></li>
-          <li><a href="/blog">Blog</a></li>
+          <li><a href="/about.html">About Sagar</a></li>
+          <li><a href="/services.html">Core Services</a></li>
+          <li><a href="/portfolio.html">Featured Works</a></li>
+          <li><a href="/pricing.html">Price & Plans</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Connect</h4>
+        <h4>Direct Contact</h4>
         <ul>
           <li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li>
-          <li><a href="https://wa.me/9779818178656">WhatsApp Support</a></li>
+          <li><a href="https://wa.me/9779818178656">WhatsApp Direct</a></li>
         </ul>
       </div>
     </div>
-    <div style="text-align:center; color:var(--text-sub); font-size:0.85rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:2rem;">
-      &copy; 2026 Sagar Dulal. All rights reserved.
-    </div>
+    <div class="footer-bottom">&copy; 2026 Sagar Dulal / SD Creative Solutions. All rights reserved.</div>
   </footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE",
-      authDomain: "sagar-portfolio-dabc5.firebaseapp.com",
-      projectId: "sagar-portfolio-dabc5",
-      storageBucket: "sagar-portfolio-dabc5.firebasestorage.app",
-      messagingSenderId: "900240657480",
-      appId: "1:900240657480:web:60456aa2d3dfc173f05c7d"
+    // Interactive Chat Logic
+    window.triggerOption = (userText, replyText) => {
+      const stream = document.getElementById('chat-stream');
+      stream.innerHTML += `<div class="msg msg-user">${userText}</div>`;
+      setTimeout(() => {
+        stream.innerHTML += `<div class="msg msg-bot">${replyText}</div>`;
+        stream.scrollTop = stream.scrollHeight;
+      }, 300);
     };
 
-    const db = getFirestore(initializeApp(firebaseConfig));
-
-    onSnapshot(collection(db, "projects"), snap => {
-      const c = document.getElementById('container-projects');
-      c.innerHTML = '';
-      snap.forEach(doc => {
-        const item = doc.data();
-        c.innerHTML += `
-          <div class="card">
-            ${item.imageUrl ? `<img src="${item.imageUrl}" class="card-img" />` : '<div class="card-img"></div>'}
-            <div class="card-body">
-              <h3 class="card-title">${item.title}</h3>
-              <p class="card-desc">${item.metaDescription || item.description.substring(0, 90)}...</p>
-              <a href="/project/${item.slug}" class="card-link">View Project &rarr;</a>
-            </div>
+    // Load Services from Firestore
+    onSnapshot(collection(db, "services"), snap => {
+      const container = document.getElementById('home-services-grid');
+      container.innerHTML = '';
+      snap.forEach(d => {
+        const item = d.data();
+        container.innerHTML += `
+          <div class="cyber-card">
+            <i class="${item.icon || 'fa-solid fa-layer-group'}"></i>
+            <h3 style="font-size:1.4rem; margin-bottom:0.8rem;">${item.title}</h3>
+            <p style="color:var(--text-muted); font-size:0.95rem;">${item.description}</p>
           </div>
         `;
       });
-    });
-
-    onSnapshot(collection(db, "faqs"), snap => {
-      const c = document.getElementById('container-faqs');
-      c.innerHTML = '';
-      snap.forEach(doc => {
-        const item = doc.data();
-        c.innerHTML += `
-          <div class="faq-item" onclick="this.classList.toggle('active')">
-            <div class="faq-q"><span><i class="fa-solid fa-circle-question" style="color:var(--neon-cyan); margin-right:10px;"></i> ${item.question}</span> <i class="fa-solid fa-chevron-down"></i></div>
-            <div class="faq-a">${item.answer}</div>
-          </div>
-        `;
-      });
-    });
-
-    // Animate counter
-    let animated = false;
-    window.addEventListener('scroll', () => {
-      const sec = document.querySelector('.stats-section');
-      if (sec && sec.getBoundingClientRect().top < window.innerHeight && !animated) {
-        animated = true;
-        document.querySelectorAll('.stat-number').forEach(el => {
-          const target = +el.getAttribute('data-target');
-          let val = 0;
-          const inc = target / 40;
-          const update = () => {
-            val += inc;
-            if(val < target) { el.innerText = Math.ceil(val) + "+"; setTimeout(update, 30); }
-            else { el.innerText = target + "+"; }
-          };
-          update();
-        });
-      }
     });
   </script>
 </body>
