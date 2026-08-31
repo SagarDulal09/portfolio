@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Plans | SD Creative Solutions</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/shared.css">
+  <style>
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; padding: 2rem 8% 6rem; }
+    .price-card { background: var(--panel-bg); border: 1px solid var(--border-line); border-radius: 16px; padding: 3rem 2rem; text-align: center; position: relative; transition: 0.3s; }
+    .price-card:hover { border-color: var(--neon-cyan); box-shadow: var(--glow-cyan); transform: translateY(-5px); }
+    .price-card.featured { border-color: var(--neon-violet); box-shadow: var(--glow-violet); }
+    .price-amount { font-size: 3rem; font-weight: 900; color: #fff; margin: 1.5rem 0; }
+    .price-amount span { font-size: 1rem; color: var(--text-muted); }
+    .feature-list { list-style: none; margin-bottom: 2rem; text-align: left; }
+    .feature-list li { margin-bottom: 0.8rem; color: var(--text-muted); font-size: 0.95rem; }
+    .feature-list li i { color: var(--neon-cyan); margin-right: 8px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">SD <span>CREATIVE</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/services.html">Services</a>
+      <a href="/portfolio.html">Work</a>
+      <a href="/pricing.html" class="active">Pricing</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+    <a href="https://wa.me/9779818178656" class="nav-btn-chat"><i class="fa-brands fa-whatsapp"></i> Direct Talk</a>
+  </nav>
+
+  <div class="page-hero">
+    <h1>Price & <span>Plans</span></h1>
+    <p>Transparent pricing tailored for startups, individual creators, and growing businesses.</p>
+  </div>
+
+  <div class="pricing-grid" id="pricing-container">
+    <!-- Static Baseline Option -->
+    <div class="price-card">
+      <h3 style="font-size:1.5rem;">Graphic & Branding Package</h3>
+      <div class="price-amount">$49 <span>/ Project</span></div>
+      <ul class="feature-list">
+        <li><i class="fa-solid fa-check"></i> Custom Logo & Brand Asset Design</li>
+        <li><i class="fa-solid fa-check"></i> High-Resolution Vector Files</li>
+        <li><i class="fa-solid fa-check"></i> 3 Revision Rounds</li>
+        <li><i class="fa-solid fa-check"></i> 24-48 Hour Delivery</li>
+      </ul>
+      <a href="/contact.html" class="nav-btn-chat" style="display:block;">Select Package</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>SD <span>CREATIVE</span></h3>
+        <p>Full-Stack Web Architect & Visual Brand Strategist</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="/about.html">About Sagar</a></li>
+          <li><a href="/services.html">Core Services</a></li>
+          <li><a href="/portfolio.html">Featured Works</a></li>
+          <li><a href="/pricing.html">Price & Plans</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Direct Contact</h4>
+        <ul>
+          <li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li>
+          <li><a href="https://wa.me/9779818178656">WhatsApp Direct</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Sagar Dulal / SD Creative Solutions. All rights reserved.</div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
+
+    onSnapshot(collection(db, "pricing"), snap => {
+      const c = document.getElementById('pricing-container');
+      snap.forEach(d => {
+        const item = d.data();
+        const features = item.features.split(',').map(f => `<li><i class="fa-solid fa-check"></i> ${f.trim()}</li>`).join('');
+        c.innerHTML += `
+          <div class="price-card featured">
+            <h3 style="font-size:1.5rem;">${item.name}</h3>
+            <div class="price-amount">${item.price}</div>
+            <ul class="feature-list">${features}</ul>
+            <a href="/contact.html" class="nav-btn-chat" style="display:block;">Get Started</a>
+          </div>
+        `;
+      });
+    });
+  </script>
+</body>
+</html>
