@@ -1,13 +1,18 @@
 {
+  "version": 2,
   "cleanUrls": true,
-  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ],
   "routes": [
-    { "src": "/admin", "dest": "/admin.html" },
-    { "src": "/about", "dest": "/about.html" },
-    { "src": "/services", "dest": "/services.html" },
-    { "src": "/portfolio", "dest": "/portfolio.html" },
-    { "src": "/pricing", "dest": "/pricing.html" },
-    { "src": "/blog", "dest": "/blog.html" },
-    { "src": "/contact", "dest": "/contact.html" }
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
