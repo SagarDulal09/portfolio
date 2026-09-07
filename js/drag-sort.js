@@ -1,46 +1,49 @@
-const AUTH_KEY = 'apex_admin_session';
+function makeSortable(containerSelector, onReorderCallback) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
 
-// Simulates secure login with percentage loader
-function performLoginWithProgress(username, password) {
-  return new Promise((resolve, reject) => {
-    if (username === 'admin' && password === 'admin123') {
-      const loaderScreen = document.getElementById('login-loader-screen');
-      const progressBar = document.getElementById('loading-progress-bar');
-      const progressText = document.getElementById('loading-percentage-text');
-      
-      if (loaderScreen) loaderScreen.style.display = 'flex';
+  let draggedItem = null;
 
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 15) + 5;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          localStorage.setItem(AUTH_KEY, JSON.stringify({ token: 'active_session', user: username, timestamp: Date.now() }));
-          setTimeout(() => {
-            if (loaderScreen) loaderScreen.style.display = 'none';
-            window.location.href = '/admin';
-          }, 200);
-        }
-        if (progressBar) progressBar.style.width = progress + '%';
-        if (progressText) progressText.innerText = progress + '%';
-      }, 100);
+  container.querySelectorAll('.sortable-item').forEach(item => {
+    item.setAttribute('draggable', 'true');
+    
+    item.addEventListener('dragstart', (e) => {
+      draggedItem = item;
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      draggedItem = null;
+      if (typeof onReorderCallback === 'function') {
+        const newOrder = [...container.querySelectorAll('.sortable-item')].map(el => el.dataset.id);
+        onReorderCallback(newOrder);
+      }
+    });
+  });
+
+  container.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const afterElement = getDragAfterElement(container, e.clientY);
+    if (afterElement == null) {
+      container.appendChild(draggedItem);
     } else {
-      reject('Invalid username or password.');
+      container.insertBefore(draggedItem, afterElement);
     }
   });
 }
 
-function checkAdminAuth() {
-  const session = localStorage.getItem(AUTH_KEY);
-  if (!session && window.location.pathname.includes('/admin')) {
-    window.location.href = '/index';
-  }
+function getDragAfterElement(container, y) {
+  const draggables = [...container.querySelectorAll('.sortable-item:not(.dragging)')];
+  return draggables.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child };
+    } else {
+      return closest;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
-
-function logoutAdmin() {
-  localStorage.removeItem(AUTH_KEY);
-  window.location.href = '/index';
-}
-
-document.addEventListener('DOMContentLoaded', checkAdminAuth);
