@@ -3,33 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services | SD Creative Solutions</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Our Services | Apex Digital Solutions</title>
   <link rel="stylesheet" href="/css/shared.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="/" class="logo">SD <span>CREATIVE</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a><a href="/about.html">About</a><a href="/services.html" class="active">Services</a><a href="/portfolio.html">Work</a><a href="/pricing.html">Pricing</a><a href="/blog.html">Blog</a><a href="/contact.html">Contact</a>
+  <main class="page-container">
+    <header class="section-header">
+      <h1>High-Impact Digital Engineering</h1>
+      <p>Custom software and web experiences designed to increase retention, automation, and profit margins.</p>
+    </header>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Custom Web App Development</h3>
+        <p>Full-stack web applications built with scalable architectures, real-time database sync, and mobile responsiveness.</p>
       </div>
-    </nav>
-  </header>
-  <div class="sec-container">
-    <div class="page-title"><h1>Professional <span>Services</span></h1></div>
-    <div id="services-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2rem;"></div>
-  </div>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
-    onSnapshot(collection(db, "services"), snap => {
-      const g = document.getElementById('services-grid'); g.innerHTML = '';
-      snap.forEach(d => {
-        g.innerHTML += `<div style="background:var(--card-bg); border:1px solid var(--border-line); border-radius:14px; padding:2rem;"><i class="${d.data().icon}" style="font-size:2rem; color:var(--neon-cyan);"></i><h3 style="color:#fff; margin:1rem 0 0.5rem;">${d.data().title}</h3><p style="color:var(--text-muted);">${d.data().description}</p></div>`;
-      });
-    });
-  </script>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>UI/UX & Brand Strategy</h3>
+        <p>Data-backed user interface design engineered to optimize user conversions and eliminate friction points.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>API & Admin Dashboard Systems</h3>
+        <p>Internal business management portals with custom role-based access controls, drag-and-drop order managers, and reporting.</p>
+      </div>
+    </div>
+  </main>
 </body>
 </html>
