@@ -3,33 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio | SD Creative Solutions</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Client Case Studies | Apex Digital Solutions</title>
   <link rel="stylesheet" href="/css/shared.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="/" class="logo">SD <span>CREATIVE</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a><a href="/about.html">About</a><a href="/services.html">Services</a><a href="/portfolio.html" class="active">Work</a><a href="/pricing.html">Pricing</a><a href="/blog.html">Blog</a><a href="/contact.html">Contact</a>
-      </div>
-    </nav>
-  </header>
-  <div class="sec-container">
-    <div class="page-title"><h1>Project <span>Gallery</span></h1></div>
-    <div id="portfolio-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem;"></div>
-  </div>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
-    onSnapshot(collection(db, "projects"), snap => {
-      const g = document.getElementById('portfolio-grid'); g.innerHTML = '';
-      snap.forEach(d => {
-        g.innerHTML += `<div style="background:var(--card-bg); border:1px solid var(--border-line); border-radius:14px; overflow:hidden;"><img src="${d.data().imageUrl}" style="width:100%; height:200px; object-fit:cover;"><div style="padding:1.5rem;"><span style="color:var(--neon-cyan); font-size:0.75rem; text-transform:uppercase;">${d.data().category}</span><h3 style="color:#fff; margin-top:0.3rem;">${d.data().title}</h3><p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.5rem;">${d.data().description}</p></div></div>`;
-      });
-    });
-  </script>
+  <main class="page-container">
+    <header class="section-header">
+      <h1>Our Featured Work</h1>
+      <p>Real results built for modern brands across various industries.</p>
+    </header>
+
+    <div class="cards-grid">
+      <article class="portfolio-card">
+        <div class="portfolio-tag">SaaS Platform</div>
+        <h3>FinTech Analytics Portal</h3>
+        <p>Increased client user retention by 42% through unified data workflows and custom dynamic dashboards.</p>
+      </article>
+
+      <article class="portfolio-card">
+        <div class="portfolio-tag">E-Commerce</div>
+        <h3>Custom Retail Engine</h3>
+        <p>Achieved sub-second page loads resulting in a 28% increase in overall checkout conversion rates.</p>
+      </article>
+    </div>
+  </main>
 </body>
 </html>
