@@ -3,159 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sagar Dulal | Digital Architect</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Apex Digital Solutions | High-Performance Web & App Development</title>
+  <meta name="description" content="We engineer scalable web applications, modern brand identity, and data-driven digital experiences for growing businesses.">
   <link rel="stylesheet" href="/css/shared.css">
-  <style>
-    .hero { min-height: 85vh; padding: 10rem 8% 4rem; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; max-width: 1300px; margin: 0 auto; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,240,255,0.08); border: 1px solid var(--neon-cyan); padding: 0.4rem 1rem; border-radius: 50px; color: var(--neon-cyan); font-size: 0.85rem; font-weight: 800; margin-bottom: 1.5rem; }
-    .hero-title { font-size: 3.5rem; font-weight: 900; line-height: 1.15; margin-bottom: 1.2rem; }
-    .hero-title span { color: var(--neon-cyan); }
-    .interactive-card { background: var(--panel-bg); border: 1px solid var(--border-line); border-radius: 16px; padding: 2rem; box-shadow: var(--glow-cyan); }
-    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1.2rem; }
-    .opt-btn { background: #080912; border: 1px solid var(--border-line); color: var(--text-main); padding: 0.8rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; text-align: left; font-weight: 600; }
-    .opt-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
-    .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-    .cert-card { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 14px; overflow: hidden; }
-    .cert-img { width: 100%; height: 190px; object-fit: cover; }
-    .faq-item { background: var(--card-bg); border: 1px solid var(--border-line); border-radius: 10px; margin-bottom: 1rem; }
-    .faq-q { padding: 1.2rem; cursor: pointer; font-weight: 700; color: var(--neon-cyan); display: flex; justify-content: space-between; }
-    .faq-a { padding: 0 1.2rem 1.2rem; color: var(--text-muted); display: none; }
-    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding-top: 8rem; } }
-  </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="/" class="logo">SD <span>CREATIVE</span></a>
-      <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')"><i class="fa-solid fa-bars"></i></button>
-      <div class="nav-links">
-        <a href="/" class="active">Home</a>
-        <a href="/about.html">About</a>
-        <a href="/services.html">Services</a>
-        <a href="/portfolio.html">Work</a>
-        <a href="/pricing.html">Pricing</a>
-        <a href="/blog.html">Blog</a>
-        <a href="/contact.html">Contact</a>
-      </div>
+  <header class="navbar">
+    <a href="/index" class="logo">ApexDigital</a>
+    <nav class="nav-links">
+      <a href="/services">Services</a>
+      <a href="/portfolio">Portfolio</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+      <a href="/contact" class="btn btn-primary">Get Started</a>
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
-      <div class="hero-badge"><i class="fa-solid fa-code"></i> SD Creative Solutions</div>
-      <h1 class="hero-title">👋 Hello, I'm <span>Sagar Dulal</span></h1>
-      <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">Fullstack Web Architect, Graphic Specialist, and Computer Hardware Technician.</p>
-      <div style="display:flex; gap:1rem;">
-        <a href="/portfolio.html" style="background: linear-gradient(135deg, var(--neon-violet), var(--neon-cyan)); color:#fff; padding: 0.9rem 1.8rem; border-radius: 8px; text-decoration:none; font-weight:800;">View Portfolio</a>
-        <a href="/contact.html" style="border: 1px solid var(--neon-cyan); color: #fff; padding: 0.9rem 1.8rem; border-radius: 8px; text-decoration:none; font-weight:700;">Get In Touch</a>
-      </div>
-    </div>
-    <div class="interactive-card">
-      <h3 style="color:var(--neon-cyan);">Direct Option Inquiries</h3>
-      <div class="menu-grid">
-        <button class="opt-btn" onclick="showInfo('Graphic Design', 'Custom brand artwork, social banners, and layout designs.')">1️⃣ Graphic Design</button>
-        <button class="opt-btn" onclick="showInfo('Logo Design', 'Vector logo packages and vector identity design.')">2️⃣ Logo Design</button>
-        <button class="opt-btn" onclick="showInfo('Thumbnail Design', 'High-CTR YouTube and social video thumbnails.')">3️⃣ Thumbnail Design</button>
-        <button class="opt-btn" onclick="showInfo('Webpage Design', 'Responsive fullstack web applications and landing pages.')">4️⃣ Webpage Design</button>
-        <button class="opt-btn" onclick="showInfo('Flyer Design', 'Event banners, posters, and print-ready artwork.')">5️⃣ Flyer Design</button>
-        <button class="opt-btn" onclick="showInfo('Computer Services', 'BIOS setup, Windows installation/formatting, RAM/SSD upgrades, and printer maintenance.')">6️⃣ Computer Services</button>
-      </div>
-      <div id="info-display" style="margin-top:1.2rem; padding:1rem; background:#080912; border-radius:8px; border-left:3px solid var(--neon-cyan); display:none;"></div>
+  <section class="hero-section">
+    <span class="badge">🚀 Scaling Businesses Worldwide</span>
+    <h1>We Build Digital Solutions That Drive Real Revenue</h1>
+    <p>From custom enterprise applications to conversion-focused web design, we provide end-to-end technical solutions built for speed, security, and growth.</p>
+    <div class="hero-actions">
+      <a href="/contact" class="btn btn-primary btn-lg">Book a Free Strategy Call</a>
+      <a href="/portfolio" class="btn btn-secondary btn-lg">Explore Recent Work</a>
     </div>
   </section>
 
-  <!-- ADD CERTIFICATE ON HOMEPAGE -->
-  <section class="sec-container">
-    <div style="text-align:center; margin-bottom:3rem;">
-      <h2 style="font-size:2.2rem; text-transform:uppercase;">Verified <span>Certificates</span></h2>
-      <p style="color:var(--text-muted);">Dynamically updated via Admin Panel</p>
-    </div>
-    <div class="cert-grid" id="certs-grid"></div>
+  <section class="trust-metrics">
+    <div class="metric"><h3>99.9%</h3><p>Uptime Guaranteed</p></div>
+    <div class="metric"><h3>250+</h3><p>Projects Shipped</p></div>
+    <div class="metric"><h3>$10M+</h3><p>Client Revenue Generated</p></div>
   </section>
-
-  <!-- DYNAMIC SECTION MCQS -->
-  <section class="sec-container" style="background: rgba(12, 14, 24, 0.4);">
-    <div style="text-align:center; margin-bottom:2rem;">
-      <h2 style="font-size:2.2rem; text-transform:uppercase;">Section <span>Knowledge Quiz</span></h2>
-    </div>
-    <div style="max-width: 700px; margin: 0 auto;">
-      <select id="quiz-topic" onchange="loadQuiz()" style="padding:0.8rem; width:100%; background:#080912; border:1px solid var(--border-line); color:#fff; border-radius:8px; margin-bottom:1.5rem;">
-        <option value="General Web Knowledge">General Web Knowledge</option>
-        <option value="Projects">Projects</option>
-        <option value="Services">Services</option>
-        <option value="Pricing">Pricing</option>
-        <option value="Blog">Blog</option>
-      </select>
-      <div id="quiz-box" style="background:var(--panel-bg); border:1px solid var(--border-line); border-radius:12px; padding:2rem;"></div>
-    </div>
-  </section>
-
-  <!-- DYNAMIC FAQ SECTION -->
-  <section class="sec-container">
-    <div style="text-align:center; margin-bottom:3rem;">
-      <h2 style="font-size:2.2rem; text-transform:uppercase;">Dynamic <span>FAQs</span></h2>
-    </div>
-    <div style="max-width: 800px; margin: 0 auto;" id="faq-list"></div>
-  </section>
-
-  <footer>
-    <div class="footer-grid">
-      <div><h3>SD <span>CREATIVE</span></h3><p style="color:var(--text-muted);">Sagar Dulal Portfolio Portal</p></div>
-      <div class="footer-col"><h4>Menu</h4><ul><li><a href="/about.html">About</a></li><li><a href="/services.html">Services</a></li><li><a href="/portfolio.html">Work</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Direct Email</h4><ul><li><a href="mailto:cotact.sagardulal@gmail.com">cotact.sagardulal@gmail.com</a></li></ul></div>
-    </div>
-    <div class="footer-bottom">&copy; 2026 Sagar Dulal. All rights reserved.</div>
-  </footer>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
-
-    window.showInfo = (t, d) => {
-      const box = document.getElementById('info-display'); box.style.display = 'block';
-      box.innerHTML = `<b style="color:var(--neon-cyan);">${t}</b><p style="color:var(--text-muted); font-size:0.85rem;">${d}</p>`;
-    };
-
-    onSnapshot(collection(db, "certificates"), snap => {
-      const c = document.getElementById('certs-grid'); c.innerHTML = '';
-      if(snap.empty) c.innerHTML = '<p style="color:var(--text-muted);">No certificates added yet.</p>';
-      snap.forEach(d => {
-        c.innerHTML += `<div class="cert-card"><img src="${d.data().imageUrl}" class="cert-img"><div style="padding:1.2rem;"><h4 style="color:#fff;">${d.data().title}</h4><p style="color:var(--neon-cyan); font-size:0.85rem;">Issuer: ${d.data().organization}</p></div></div>`;
-      });
-    });
-
-    onSnapshot(collection(db, "faqs"), snap => {
-      const f = document.getElementById('faq-list'); f.innerHTML = '';
-      snap.forEach(d => {
-        f.innerHTML += `<div class="faq-item"><div class="faq-q" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block'">${d.data().question} <i class="fa-solid fa-chevron-down"></i></div><div class="faq-a">${d.data().answer}</div></div>`;
-      });
-    });
-
-    window.loadQuiz = () => {
-      const topic = document.getElementById('quiz-topic').value;
-      const box = document.getElementById('quiz-box');
-      onSnapshot(query(collection(db, "mcqs"), where("section", "==", topic)), snap => {
-        box.innerHTML = '';
-        if(snap.empty) { box.innerHTML = '<p style="color:var(--text-muted);">No MCQs available for this topic yet.</p>'; return; }
-        snap.forEach(d => {
-          const item = d.data();
-          box.innerHTML += `
-            <div style="margin-bottom:1.5rem; border-bottom:1px solid var(--border-line); padding-bottom:1rem;">
-              <p style="color:#fff; font-weight:bold;">${item.question}</p>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:0.8rem;">
-                <button class="opt-btn" onclick="this.style.background= '${item.answer}' === 'A' ? '#22c55e' : '#ef4444'">A: ${item.options.A}</button>
-                <button class="opt-btn" onclick="this.style.background= '${item.answer}' === 'B' ? '#22c55e' : '#ef4444'">B: ${item.options.B}</button>
-                <button class="opt-btn" onclick="this.style.background= '${item.answer}' === 'C' ? '#22c55e' : '#ef4444'">C: ${item.options.C}</button>
-                <button class="opt-btn" onclick="this.style.background= '${item.answer}' === 'D' ? '#22c55e' : '#ef4444'">D: ${item.options.D}</button>
-              </div>
-            </div>`;
-        });
-      });
-    };
-    loadQuiz();
-  </script>
 </body>
 </html>
