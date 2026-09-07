@@ -3,33 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing | SD Creative Solutions</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Transparent Pricing Plans | Apex Digital Solutions</title>
   <link rel="stylesheet" href="/css/shared.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="/" class="logo">SD <span>CREATIVE</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a><a href="/about.html">About</a><a href="/services.html">Services</a><a href="/portfolio.html">Work</a><a href="/pricing.html" class="active">Pricing</a><a href="/blog.html">Blog</a><a href="/contact.html">Contact</a>
+  <main class="page-container">
+    <header class="section-header">
+      <h1>Predictable, Scalable Pricing</h1>
+      <p>No hidden costs. Choose a plan tailored to your operational scale.</p>
+    </header>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Starter</h3>
+        <div class="price">$1,499 <span>/ one-time</span></div>
+        <p>Ideal for landing pages, portfolio sites, and core business setups.</p>
+        <ul>
+          <li>✔ Responsive 5-page Website</li>
+          <li>✔ SEO & Speed Optimization</li>
+          <li>✔ Contact Form + Admin Notification</li>
+        </ul>
+        <a href="/contact?plan=starter" class="btn btn-secondary">Select Plan</a>
       </div>
-    </nav>
-  </header>
-  <div class="sec-container">
-    <div class="page-title"><h1>Pricing <span>Plans</span></h1></div>
-    <div id="pricing-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2rem;"></div>
-  </div>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDmsV5ZCHn2BqaOWL0zNa-mq60Y7DX1EhE", authDomain: "sagar-portfolio-dabc5.firebaseapp.com", projectId: "sagar-portfolio-dabc5" }));
-    onSnapshot(collection(db, "pricing"), snap => {
-      const g = document.getElementById('pricing-grid'); g.innerHTML = '';
-      snap.forEach(d => {
-        g.innerHTML += `<div style="background:var(--card-bg); border:1px solid var(--border-line); border-radius:14px; padding:2rem; text-align:center;"><h3 style="color:#fff;">${d.data().name}</h3><div style="font-size:2rem; font-weight:900; color:var(--neon-cyan); margin:1rem 0;">${d.data().price}</div><p style="color:var(--text-muted); font-size:0.9rem;">${d.data().features}</p></div>`;
-      });
-    });
-  </script>
+
+      <div class="pricing-card featured">
+        <span class="badge">Most Popular</span>
+        <h3>Pro Dashboard & App</h3>
+        <div class="price">$3,999 <span>/ one-time</span></div>
+        <p>Full web software with dynamic management capabilities.</p>
+        <ul>
+          <li>✔ Everything in Starter</li>
+          <li>✔ Custom Admin Panel with Content Drag & Drop</li>
+          <li>✔ MCQ / Quiz Content Engine</li>
+          <li>✔ Authentication & User Roles</li>
+        </ul>
+        <a href="/contact?plan=pro" class="btn btn-primary">Select Plan</a>
+      </div>
+    </div>
+  </main>
 </body>
 </html>
